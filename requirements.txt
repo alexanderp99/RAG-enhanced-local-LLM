@@ -1,3 +1,4 @@
-streamlit
-duckduckgo-search
-ollama
+streamlit #the UI framework
+duckduckgo-search #to make search engine requests
+ollama #to run the actual llm
+chromadb #used for storage embeddings
