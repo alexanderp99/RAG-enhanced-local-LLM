@@ -1,5 +1,5 @@
-import streamlit as st
 import ollama
+import streamlit as st
 
 st.title("Bachelor RAG local LLM")
 
@@ -15,6 +15,7 @@ if uploaded_documents:
     for document in uploaded_documents:
         st.write(document)
 
+
 def respond_with_llm(user_input):
     if "conversation_memory" not in st.session_state:
         st.session_state.conversation_memory = []
@@ -26,6 +27,7 @@ def respond_with_llm(user_input):
     st.session_state.conversation_memory.append({'role': 'assistant', 'content': response['message']['content']})
 
     return response['message']['content']
+
 
 for message in st.session_state.get("conversation_memory", []):
     with st.chat_message(message["role"]):
