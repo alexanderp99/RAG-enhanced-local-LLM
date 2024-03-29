@@ -1,4 +1,15 @@
 streamlit #the UI framework
-duckduckgo-search #to make search engine requests
+duckduckgo_search #to make search engine requests
 ollama #to run the actual llm
 chromadb #used for storage embeddings
+langchain-community
+unstructured==0.7.12 #https://github.com/langchain-ai/langchain/issues/8714
+langchain_text_splitters
+langchain
+sentence_transformers
+langsmith #used for having better debugging view
+langgraph #multi agents
+#pygraphviz # used to generate Langgraph Diagram | only installable with 2 steps via: https://pygraphviz.github.io/documentation/stable/install.html
+alt-profanity-check #find potential bad language. Original package is not well mantained
+numexpr #for LLMMathChain
+langchainhub #for prompt templates
