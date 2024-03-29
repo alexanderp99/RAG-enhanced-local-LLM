@@ -10,3 +10,7 @@ First we have to install all the requirements:
 
 We start the application with:
 > python -m streamlit run streamlitapp.py
+
+
+# Run Unit Tests
+> python -m unittest ?
