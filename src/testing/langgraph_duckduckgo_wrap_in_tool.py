@@ -14,12 +14,15 @@ from langgraph.prebuilt import ToolExecutor, ToolInvocation
 load_dotenv()
 
 
+# Source: https://medium.com/@lifanov.a.v/integrating-langgraph-with-ollama-for-advanced-llm-applications-d6c10262dafa
+
+
 @tool
 def get_info(query: str = ""):
     """
     Get information about a thing on the web
     """
-    return DuckDuckGoSearchResults.search(query)
+    return DuckDuckGoSearchRun.search(query)
 
 
 from langchain_community.tools import DuckDuckGoSearchRun
@@ -27,7 +30,7 @@ from langchain_community.tools import DuckDuckGoSearchRun
 # Source:https://python.langchain.com/docs/integrations/tools/ddg
 
 search = DuckDuckGoSearchRun()
-tools = [search, get_info]
+tools = [get_info]
 
 tool_executor = ToolExecutor(tools)
 

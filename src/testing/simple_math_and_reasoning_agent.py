@@ -43,22 +43,3 @@ agent = initialize_agent(
 print(agent.invoke(
     {
         "input": "What is 5+5?"}))
-
-######
-"""
-Langgraph documentation
-
-graph.add_node("oracle", model)
-graph.add_edge("oracle", END)
-
-graph.set_entry_point("oracle")
-
-runnable = graph.compile()
-
-prompt = ChatPromptTemplate.from_messages([
-    ("system", "You are a helpful assistant named {name} who always speaks in pirate dialect"),
-    MessagesPlaceholder(variable_name="messages"),
-])
-
-chain = prompt | model
-"""

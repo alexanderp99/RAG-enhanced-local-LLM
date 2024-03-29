@@ -84,15 +84,18 @@ class DocumentVectorStorage:
             indexed_filenames: List[str] = list(set([item["source"] for item in self.db.get()["metadatas"]]))
 
             if not all_files_indexed(self.INDEXED_FILES_PATH, indexed_filenames):
-                raise Exception("Not all files are indexed. Be Cautious!")
+                logging.warning("Not all files are indexed. Be Cautious!")
 
         else:
             loader = DirectoryLoader(self.INDEXED_FILES_PATH,
                                      use_multithreading=True)  # https://python.langchain.com/docs/modules/data_connection/document_loaders/file_directory
+            docs: list = loader.load()
+            # json_docs: list = DirectoryLoader(self.INDEXED_FILES_PATH, glob="**/*.json", loader_cls=TextLoader).load()
+            # docs.append(json_docs)
+            # Json docs können nicht mit split_documents gesplitted werden. Brauchen RecursiveJsonSplitter. Quelle:  https://python.langchain.com/docs/modules/data_connection/document_transformers/recursive_json_splitter
+            # Liste an Document Loadern: https://stackoverflow.com/questions/77057531/loading-different-document-types-in-langchain-for-an-all-data-source-qa-bot
 
-            docs = loader.load()
             logging.debug(f"{len(docs)} documents were imported")
-
             splitted_docs = CharacterTextSplitter(chunk_size=500, chunk_overlap=0).split_documents(docs)
 
             self.db = Chroma.from_documents(splitted_docs, SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2"),

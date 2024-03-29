@@ -15,6 +15,8 @@ from langgraph.prebuilt import ToolExecutor, ToolInvocation
 load_dotenv()
 
 
+# Source: https://medium.com/@lifanov.a.v/integrating-langgraph-with-ollama-for-advanced-llm-applications-d6c10262dafa
+
 @tool
 def get_now(format: str = "%Y-%m-%d %H:%M:%S"):
     """

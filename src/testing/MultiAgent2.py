@@ -2,17 +2,9 @@ from langchain_community.llms import Ollama
 
 from src.LocalFileIndexer import DocumentVectorStorage
 
-##########################
-
-
-##########################
-
 # Source: https://python.langchain.com/docs/integrations/llms/ollama
 llm = Ollama(model="gemma:2b")
 # llm.invoke("Tell me a joke")
-
-
-#########
 
 
 from langchain_community.tools import DuckDuckGoSearchResults
