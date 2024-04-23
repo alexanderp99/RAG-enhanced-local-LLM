@@ -19,3 +19,16 @@ We start the application with:
 # Run Unit Tests
 
 > python -m unittest ?
+
+# Lessons Learned
+
+Streamlit Ausführen IDE
+Scriptpath: <python.exe>
+Script parameters: -m streamlit.web.cli run
+
+Streamlit Debuggen IDE:
+Scriptpath(streamlit!): C:/Users/alexp/PycharmProjects/RAG-enhanced-local-LLM/.venv/Lib/site-packages/streamlit
+Script parameters: run simple_streamlit.py
+Working directory: C:\Users\alexp\PycharmProjects\RAG-enhanced-local-LLM\src
+
+- Für die Python Version 3.12 funktioniert der Debugger bei Chroma db nicht. Es muss 3.11 verwendet werden
