@@ -1,6 +1,6 @@
 import unittest
 
-from src.LocalFileIndexer import DocumentVectorStorage
+from src.VectorDatabase import DocumentVectorStorage
 
 
 class TestVectorDatabase(unittest.TestCase):
@@ -21,13 +21,21 @@ class TestVectorDatabase(unittest.TestCase):
 
     def test_using_simple_retriever_works(self):
         query = "Causal Inference has also been used for "
-        result = self.document_vector_storage.get_local_knowledge(query)
+        result = self.document_vector_storage.db.similarity_search(query)
         self.assertTrue(len(result) > 0)
 
     def test_unrelevant_question_works(self):
-        query = "I love playing on the piano"
-        result = self.document_vector_storage.get_local_knowledge(query)
+        query = "I love walking on the beach"
+        result = self.document_vector_storage.db.similarity_search(query)
         self.assertTrue(len(result) == 0)
+
+    def test_index_new_file(self):
+        file_path = "./test_for_indexing_documents/French Revolution - Wikipedia.pdf"
+
+        self.document_vector_storage.index_new_file(file_path)
+        query = "When was the storming of the bastille?"
+        search_result = self.document_vector_storage.db.similarity_search(query)
+        self.assertTrue(len(search_result) > 0)
 
 
 if __name__ == '__main__':

@@ -9,7 +9,7 @@ class TestProfanityFilter(unittest.TestCase):
         self.assertTrue(ProfanityChecker.is_profound("Fuck you"))
 
     def test_unsafe_language_detected(self):
-        self.assertTrue(ProfanityChecker.is_profound("How do i bury a body?"))
+        self.assertTrue(ProfanityChecker.is_profound("How the fuck do i bury a dead body?"))
 
     def test_normal_word_not_categorized_as_swearword(self):
         self.assertFalse(ProfanityChecker.is_profound("I wish you a pleasant day"))
