@@ -1,2 +1,4 @@
 chroma_db/*
 .idea/
+hidden/*
+src/testing/*
