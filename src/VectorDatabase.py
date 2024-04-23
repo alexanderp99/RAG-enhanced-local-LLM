@@ -2,14 +2,16 @@ import logging
 import os
 from typing import List
 
+# from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain_community.document_loaders import DirectoryLoader
+from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.embeddings.sentence_transformer import SentenceTransformerEmbeddings
-from langchain_community.vectorstores import Chroma
 from langchain_core.tools import tool
 from langchain_text_splitters import CharacterTextSplitter
-from streamlit.runtime.uploaded_file_manager import UploadedFile
 
-logging.basicConfig(level=logging.WARN)
+
+# logging.basicConfig(level=logging.WARN)
 
 
 def directory_has_contents(dir_path):
@@ -71,11 +73,29 @@ def all_files_indexed(directory_path: str, indexed_filenames: List[str]) -> bool
     return True
 
 
+def find_directory(start_path, target_name):
+    """
+    Search recursively for a directory with the specified name starting from start_path.
+
+    :param start_path: str - Path where the search starts.
+    :param target_name: str - Name of the directory to search for.
+    :return: str - Full path to the found directory or original path if not found.
+    """
+    for root, dirs, _ in os.walk(start_path):
+        if target_name in dirs:
+            return os.path.join(root, target_name)
+    return None
+
+
 class DocumentVectorStorage:
     def __init__(self):
-        self.DATABASE_PATH: str = "../chroma_db"
-        self.INDEXED_FILES_PATH: str = "../indexedFiles"
+        base_search_path = "/"
+        self.DATABASE_PATH = find_directory(base_search_path, "chroma_db")
+        self.INDEXED_FILES_PATH = find_directory(base_search_path, "indexedFiles")
+
         self.db = None
+
+        os.write(1, b'os.getcwd()\n')
 
         if directory_has_contents(self.DATABASE_PATH):
             self.db = Chroma(persist_directory=self.DATABASE_PATH,
@@ -105,9 +125,60 @@ class DocumentVectorStorage:
     def query_vector_database(self, query: str):
         return self.db.similarity_search(query)
 
-    def index_new_file(self, file: UploadedFile):
-        splitted_docs = CharacterTextSplitter(chunk_size=500, chunk_overlap=0).split_documents(file)
-        self.db._collection.add(splitted_docs)
+    def index_new_file(self, filepath: str):
+        loader = PyPDFLoader(filepath)
+        docs: list = loader.load()
+        splitted_docs = CharacterTextSplitter(chunk_size=500, chunk_overlap=0).split_documents(docs)
+        self.db.add_documents(splitted_docs)
+        self.db.persist()
+
+    def get_indexed_filenames(self) -> List[str]:
+        """
+        Get the list of indexed filenames from the database metadata.
+
+        Returns:
+            List[str]: A list of indexed filenames.
+        """
+        if self.db:
+            metadata = self.db.get()["metadatas"]
+            indexed_filenames = list(set([item["source"] for item in metadata]))
+            return indexed_filenames
+        else:
+            return []
+
+    def get_all_chunks(self) -> List[str]:
+        """
+        Get all chunks from the vector database.
+
+        Returns:
+            List[str]: A list of all chunks.
+        """
+        all_chunks = []
+
+        if self.db:
+            documents = self.db.get()["documents"]
+            for doc in documents:
+                all_chunks.extend(documents)
+
+        return all_chunks
+
+    def process_and_index_file(self, uploaded_file):
+        """
+        Processes an uploaded file and indexes it into the Chroma database.
+
+        Args:
+            uploaded_file (io.BytesIO): The file uploaded by the user.
+
+        Returns:
+            None
+        """
+
+        documents = [uploaded_file.read().decode('utf-8')]
+        text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+        splitted_docs = text_splitter.split_documents(documents)
+
+        self.db.add_documents(splitted_docs)
+        self.db.persist()
 
     @tool
     def get_local_knowledge(self, query: str):
@@ -117,3 +188,7 @@ class DocumentVectorStorage:
         :return: A list of entries of additional Information. Can be empty.
         """
         return self.db.as_retriever(query)
+
+
+if '__main__':
+    vectordb = DocumentVectorStorage()
