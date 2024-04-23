@@ -1,0 +1,6 @@
+logger_config:
+  version: 1
+  loggers:
+    "":
+      level: DEBUG
+  filters: { }
