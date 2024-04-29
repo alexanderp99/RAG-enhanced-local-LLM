@@ -13,3 +13,4 @@ langgraph #multi agents
 alt-profanity-check #find potential bad language. Original package is not well mantained
 numexpr #for LLMMathChain
 langchainhub #for prompt templates
+langchain-chroma
