@@ -2,23 +2,26 @@
 
 I am assuming that python is already installed.
 
+Recommended python Version: 3.11.10
+
 First we have to install all the requirements:
 > pip install -r requirements.txt
 
 Then we fetch an LLM from ollama
 
-> ollama pull 'any_model'
->
-> ollama pull gemma
+> ollama pull 'phi3'
 
 # Usage
 
+Current directory: Project directory
+
 We start the application with:
-> python -m streamlit run ./src/streamlitapp.py
+> python -m streamlit run ./src/streamlitapp_with_Langgraph.py
 
 # Run Unit Tests
 
-> python -m unittest ?
+Current directory: Project directory
+> python -m unittest discover -s tests -p '*.py'
 
 # Lessons Learned
 
@@ -32,3 +35,6 @@ Script parameters: run simple_streamlit.py
 Working directory: C:\Users\alexp\PycharmProjects\RAG-enhanced-local-LLM\src
 
 - Für die Python Version 3.12 funktioniert der Debugger bei Chroma db nicht. Es muss 3.11 verwendet werden
+- Langchain ist manchmal eher eine Einschränkung als Hilfe
+- Streamlit Langchain Integration
+- Datenverarbeitung (text splitting)

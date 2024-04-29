@@ -1,3 +1,4 @@
+.gitignore
 chroma_db/*
 .idea/
 hidden/*

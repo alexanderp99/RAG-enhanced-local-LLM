@@ -47,65 +47,6 @@ Incorporate an independent noise term in the model to compare the evidences of t
 
 Here are some of the noise models for the hypothesis Y → X with the noise E:
 
-Additive noise:[10]
-�
-=
-�
-(
-�
-)
-+
-�
-{\displaystyle Y=F(X)+E}
-Linear noise:[11]
-�
-=
-�
-�
-+
-�
-�
-{\displaystyle Y=pX+qE}
-Post-nonlinear:[12]
-�
-=
-�
-(
-�
-(
-�
-)
-+
-�
-)
-{\displaystyle Y=G(F(X)+E)}
-Heteroskedastic noise:
-�
-=
-�
-(
-�
-)
-+
-�
-.
-�
-(
-�
-)
-{\displaystyle Y=F(X)+E.G(X)}
-Functional noise:[13]
-�
-=
-�
-(
-�
-,
-�
-)
-{\displaystyle Y=F(X,E)}
-The common assumption in these models are:
-
 There are no other causes of Y.
 X and E have no common causes.
 Distribution of cause is independent from causal mechanisms.

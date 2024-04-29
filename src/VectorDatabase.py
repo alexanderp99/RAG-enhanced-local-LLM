@@ -10,8 +10,9 @@ from langchain_community.embeddings.sentence_transformer import SentenceTransfor
 from langchain_core.tools import tool
 from langchain_text_splitters import CharacterTextSplitter
 
+from src.configuration.logger_config import setup_logging
 
-# logging.basicConfig(level=logging.WARN)
+logger = setup_logging()
 
 
 def directory_has_contents(dir_path):
@@ -73,7 +74,7 @@ def all_files_indexed(directory_path: str, indexed_filenames: List[str]) -> bool
     return True
 
 
-def find_directory(start_path, target_name):
+def find_directory(start_path, target_name) -> str:
     """
     Search recursively for a directory with the specified name starting from start_path.
 
@@ -84,18 +85,16 @@ def find_directory(start_path, target_name):
     for root, dirs, _ in os.walk(start_path):
         if target_name in dirs:
             return os.path.join(root, target_name)
-    return None
+    return ""
 
 
 class DocumentVectorStorage:
     def __init__(self):
         base_search_path = "/"
-        self.DATABASE_PATH = find_directory(base_search_path, "chroma_db")
+        self.DATABASE_PATH: str = find_directory(base_search_path, "chroma_db")
         self.INDEXED_FILES_PATH = find_directory(base_search_path, "indexedFiles")
 
         self.db = None
-
-        os.write(1, b'os.getcwd()\n')
 
         if directory_has_contents(self.DATABASE_PATH):
             self.db = Chroma(persist_directory=self.DATABASE_PATH,
@@ -120,7 +119,6 @@ class DocumentVectorStorage:
 
             self.db = Chroma.from_documents(splitted_docs, SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2"),
                                             persist_directory=self.DATABASE_PATH)
-            self.db.persist()
 
     def query_vector_database(self, query: str):
         return self.db.similarity_search(query)
@@ -130,7 +128,6 @@ class DocumentVectorStorage:
         docs: list = loader.load()
         splitted_docs = CharacterTextSplitter(chunk_size=500, chunk_overlap=0).split_documents(docs)
         self.db.add_documents(splitted_docs)
-        self.db.persist()
 
     def get_indexed_filenames(self) -> List[str]:
         """
@@ -173,12 +170,51 @@ class DocumentVectorStorage:
             None
         """
 
-        documents = [uploaded_file.read().decode('utf-8')]
-        text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
-        splitted_docs = text_splitter.split_documents(documents)
+        import io
+
+        byte = io.BytesIO(uploaded_file.getvalue()).read()
+        filename = uploaded_file.name
+        with open(f"../indexedFiles/{filename}", "wb") as f:
+            f.write(byte)
+
+        # Create a FileLoader instance
+        from langchain_community.document_loaders import UnstructuredFileLoader
+
+        filetype: str = uploaded_file.type
+
+        from langchain_core.documents.base import Document
+
+        doc = None
+        if 'json' in filetype:
+            import json
+            json_str = None
+            with open(f"../indexedFiles/{filename}") as f:
+                json_str = json.dumps(json.load(f))
+            doc = [Document(page_content=json_str,
+                            metadata={"source": f"../indexedFiles/{filename}"})]
+
+        else:
+            loader = UnstructuredFileLoader(f"../indexedFiles/{filename}")
+            doc = loader.load()
+
+        splitted_docs = CharacterTextSplitter(chunk_size=500, chunk_overlap=0).split_documents(doc)
 
         self.db.add_documents(splitted_docs)
-        self.db.persist()
+
+        """from langchain_core.documents.base import Document
+
+        # documents = [uploaded_file.read().decode('utf-8')]
+        text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+
+        doc = Document(page_content=uploaded_file.read().decode('utf-8'),
+                       metadata={"source": f"manual_upload/{uploaded_file.name}"})
+
+        splitted_docs = text_splitter.split_documents([doc])  # [] to convert to list
+        # splitted_docs = text_splitter.split_text(documents[0])
+
+        # DirectoryLoader(self.INDEXED_FILES_PATH,use_multithreading=True).load()[0].metadata
+
+        self.db.add_documents(splitted_docs)"""
 
     @tool
     def get_local_knowledge(self, query: str):

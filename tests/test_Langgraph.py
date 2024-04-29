@@ -29,6 +29,22 @@ class TestLanggraph(unittest.TestCase):
         self.assertTrue("shorter wavelengths of light (like blue and violet) are scattered more evenly throughout the "
                         "atmosphere by tiny molecules of gases like nitrogen and oxygen." in result)
 
+    def test_mathematical_ability(self):
+        inputs = {"messages": [HumanMessage(content="What is 30 times 230?")]}
+        result = self.agent.run(inputs)
+        print("hi")
+
+    def test_mathematical_ability2(self):
+        inputs = {"messages": [HumanMessage(content="What is 33.4 times 230.7?")]}
+        result = self.agent.run_stream(inputs)
+        print("hi")
+
+    def test_websearch_ability(self):
+        inputs = {
+            "messages": [HumanMessage(content="Search on the web what Phi3 by microsoft is and tell me what it is")]}
+        result = self.agent.run(inputs)
+        print("hi")
+
 
 if __name__ == '__main__':
     unittest.main()
