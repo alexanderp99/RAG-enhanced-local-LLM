@@ -1,5 +1,9 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+"""
+This script was used at the very beginning to generate simple LLM responses
+"""
+
 tokenizer = AutoTokenizer.from_pretrained('stabilityai/stablelm-zephyr-3b')
 model = AutoModelForCausalLM.from_pretrained(
     'stabilityai/stablelm-zephyr-3b',

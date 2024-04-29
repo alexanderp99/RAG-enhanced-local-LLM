@@ -5,7 +5,7 @@ from langchain_community.llms import Ollama
 
 model = Ollama(model="gemma:2b")
 from langchain_community.tools import DuckDuckGoSearchResults
-from src.LocalFileIndexer import DocumentVectorStorage
+from src.VectorDatabase import DocumentVectorStorage
 
 vectordb = DocumentVectorStorage()
 

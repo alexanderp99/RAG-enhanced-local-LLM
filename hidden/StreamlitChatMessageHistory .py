@@ -12,6 +12,10 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 
 st.title("Bachelor RAG local LLM")
 
+"""
+Shows how to use StreamlitChatMessageHistory, but this is irrelevant. It is easier to implement it yourself.
+"""
+
 # Set up memory
 msgs = StreamlitChatMessageHistory(key="langchain_messages")
 if len(msgs.messages) == 0:
