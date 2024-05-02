@@ -10,6 +10,8 @@
 
 # Planned Features
 
+- The vector database has to take into account, that only the filename of the document should be saved into metadata
+
 #### Document upload
 -
 

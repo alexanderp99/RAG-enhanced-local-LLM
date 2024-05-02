@@ -26,6 +26,18 @@ We start the application with:
 Current directory: Project directory
 > python -m unittest discover -s tests -p '*.py'
 
+# Vector Database
+
+The Vector Database is persistant. It is stored under the folder /chroma_db
+The Vector Database makes sure that the same file is only added once (Errors still occur at the moment).
+
+# File Indexing
+
+There are 2 Options to index files:
+
+1. All files within the folder /indexedFiles are automatically added to the vector database.
+2. Via UI in the app. The uploaded file is also saved in the /indexedFiles directory
+
 # Lessons Learned
 
 Streamlit Ausführen IDE
