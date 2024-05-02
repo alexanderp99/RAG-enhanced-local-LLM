@@ -174,7 +174,19 @@ class DocumentVectorStorage:
 
         byte = io.BytesIO(uploaded_file.getvalue()).read()
         filename = uploaded_file.name
-        with open(f"../indexedFiles/{filename}", "wb") as f:
+
+        current_path: str = os.getcwd()
+
+        filepath = ""
+        if "src" in current_path:
+            filepath = f"../indexedFiles/{filename}"
+            print("src not in filepath")
+
+        else:
+            filepath = f"./indexedFiles/{filename}"
+            print("src not in filepath")
+
+        with open(f"{filepath}", "wb") as f:
             f.write(byte)
 
         # Create a FileLoader instance
@@ -188,13 +200,13 @@ class DocumentVectorStorage:
         if 'json' in filetype:
             import json
             json_str = None
-            with open(f"../indexedFiles/{filename}") as f:
+            with open(f"{filepath}") as f:
                 json_str = json.dumps(json.load(f))
             doc = [Document(page_content=json_str,
-                            metadata={"source": f"../indexedFiles/{filename}"})]
+                            metadata={"source": f"{filepath}"})]
 
         else:
-            loader = UnstructuredFileLoader(f"../indexedFiles/{filename}")
+            loader = UnstructuredFileLoader(f"{filepath}")
             doc = loader.load()
 
         splitted_docs = CharacterTextSplitter(chunk_size=500, chunk_overlap=0).split_documents(doc)
