@@ -1,6 +1,9 @@
 # Installation
 
-I am assuming that python is already installed.
+I am assuming
+
+- python is already installed.
+- CUDA is already installed and working
 
 Recommended python Version: 3.11.10
 
