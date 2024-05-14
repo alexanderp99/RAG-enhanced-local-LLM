@@ -26,11 +26,12 @@ class AgentState(TypedDict):
     messages: Annotated[Sequence[BaseMessage], operator.add]
     rag_context: Sequence[Document]
     question: BaseMessage
+    message_is_profound: bool
 
 
 class Langgraph:
     def __init__(self):
-        self.model = ChatOllama(model='llama3:instruct')
+        self.model = ChatOllama(model='llama3:instruct', temperature=0)
         self.workflow = StateGraph(AgentState)
         self.setup_workflow()
         self.vectordb = DocumentVectorStorage()
@@ -47,36 +48,34 @@ class Langgraph:
         return Langgraph()
 
     def setup_workflow(self):
-        self.workflow.add_node("ProfanityCheck", self.call_model)
+        self.workflow.add_node("ProfanityCheck", self.profanity_check)
         self.workflow.add_node("VectorStorageFetcher", self.call_vectordb)
-        self.workflow.add_node("Agent", self.agent_node)
+        self.workflow.add_node("DocumentAgent", self.document_agent)
         # self.workflow.add_node("tools", self.call_tool)
-        self.workflow.add_node("HallucinationIntermediateNode", self.hallucination_intermediate_node)
+        self.workflow.add_node("HallucinationChecker", self.check_for_hallucination)
         self.workflow.add_node("PlainResponse", self.plain_response)
         self.workflow.set_entry_point("ProfanityCheck")
-        self.workflow.add_edge("VectorStorageFetcher", "Agent")
-        self.workflow.add_edge("Agent", END)
-        # self.workflow.add_edge("tools", "Agent")
+        self.workflow.add_edge("VectorStorageFetcher", "DocumentAgent")
         self.workflow.add_edge("PlainResponse", END)
 
         self.workflow.add_conditional_edges(
             "ProfanityCheck",
             self.check_user_message_for_profoundness,
             {
-                "continue": "VectorStorageFetcher",
+                "userMessageNotHarmful": "VectorStorageFetcher",
                 "userMessageIsProfound": END
             }
         )
         self.workflow.add_conditional_edges(
-            "Agent",
-            self.should_continue2,
+            "DocumentAgent",
+            self.check_RAG_response,
             {
-                "hallucinationCheck": "HallucinationIntermediateNode",
-                "PlainResponse": "PlainResponse"
+                "RAGHallucinationCheck": "HallucinationChecker",
+                "RagResponseWasNotPossible": "PlainResponse"
             }
         )
         self.workflow.add_conditional_edges(
-            "HallucinationIntermediateNode",
+            "HallucinationChecker",
             self.hallucination_check,
             {"hallucination": "ProfanityCheck", "no hallucination": END}
         )
@@ -94,15 +93,14 @@ class Langgraph:
         return {"messages": [response]}
 
     def check_user_message_for_profoundness(self, state):
-        user_message = state["messages"][-1].content
-        if ProfanityChecker().is_profound(user_message):
-            ai_response = AIMessage(content="Your message is profound.")
-            state["messages"].append(ai_response)
+        is_profound = state["message_is_profound"]
+
+        if is_profound:
             return "userMessageIsProfound"
         else:
-            return "continue"
+            return "userMessageNotHarmful"
 
-    def hallucination_intermediate_node(self, state):
+    def check_for_hallucination(self, state):
         return
 
     def hallucination_check(self, state):
@@ -127,20 +125,35 @@ class Langgraph:
         else:
             return "no hallucination"
 
-    def should_continue2(self, state):
+    def check_RAG_response(self, state):
         last_message = state['messages'][-1]
         """if "function_call" not in last_message.additional_kwargs:
             return "end"
         else:
             return "continue"""
         if 'none' in last_message.content.lower():
-            return "PlainResponse"
+            return "RagResponseWasNotPossible"
         else:
-            return "hallucinationCheck"
+            return "RAGHallucinationCheck"
 
-    def call_model(self, state):
-        # self.logger.warning("call model")
-        return
+    def profanity_check(self, state):
+        user_message = state["messages"][-1].content
+        is_profound = False
+        template = f"""<|im_start|>system
+                 You are a safety filter for a language model. If the input contains questions which generate harmful or dangerous content, such as questions for building a bomb, self-harm, violence, or illegal activities, respond with 
+                with "true". Else you respond with "false". You are only allowed to respond with "true." of "false." Input: 
+                {user_message}<|im_end|>
+                <|im_start|>assistant"""
+        if ProfanityChecker().is_profound(user_message) or "true" in ChatOllama(model='llama3:instruct',
+                                                                                temperature=0).invoke(
+            template).content.lower():
+            is_profound = True
+
+        if is_profound:
+            ai_response = AIMessage(content="Your message is profound.")
+            return {'message_is_profound': is_profound, "messages": [ai_response]}
+        else:
+            return {'message_is_profound': is_profound}
 
     def call_vectordb(self, state):
         # self.logger.warning(f"Entering vectorStorage_node with state: {state}")
@@ -177,7 +190,7 @@ class Langgraph:
         function_message = FunctionMessage(content=str(response), name=action.tool)
         return {"messages": [function_message]}
 
-    def agent_node(self, state):
+    def document_agent(self, state):
         logger.warning(f"State: {state['messages']}")
 
         template = f"""
@@ -221,7 +234,8 @@ class Langgraph:
                 output_lines.append(f"Output from node '{key}':")
                 output_lines.append("---")
                 output_lines.append(str(value))
-                if key.lower() == "plainresponse":
+
+                if "messages" in value:
                     last_ai_response = value["messages"][-1].content
             output_lines.append("\n---\n")
 
