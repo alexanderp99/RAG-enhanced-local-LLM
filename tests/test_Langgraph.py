@@ -11,11 +11,11 @@ class TestLanggraph(unittest.TestCase):
         self.agent = Langgraph()
 
     def test_should_continue_with_profanity(self):
-        result = self.agent.should_continue({'messages': [HumanMessage(content='Fuck you')]})
+        result = self.agent.check_user_message_for_profoundness({'messages': [HumanMessage(content='Fuck you')]})
         self.assertEqual(result, 'end')
 
     def test_should_continue_without_profanity(self):
-        result = self.agent.should_continue({'messages': [HumanMessage(content='hello world')]})
+        result = self.agent.check_user_message_for_profoundness({'messages': [HumanMessage(content='hello world')]})
         self.assertEqual(result, 'continue')
 
     def test_call_model(self):
