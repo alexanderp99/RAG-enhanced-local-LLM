@@ -10,16 +10,10 @@ logger = setup_logging()
 st.set_page_config(layout="wide")
 session_key = "langchain_messages"
 msgs = StreamlitChatMessageHistory(key=session_key)
-
-
-# Cache the Langgraph initialization
-@st.cache(allow_output_mutation=True)
-def initialize_langgraph():
-    return Langgraph()
-
+last_agent_message = None
 
 # Initialize Langgraph class only once
-agent = initialize_langgraph()
+agent = Langgraph.get_langgraph_instance()
 document_vector_storage = agent.vectordb
 
 st.title("Bachelor RAG local LLM")
@@ -50,20 +44,19 @@ if selected_tab == "Default":
 
 
     def respond_with_llm(user_input):
-        if "conversation_memory" not in st.session_state:
-            st.session_state.conversation_memory = []
 
-        st.session_state.conversation_memory.append({'role': 'user', 'content': user_input})
+        # latest_user_message_content = st.session_state.conversation_memory[-1]["content"]
 
-        latest_user_message_content = st.session_state.conversation_memory[-1]["content"]
+        msgs.add_user_message(user_input)
 
-        msgs.add_user_message(latest_user_message_content)
+        response_stream, final_response = agent.run_stream({"messages": msgs.messages})
 
-        response = agent.run({"messages": msgs.messages})
+        global last_agent_message
+        last_agent_message = response_stream
 
-        msgs.add_ai_message(response)
+        msgs.add_ai_message(final_response)
 
-        return response.content
+        return final_response
 
 
     for msg in msgs.messages:
@@ -84,20 +77,29 @@ if selected_tab == "Default":
         """
         Contents of `st.session_state.langchain_messages`:
         """
-        view_messages.json(st.session_state.langchain_messages)
+        # view_messages.json(st.session_state.langchain_messages)
+        st.write(last_agent_message)
 
 elif selected_tab == "vectordb":
-    # Error may occur here because of: https://github.com/streamlit/streamlit/issues/7949
-    # Reloading the tab may help
+
+    if st.button("Empty Vector Database", type="primary"):
+        document_vector_storage.db.delete_collection()
 
     st.write("Filenames and Chunks in Vectordb:")
+
     filenames = document_vector_storage.get_indexed_filenames()
-    chunks = document_vector_storage.get_all_chunks()
+    chunks, repeated_list_filenames = document_vector_storage.get_all_chunks()
 
     st.write("Filenames:")
-    filenames_df = pd.DataFrame({"Filenames": filenames})
+    if filenames:
+        filenames_df = pd.DataFrame({"Filenames": filenames})
+    else:
+        filenames_df = pd.DataFrame(columns=["Filenames"])
     st.dataframe(filenames_df, width=1100)
 
     st.write("Chunks:")
-    chunks_df = pd.DataFrame({"Chunks": chunks})
+    if chunks:
+        chunks_df = pd.DataFrame({"Chunks": chunks, "Filename": repeated_list_filenames})
+    else:
+        chunks_df = pd.DataFrame(columns=["Chunks"])
     st.dataframe(chunks_df, width=1100, height=800)
