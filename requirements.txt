@@ -14,3 +14,7 @@ alt-profanity-check #find potential bad language. Original package is not well m
 numexpr #for LLMMathChain
 langchainhub #for prompt templates
 langchain-chroma
+fastembed #used for angchain_community.embeddings.fastembed embeddings
+sentence-transformers #used for angchain_community.embeddings.fastembed embeddings
+langchain_openai #For Communication to Ollama REST endpoint
+ipython #used for generating an image
