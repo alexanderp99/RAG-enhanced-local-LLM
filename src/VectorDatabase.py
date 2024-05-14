@@ -1,14 +1,16 @@
-import logging
+import io
 import os
 from typing import List
 
 # from langchain_community.vectorstores import Chroma
 from langchain_chroma import Chroma
-from langchain_community.document_loaders import DirectoryLoader
 from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.document_loaders import UnstructuredFileLoader
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.embeddings.sentence_transformer import SentenceTransformerEmbeddings
+from langchain_core.documents.base import Document
 from langchain_core.tools import tool
-from langchain_text_splitters import CharacterTextSplitter
+from langchain_experimental.text_splitter import SemanticChunker
 
 from src.configuration.logger_config import setup_logging
 
@@ -90,22 +92,30 @@ def find_directory(start_path, target_name) -> str:
 
 class DocumentVectorStorage:
     def __init__(self):
-        base_search_path = "/"
-        self.DATABASE_PATH: str = find_directory(base_search_path, "chroma_db")
-        self.INDEXED_FILES_PATH = find_directory(base_search_path, "indexedFiles")
+        self.DATABASE_PATH: str = "./chroma_db"
+        self.INDEXED_FILES_PATH = "./indexedFiles"
+        """self.EMBEDDING_FUNCTION = SentenceTransformerEmbeddings(
+            model_name="all-MiniLM-L6-v2")"""  # Maybe also parallellize loading data: https://www.youtube.com/watch?v=7FvdwwvqrD4
+        self.CHUNK_OVERLAP = 0
+        self.CHUNK_SIZE = 1000
+        # embed_model = FastEmbedEmbeddings(model_name="BAAI/bge-base-en-v1.5")
+        # embed_model = load_model("all-MiniLM-L6-v2")
+        """embed_model = SentenceTransformerEmbeddings(
+            model_name="all-MiniLM-L6-v2")"""
+        embed_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2",
+                                            cache_folder="./embedding-models/all-miniLM",
+                                            model_kwargs={'device': 'cpu'})
 
-        self.db = None
+        self.semantic_chunker = SemanticChunker(embed_model, breakpoint_threshold_type="percentile")
 
-        if directory_has_contents(self.DATABASE_PATH):
-            self.db = Chroma(persist_directory=self.DATABASE_PATH,
-                             embedding_function=SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2"))
+        self.db = Chroma(persist_directory=self.DATABASE_PATH, embedding_function=embed_model)
 
-            indexed_filenames: List[str] = list(set([item["source"] for item in self.db.get()["metadatas"]]))
+        indexed_filenames: List[str] = list(set([item["source"] for item in self.db.get()["metadatas"]]))
 
-            if not all_files_indexed(self.INDEXED_FILES_PATH, indexed_filenames):
-                logging.warning("Not all files are indexed. Be Cautious!")
+        unindexed_files = self.extract_unindexed_files(indexed_filenames)
+        self.index_new_files(unindexed_files)
 
-        else:
+        """else:
             loader = DirectoryLoader(self.INDEXED_FILES_PATH,
                                      use_multithreading=True)  # https://python.langchain.com/docs/modules/data_connection/document_loaders/file_directory
             docs: list = loader.load()
@@ -115,18 +125,79 @@ class DocumentVectorStorage:
             # Liste an Document Loadern: https://stackoverflow.com/questions/77057531/loading-different-document-types-in-langchain-for-an-all-data-source-qa-bot
 
             logging.debug(f"{len(docs)} documents were imported")
-            splitted_docs = CharacterTextSplitter(chunk_size=500, chunk_overlap=0).split_documents(docs)
+            splitted_docs = CharacterTextSplitter(chunk_size=self.CHUNK_SIZE,
+                                                  chunk_overlap=self.CHUNK_OVERLAP).split_documents(docs)
 
-            self.db = Chroma.from_documents(splitted_docs, SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2"),
-                                            persist_directory=self.DATABASE_PATH)
+            self.db = Chroma.from_documents(splitted_docs, self.EMBEDDING_FUNCTION,
+                                            persist_directory=self.DATABASE_PATH)"""
+
+    def download_and_load_model(self, model_name):
+        """
+        used to Download a model. Could be used as script before running the streamlit application.
+        :param model_name:
+        :return:
+        """
+        from sentence_transformers import models
+        model_path = os.path.join(os.getcwd(), model_name)
+        if not os.path.exists(model_path):
+            # Download the model if it doesn't exist
+            os.makedirs(model_path, exist_ok=True)
+            model = models.Transformer(model_name)
+            model.save(model_path)
+        else:
+            model = models.Transformer(model_path)
+
+        # Load SentenceTransformer with downloaded model
+        embedding_function = SentenceTransformerEmbeddings(model)
+        return embedding_function
+
+    def index_new_files(self, unindexed_filenames: List[str]):
+
+        for each_filename in unindexed_filenames:
+            filetype = os.path.splitext(each_filename)[1].lower()
+
+            doc = self.load_file(each_filename, filetype)
+
+            splitted_docs = self.semantic_chunker.split_documents(doc)
+
+            """splitted_docs = CharacterTextSplitter(chunk_size=self.CHUNK_SIZE,
+                                                  chunk_overlap=self.CHUNK_OVERLAP).split_documents(doc)"""
+            self.db.add_documents(splitted_docs)
+
+    def extract_unindexed_files(self, indexed_filenames):
+        unindexed_files = []
+        for root, dirs, filenames in os.walk(self.INDEXED_FILES_PATH):
+            for each_filename in filenames:
+                if each_filename not in indexed_filenames:
+                    unindexed_files.append(each_filename)
+        return unindexed_files
+
+    def load_file(self, filename, filetype):
+        doc = None
+        if '.json' in filetype:
+            import json
+            json_str = None
+            with open(filename) as f:
+                json_str = json.dumps(json.load(f))
+            doc = [Document(page_content=json_str, metadata={"source": filename})]
+        else:
+            loader = UnstructuredFileLoader(f"{os.getcwd()}{self.INDEXED_FILES_PATH}/{filename}")
+            doc = loader.load()
+            doc[0].metadata["source"] = filename
+        return doc
 
     def query_vector_database(self, query: str):
         return self.db.similarity_search(query)
 
+    def query_vector_database_with_relevance(self, query: str):
+        return self.db.similarity_search_with_relevance_scores(query)
+
     def index_new_file(self, filepath: str):
         loader = PyPDFLoader(filepath)
         docs: list = loader.load()
-        splitted_docs = CharacterTextSplitter(chunk_size=500, chunk_overlap=0).split_documents(docs)
+        """splitted_docs = CharacterTextSplitter(chunk_size=self.CHUNK_SIZE,
+                                              chunk_overlap=self.CHUNK_OVERLAP).split_documents(docs)"""
+        splitted_docs = self.semantic_chunker.split_documents(docs)
         self.db.add_documents(splitted_docs)
 
     def get_indexed_filenames(self) -> List[str]:
@@ -150,14 +221,10 @@ class DocumentVectorStorage:
         Returns:
             List[str]: A list of all chunks.
         """
-        all_chunks = []
+        all_chunks = self.db.get()["documents"]
+        all_filenames = [item["source"] for item in self.db.get()["metadatas"]]
 
-        if self.db:
-            documents = self.db.get()["documents"]
-            for doc in documents:
-                all_chunks.extend(documents)
-
-        return all_chunks
+        return all_chunks, all_filenames
 
     def process_and_index_file(self, uploaded_file):
         """
@@ -170,46 +237,24 @@ class DocumentVectorStorage:
             None
         """
 
-        import io
-
         byte = io.BytesIO(uploaded_file.getvalue()).read()
         filename = uploaded_file.name
 
         current_path: str = os.getcwd()
 
-        filepath = ""
-        if "src" in current_path:
-            filepath = f"../indexedFiles/{filename}"
-            print("src not in filepath")
-
-        else:
-            filepath = f"./indexedFiles/{filename}"
-            print("src not in filepath")
+        filepath = f"{current_path}/indexedFiles/{filename}"
+        print("src not in filepath")
 
         with open(f"{filepath}", "wb") as f:
             f.write(byte)
 
-        # Create a FileLoader instance
-        from langchain_community.document_loaders import UnstructuredFileLoader
-
         filetype: str = uploaded_file.type
 
-        from langchain_core.documents.base import Document
+        doc = self.load_file(filename, filetype)
 
-        doc = None
-        if 'json' in filetype:
-            import json
-            json_str = None
-            with open(f"{filepath}") as f:
-                json_str = json.dumps(json.load(f))
-            doc = [Document(page_content=json_str,
-                            metadata={"source": f"{filepath}"})]
-
-        else:
-            loader = UnstructuredFileLoader(f"{filepath}")
-            doc = loader.load()
-
-        splitted_docs = CharacterTextSplitter(chunk_size=500, chunk_overlap=0).split_documents(doc)
+        """splitted_docs = CharacterTextSplitter(chunk_size=self.CHUNK_SIZE,
+                                              chunk_overlap=self.CHUNK_OVERLAP).split_documents(doc)"""
+        splitted_docs = self.semantic_chunker.split_documents(doc)
 
         self.db.add_documents(splitted_docs)
 
@@ -236,7 +281,3 @@ class DocumentVectorStorage:
         :return: A list of entries of additional Information. Can be empty.
         """
         return self.db.as_retriever(query)
-
-
-if '__main__':
-    vectordb = DocumentVectorStorage()
