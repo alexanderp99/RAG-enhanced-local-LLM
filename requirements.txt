@@ -18,3 +18,4 @@ fastembed #used for angchain_community.embeddings.fastembed embeddings
 sentence-transformers #used for angchain_community.embeddings.fastembed embeddings
 langchain_openai #For Communication to Ollama REST endpoint
 ipython #used for generating an image
+langchain-experimental
