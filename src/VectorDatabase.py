@@ -181,7 +181,9 @@ class DocumentVectorStorage:
                 json_str = json.dumps(json.load(f))
             doc = [Document(page_content=json_str, metadata={"source": filename})]
         else:
-            loader = UnstructuredFileLoader(f"{os.getcwd()}{self.INDEXED_FILES_PATH}/{filename}")
+            file_path = os.path.join(os.getcwd(), self.INDEXED_FILES_PATH, filename)
+            loader = UnstructuredFileLoader(file_path)
+            print(f"current path:")
             doc = loader.load(encoding="utf-8")
             doc[0].metadata["source"] = filename
         return doc
@@ -242,7 +244,7 @@ class DocumentVectorStorage:
 
         current_path: str = os.getcwd()
 
-        filepath = f"{current_path}/indexedFiles/{filename}"
+        filepath = os.path.join(current_path, "indexedFiles", filename)
         print("src not in filepath")
 
         with open(f"{filepath}", "wb") as f:

@@ -1,6 +1,7 @@
 import json
 import logging
 import operator
+import os
 from typing import List
 from typing import TypedDict, Annotated, Sequence
 
@@ -86,7 +87,8 @@ class Langgraph:
         self.graph = self.workflow.compile()
         # img = self.graph.get_graph().draw_png()
         img_data = self.graph.get_graph().draw_mermaid_png(draw_method=MermaidDrawMethod.API)
-        with open("./src/graph.png", "wb") as f:
+        file_path = os.path.join("src", "graph.png")
+        with open(file_path, "wb") as f:
             f.write(img_data)
 
     def translate_human_message_into_webquery(self, state):
