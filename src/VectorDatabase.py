@@ -184,7 +184,7 @@ class DocumentVectorStorage:
             file_path = os.path.join(os.getcwd(), self.INDEXED_FILES_PATH, filename)
             loader = UnstructuredFileLoader(file_path)
             print(f"current path:")
-            doc = loader.load(encoding="utf-8")
+            doc = loader.load()
             doc[0].metadata["source"] = filename
         return doc
 
