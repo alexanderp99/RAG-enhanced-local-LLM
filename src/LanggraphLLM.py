@@ -1,6 +1,7 @@
 import json
 import logging
 import operator
+from typing import List
 from typing import TypedDict, Annotated, Sequence
 
 import streamlit as st
@@ -18,6 +19,7 @@ from langgraph.prebuilt.tool_executor import ToolExecutor
 from src.ProfanityChecker import ProfanityChecker
 from src.VectorDatabase import DocumentVectorStorage
 from src.configuration.logger_config import setup_logging
+from util.SearchResult import SearchResult
 
 logger = setup_logging()
 
@@ -27,6 +29,7 @@ class AgentState(TypedDict):
     rag_context: Sequence[Document]
     question: BaseMessage
     message_is_profound: bool
+    webquery: str
 
 
 class Langgraph:
@@ -51,6 +54,7 @@ class Langgraph:
         self.workflow.add_node("ProfanityCheck", self.profanity_check)
         self.workflow.add_node("VectorStorageFetcher", self.call_vectordb)
         self.workflow.add_node("DocumentAgent", self.document_agent)
+        # self.workflow.add_node("TranslateHumanMessageIntoWebquery", self.translate_human_message_into_webquery)
         # self.workflow.add_node("tools", self.call_tool)
         self.workflow.add_node("HallucinationChecker", self.check_for_hallucination)
         self.workflow.add_node("PlainResponse", self.plain_response)
@@ -84,6 +88,34 @@ class Langgraph:
         img_data = self.graph.get_graph().draw_mermaid_png(draw_method=MermaidDrawMethod.API)
         with open("./src/graph.png", "wb") as f:
             f.write(img_data)
+
+    def translate_human_message_into_webquery(self, state):
+
+        question = state["question"]
+        template = f"""<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+                You are a helpful AI assistant that translates questions into web queries. Your task is to provide a concise, clear web search query based on the input question. Do not respond with an answer or explanation, but with a query that one could input into a search engine to find relevant information.
+
+                Question:
+                {question}<|eot_id|>
+                <|start_header_id|>assistant<|end_header_id|>
+        """
+
+        response = self.model.invoke(template)
+        query = response.content.replace("\"",
+                                         "")  # replacing redundant "". Otherwise the string is not interpreted correctly
+        web_reponse = DuckDuckGoSearchResults().run(query)
+
+        entries = web_reponse.strip("[]").split("], [")
+        result: List[SearchResult] = []
+        for entry in entries:
+            parts = entry.split(', title: ')
+            snippet = parts[0][8:].strip()  # Remove prefix and strip spaces
+            rest = parts[1].split(', link: ')
+            title = rest[0].strip()
+            link = rest[1].strip()
+            search_result = SearchResult(snippet, title, link)
+            result.append(search_result)
 
     def plain_response(self, state):
         user_question = state["question"].content
