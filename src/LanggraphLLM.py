@@ -11,7 +11,7 @@ from langchain.chains import LLMMathChain
 from langchain_community.chat_models import ChatOllama
 from langchain_community.tools import DuckDuckGoSearchResults
 from langchain_core.documents.base import Document
-from langchain_core.messages import BaseMessage, AIMessage, FunctionMessage
+from langchain_core.messages import BaseMessage, AIMessage, FunctionMessage, HumanMessage
 from langchain_core.runnables.graph import MermaidDrawMethod
 from langgraph.graph import StateGraph, END
 from langgraph.prebuilt import ToolInvocation
@@ -23,6 +23,7 @@ from src.configuration.logger_config import setup_logging
 from util.SearchResult import SearchResult
 
 logger = setup_logging()
+HumanMessage
 
 
 class AgentState(TypedDict):
@@ -31,6 +32,7 @@ class AgentState(TypedDict):
     question: BaseMessage
     message_is_profound: bool
     webquery: str
+    web_results: List[SearchResult]
 
 
 class Langgraph:
@@ -55,13 +57,14 @@ class Langgraph:
         self.workflow.add_node("ProfanityCheck", self.profanity_check)
         self.workflow.add_node("VectorStorageFetcher", self.call_vectordb)
         self.workflow.add_node("DocumentAgent", self.document_agent)
-        # self.workflow.add_node("TranslateHumanMessageIntoWebquery", self.translate_human_message_into_webquery)
+        self.workflow.add_node("TranslateHumanMessageIntoWebquery", self.translate_human_message_into_webquery)
         # self.workflow.add_node("tools", self.call_tool)
         self.workflow.add_node("HallucinationChecker", self.check_for_hallucination)
         self.workflow.add_node("PlainResponse", self.plain_response)
         self.workflow.set_entry_point("ProfanityCheck")
         self.workflow.add_edge("VectorStorageFetcher", "DocumentAgent")
         self.workflow.add_edge("PlainResponse", END)
+        self.workflow.add_edge("TranslateHumanMessageIntoWebquery", "PlainResponse")
 
         self.workflow.add_conditional_edges(
             "ProfanityCheck",
@@ -76,7 +79,7 @@ class Langgraph:
             self.check_RAG_response,
             {
                 "RAGHallucinationCheck": "HallucinationChecker",
-                "RagResponseWasNotPossible": "PlainResponse"
+                "RagResponseWasNotPossible": "TranslateHumanMessageIntoWebquery"
             }
         )
         self.workflow.add_conditional_edges(
@@ -119,10 +122,33 @@ class Langgraph:
             search_result = SearchResult(snippet, title, link)
             result.append(search_result)
 
-    def plain_response(self, state):
-        user_question = state["question"].content
+        return {"web_results": result}
 
-        response = self.model.invoke(user_question)
+    def plain_response(self, state):
+        """user_question = state["question"].content
+
+        response = self.model.invoke(user_question)"""
+
+        web_results: List[SearchResult] = state["web_results"]
+        human_message = next(filter(lambda x: type(x) == type(HumanMessage("")), list(reversed(state['messages']))))
+
+        # filter(lambda x: x.state['messages'])
+
+        template = f"""<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+                You are a helpful AI assistant for answering questions using DOCUMENT text. Keep your answer grounded in the facts of the DOCUMENT. If the DOCUMENT does not contain the facts to answer the QUESTION return 'NONE'. If you use the document text, mention the link from the source.
+
+                DOCUMENT:
+                {str(web_results)}<|eot_id|>
+                <|start_header_id|>user<|end_header_id|>
+                {human_message.content} <|eot_id|>
+                <|start_header_id|>assistant<|end_header_id|>
+                """
+
+        # type(state['messages'][0]) == type(AIMessage(""))
+        # next(filter(lambda x: type(x == type(AIMessage(""))),state['messages'][-1:1]))
+        # next(filter(lambda x: type(x == type(HumanMessage(""))),reversed(state['messages'])))
+        response = self.model.invoke(template)
 
         return {"messages": [response]}
 

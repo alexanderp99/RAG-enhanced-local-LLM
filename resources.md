@@ -7,3 +7,6 @@
 [Safety prompts](https://safetyprompts.com/)
 
 [LLM derived knowledge Graphs for RAG](https://www.youtube.com/watch?v=r09tJfON6kE)
+
+[Using LLM Chain](https://github.com/langchain-ai/langchain/discussions/15680)
+
