@@ -1,3 +1,4 @@
+# This config is used for the debugger. More specifically the log level can be set with it.
 version: 1
 formatters:
   simple:

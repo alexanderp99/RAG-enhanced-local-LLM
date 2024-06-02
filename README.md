@@ -85,3 +85,13 @@ Hotreload kann über Menü(...) rechts oben eingestellt werden
 - Prompting ist eine Kunst
 - Function Calling ist eine Kunst
 - Schwer einen Überblick über alle Modelle zu bekommen
+
+## Generating UML File
+
+You can generate UML files (.puml) with the command if your current directory is the 'src' directory with:
+> pyreverse -o puml LanggraphLLM.py -d ./src_uml
+
+Or if you want an image you can do in the 'src' directory:
+> pyreverse LanggraphLLM.py -d ./src_uml
+> cd src_uml
+> dot -Tpng classes.dot -o classes.png
