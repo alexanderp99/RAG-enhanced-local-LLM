@@ -1,0 +1,1 @@
+Inside a resources that were usefull when developing the project 
