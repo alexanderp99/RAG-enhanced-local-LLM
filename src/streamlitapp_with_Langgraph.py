@@ -1,32 +1,44 @@
+from logging import Logger
+
 import pandas as pd
 import streamlit as st
 from langchain_community.chat_message_histories import StreamlitChatMessageHistory
+from pandas import DataFrame
+from streamlit.delta_generator import DeltaGenerator
+from streamlit.runtime.uploaded_file_manager import UploadedFile
 
 from src.LanggraphLLM import Langgraph
+from src.VectorDatabase import DocumentVectorStorage
 from src.configuration.logger_config import setup_logging
 
-logger = setup_logging()
+logger: Logger = setup_logging()
 
 st.set_page_config(layout="wide")
-session_key = "langchain_messages"
-msgs = StreamlitChatMessageHistory(key=session_key)
-last_agent_message = None
+session_key: str = "langchain_messages"
+msgs: StreamlitChatMessageHistory = StreamlitChatMessageHistory(key=session_key)
+last_agent_message: None = None
 
 # Initialize Langgraph class only once
-agent = Langgraph.get_langgraph_instance()
-document_vector_storage = agent.vectordb
+agent: Langgraph = Langgraph.get_langgraph_instance()
+document_vector_storage: DocumentVectorStorage = agent.vectordb
 
 st.title("Bachelor RAG local LLM")
 
-selected_tab = st.sidebar.selectbox("Select Tab", ["Default", "vectordb"])
+selected_tab: str | None = st.sidebar.selectbox("Select Tab", ["Default", "vectordb"])
+enable_document_search_button = st.toggle("Enable Document Search for every message")
 
 if selected_tab == "Default":
-    uploaded_document_names = []
+    uploaded_document_names: list[str] = []
 
-    uploaded_file = st.file_uploader("Upload a file", type=['txt', 'pdf', 'json', 'html', "md"],
-                                     accept_multiple_files=False)
+    if enable_document_search_button:
+        agent.allow_document_search = True
 
-    view_messages = st.expander(
+    uploaded_file: list[UploadedFile] | None | UploadedFile = st.file_uploader("Upload a file",
+                                                                               type=['txt', 'pdf', 'json', 'html',
+                                                                                     "md"],
+                                                                               accept_multiple_files=False)
+
+    view_messages: DeltaGenerator = st.expander(
         "View the message contents in session state | Planned: How model arrived at last answer")
 
     if uploaded_file is not None:
@@ -43,7 +55,7 @@ if selected_tab == "Default":
         msgs.add_ai_message("How can I help you?")
 
 
-    def respond_with_llm(user_input):
+    def respond_with_llm(user_input: str):
 
         # latest_user_message_content = st.session_state.conversation_memory[-1]["content"]
 
@@ -62,7 +74,7 @@ if selected_tab == "Default":
     for msg in msgs.messages:
         st.chat_message(msg.type).write(msg.content)
 
-    user_prompt = st.chat_input("Your question:")
+    user_prompt: str = st.chat_input("Your question:")
 
     if user_prompt:
         with st.chat_message("user"):
@@ -92,14 +104,14 @@ elif selected_tab == "vectordb":
 
     st.write("Filenames:")
     if filenames:
-        filenames_df = pd.DataFrame({"Filenames": filenames})
+        filenames_df: DataFrame = pd.DataFrame({"Filenames": filenames})
     else:
         filenames_df = pd.DataFrame(columns=["Filenames"])
     st.dataframe(filenames_df, width=1100)
 
     st.write("Chunks:")
     if chunks:
-        chunks_df = pd.DataFrame({"Chunks": chunks, "Filename": repeated_list_filenames})
+        chunks_df: DataFrame = pd.DataFrame({"Chunks": chunks, "Filename": repeated_list_filenames})
     else:
         chunks_df = pd.DataFrame(columns=["Chunks"])
     st.dataframe(chunks_df, width=1100, height=800)
