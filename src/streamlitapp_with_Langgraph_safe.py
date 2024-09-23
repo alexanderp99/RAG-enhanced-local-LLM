@@ -79,13 +79,14 @@ if selected_tab == "Default":
     if user_prompt:
         with st.chat_message("user"):
             st.write(user_prompt)
-        assitant_message = st.chat_message("assistant")
-        with st.spinner("Loading..."):
-            msgs.add_user_message(user_prompt)
-            llm_response = respond_with_llm(user_prompt)
-            assitant_message.write(llm_response)
-            assitant_message.markdown("\n\n. :blue[Source:Internet]", help="This is the reliable source")
-            msgs.add_message(assitant_message)
+        with st.chat_message("assistant"):
+            with st.spinner("Loading..."):
+                msgs.add_user_message(user_prompt)
+                llm_response = respond_with_llm(user_prompt)
+                final_response = f"{llm_response}"
+                msgs.add_ai_message(llm_response)
+
+                st.write(llm_response)
 
     # Draw the messages at the end, so newly generated ones show up immediately
     with view_messages:
