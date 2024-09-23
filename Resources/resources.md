@@ -47,9 +47,39 @@
 
 [Generating UML python](https://stackoverflow.com/questions/77421030/how-to-generate-the-uml-diagram-from-the-python-code)
 
+[ADVAnCED PROMPTING DSPY](https://github.com/stanfordnlp/dspy)
 
+[Function Calling LLAma](https://www.youtube.com/watch?app=desktop&si=PA6LaFg-8txoKgPc&v=9K51Leyv3qI&feature=youtu.be)
 
+[Getting the most out of your tokenizer](https://arxiv.org/pdf/2402.01035)
 
+[Rethinking Tokenization: Crafting Better Tokenizers for Large Language Models
+](https://arxiv.org/abs/2403.00417)
+
+[Special Tokens](https://www.reddit.com/r/LocalLLaMA/comments/17n22vk/troubleshooting_special_tokens_in_transformer/)
+
+[Global attention token](https://arxiv.org/pdf/2209.08698)
+
+[Better steering LLM Agents with LMQL](https://vivien000.github.io/blog/journal/better-steering-LLM-agents-with-LMQL.html)
+
+[Prompting is programming](https://arxiv.org/abs/2212.06094)
+
+[Furgal GPT](https://arxiv.org/abs/2305.05176)
+
+[Matryoshka representation Learning](Matryoshka Representation Learning)
+
+[Retrieval Head Mechanistically Explains Long-Context Factuality](https://arxiv.org/abs/2404.15574)
+
+[Grokking: Generalization Beyond Overfitting on Small Algorithmic Datasets
+](https://arxiv.org/abs/2201.02177)
+
+[Grokked Transformers are Implicit Reasoners: A Mechanistic Journey to the Edge of Generalization](https://arxiv.org/abs/2405.15071)
+
+[Grokfast: Accelerated Grokking by Amplifying Slow Gradients
+](https://arxiv.org/abs/2405.20233)
+
+[The Factorization Curse: Which Tokens You Predict Underlie the Reversal Curse and More
+](https://arxiv.org/abs/2406.05183)
 
 
 
