@@ -25,3 +25,4 @@ mypy
 langdetect
 iso639-lang
 pylint #used for building a UML class of a selected python file
+langchain_ollama
