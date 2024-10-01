@@ -25,7 +25,7 @@ document_vector_storage: DocumentVectorStorage = agent.vectordb
 st.title("Bachelor RAG local LLM")
 
 selected_tab: str | None = st.sidebar.selectbox("Select Tab", ["Default", "vectordb"])
-enable_document_search_button = st.toggle("Enable Document Search for every message")
+enable_document_search_button = st.toggle("Enable Document Search")
 
 if selected_tab == "Default":
     uploaded_document_names: list[str] = []

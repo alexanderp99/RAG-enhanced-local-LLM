@@ -23,6 +23,9 @@ Recommended python Version: 3.11.10
 First we have to install all the requirements:
 > pip install -r requirements.txt
 
+or update if we did not use the project for a longer timepip :
+> pip install -r requirements.txt --upgrade
+
 We can install the software ollama on linux like this
 > curl -fsSL https://ollama.com/install.sh | sh
 
