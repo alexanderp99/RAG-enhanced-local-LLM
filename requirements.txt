@@ -1,6 +1,6 @@
 # Requirements for the project
 
-streamlit==1.30 #the UI framework | Latest versions have a bug: https://github.com/streamlit/streamlit/issues/7949
+streamlit==1.39 #the UI framework | Latest versions have a bug: https://github.com/streamlit/streamlit/issues/7949
 duckduckgo_search #to make search engine requests
 ollama #to run the actual llm
 chromadb #used for storage embeddings
@@ -12,12 +12,12 @@ sentence_transformers
 langsmith #used for having better debugging view
 langgraph #multi agents
 #pygraphviz # used to generate Langgraph Diagram | only installable with 2 steps via: https://pygraphviz.github.io/documentation/stable/install.html
-alt-profanity-check #find potential bad language. Original package is not well mantained
+alt-profanity-check #find potential bad language. Original package is not well maintained
 numexpr #for LLMMathChain
 langchainhub #for prompt templates
 langchain-chroma
-fastembed #used for angchain_community.embeddings.fastembed embeddings
-sentence-transformers #used for angchain_community.embeddings.fastembed embeddings
+fastembed #used for langchain_community.embeddings.fastembed embeddings
+sentence-transformers #used for langchain_community.embeddings.fastembed embeddings
 langchain_openai #For Communication to Ollama REST endpoint
 ipython #used for generating an image
 langchain-experimental
@@ -26,3 +26,4 @@ langdetect
 iso639-lang
 pylint #used for building a UML class of a selected python file
 langchain_ollama
+langchain_experimental
