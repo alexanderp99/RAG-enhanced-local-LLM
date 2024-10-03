@@ -2,6 +2,13 @@
 
 ## Pre installation
 
+### Python 3.12.7 - Oct. 1, 2024 installation
+
+Due to the removal of the long-deprecated pkgutil.ImpImporter class, the pip command may not work for Python 3.12 out of the box
+> python -m ensurepip --upgrade
+> python -m pip install --upgrade setuptools
+
+
 ### Ubuntu
 
 On ubuntu you need to install python venv
@@ -23,7 +30,10 @@ Recommended python Version: 3.11.10
 First we have to install all the requirements:
 > pip install -r requirements.txt
 
-or update if we did not use the project for a longer timepip :
+upgrade pip
+> python -m pip install --upgrade pip
+
+or update if we did not use the project for a longer time :
 > pip install -r requirements.txt --upgrade
 
 We can install the software ollama on linux like this
