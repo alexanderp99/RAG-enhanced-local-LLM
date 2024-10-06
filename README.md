@@ -4,10 +4,17 @@
 
 ### Python 3.12.7 - Oct. 1, 2024 installation
 
-Due to the removal of the long-deprecated pkgutil.ImpImporter class, the pip command may not work for Python 3.12 out of the box
+Due to the removal of the long-deprecated pkgutil.ImpImporter class, the pip command may not work for Python 3.12 out of
+the box
 > python -m ensurepip --upgrade
 > python -m pip install --upgrade setuptools
 
+###
+
+Big Pc setup
+Pip: 24.2
+Python: 3.11.8
+Ollama: 0.3.11
 
 ### Ubuntu
 
