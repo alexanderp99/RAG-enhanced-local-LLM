@@ -5,7 +5,7 @@ from typing import List, Any
 
 import streamlit as st
 from iso639 import Lang
-from langchain_community.chat_models import ChatOllama
+from langchain_ollama import ChatOllama
 from langchain_community.tools import DuckDuckGoSearchResults
 from langchain_core.documents.base import Document
 from langchain_core.messages import BaseMessage, AIMessage
@@ -19,7 +19,8 @@ from langgraph.graph.graph import CompiledGraph
 from src.VectorDatabase import DocumentVectorStorage
 from src.configuration.logger_config import setup_logging
 from util.AgentState import AgentState
-from util.WebSearchResult import WebSearchResult
+#from util.WebSearchResult import WebSearchResult
+from util.SearchResult import SearchResult as WebSearchResult
 
 logger: Logger = setup_logging()
 HumanMessage
