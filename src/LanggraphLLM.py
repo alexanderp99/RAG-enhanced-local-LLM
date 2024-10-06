@@ -5,7 +5,6 @@ from typing import List, Any
 
 import streamlit as st
 from iso639 import Lang
-from langchain_ollama import ChatOllama
 from langchain_community.tools import DuckDuckGoSearchResults
 from langchain_core.documents.base import Document
 from langchain_core.messages import BaseMessage, AIMessage
@@ -19,7 +18,6 @@ from langgraph.graph.graph import CompiledGraph
 from src.VectorDatabase import DocumentVectorStorage
 from src.configuration.logger_config import setup_logging
 from util.AgentState import AgentState
-#from util.WebSearchResult import WebSearchResult
 from util.SearchResult import SearchResult as WebSearchResult
 
 logger: Logger = setup_logging()
@@ -85,9 +83,9 @@ class QuestionAnswered(BaseModel):
 class Langgraph:
 
     def __init__(self):
-        self.model: ChatOllama = ChatOllama(model='llama3:instruct', temperature=0)
-        self.profanity_check_model = LatestChatOllama(model='llama3.1', temperature=0)
-        self.translation_model = ChatOllama(model="aya", temperature=0)
+        self.model: ChatOllama = LatestChatOllama(model='llama3:instruct', temperature=0)
+        self.profanity_check_model = LatestChatOllama(model='llama3.2:3b', temperature=0)
+        self.translation_model = LatestChatOllama(model="aya", temperature=0)
         self.workflow: StateGraph = StateGraph(AgentState)
         self.vectordb: DocumentVectorStorage = DocumentVectorStorage()
         self.setup_workflow()
@@ -218,6 +216,7 @@ class Langgraph:
     def retrieve_web_knowledge(self, state: AgentState) -> dict:
 
         question: BaseMessage = state["question"]
+        user_message: str = state["question"]
         template: str = f"""<|begin_of_text|><|start_header_id|>system<|end_header_id|>
 
                 You are a helpful AI assistant that translates questions into web queries. Your task is to provide a concise, clear web search query based on the input question. Do not respond with an answer or explanation, but with a query that one could input into a search engine to find relevant information.
@@ -232,8 +231,8 @@ class Langgraph:
             HumanMessage(content=question.content)
         ]
 
-        test_llm = self.profanity_check_model.with_structured_output(WebSearch(question=question))
-        test_response: SafetyCheck = test_llm.invoke(user_message)
+        test_llm = self.profanity_check_model.with_structured_output(WebSearch)
+        test_response: SafetyCheck = test_llm.invoke(f"Question: {user_message}")
 
         response: BaseMessage = self.model.invoke(messages)
 
@@ -317,7 +316,7 @@ class Langgraph:
 
                 Response:
                 {state["question"].content}"""),
-            HumanMessage(content={state["question"].content})
+            HumanMessage(content=state["question"].content)
         ]
 
         response: BaseMessage = self.model.invoke(messages)
@@ -378,7 +377,7 @@ class Langgraph:
         
         DOCUMENT:
         {''.join([item.page_content for item in state["rag_context"]])}"""),
-            HumanMessage(content={state['messages'][-1].content})
+            HumanMessage(content=state['messages'][-1].content)
         ]
 
         response: BaseMessage = self.model.invoke(messages)
@@ -390,8 +389,8 @@ class Langgraph:
         user_message = state['messages'][-1].content
         rag_context = ''.join([item.page_content for item in state["rag_context"]])
         test_llm = self.profanity_check_model.with_structured_output(
-            QuestionAnswered(question=user_message, source=rag_context))
-        test_response: SafetyCheck = test_llm.invoke(user_message)
+            QuestionAnswered)
+        test_response: SafetyCheck = test_llm.invoke(f"question:{user_message} \n Source:{rag_context}")
 
         return {"messages": [response]}
 
