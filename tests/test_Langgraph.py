@@ -1,5 +1,6 @@
 import unittest
 
+from langchain_community.chat_models import ChatOllama
 from langchain_core.messages import HumanMessage
 
 from src.LanggraphLLM import Langgraph
@@ -9,6 +10,7 @@ class TestLanggraph(unittest.TestCase):
 
     def setUp(self):
         self.agent = Langgraph()
+        self.chatmodel: ChatOllama = ChatOllama(model='llama3:instruct', temperature=0)
 
     def test_should_continue_with_profanity(self):
         result = self.agent.check_user_message_for_profoundness({'messages': [HumanMessage(content='Fuck you')]})
@@ -37,13 +39,11 @@ class TestLanggraph(unittest.TestCase):
     def test_mathematical_ability2(self):
         inputs = {"messages": [HumanMessage(content="What is 33.4 times 230.7?")]}
         result = self.agent.run_stream(inputs)
-        print("hi")
 
     def test_websearch_ability(self):
         inputs = {
             "messages": [HumanMessage(content="Search on the web what Phi3 by microsoft is and tell me what it is")]}
         result = self.agent.run(inputs)
-        print("hi")
 
 
 if __name__ == '__main__':
