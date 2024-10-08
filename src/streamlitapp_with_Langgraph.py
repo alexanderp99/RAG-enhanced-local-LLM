@@ -57,16 +57,10 @@ if selected_tab == "Default":
 
     def respond_with_llm(user_input: str):
 
-        # latest_user_message_content = st.session_state.conversation_memory[-1]["content"]
-
-        # msgs.add_user_message(user_input)
-
         response_stream, final_response = agent.run_stream({"messages": msgs.messages})
 
         global last_agent_message
         last_agent_message = response_stream
-
-        # msgs.add_ai_message(final_response)
 
         return final_response
 
@@ -84,7 +78,11 @@ if selected_tab == "Default":
             msgs.add_user_message(user_prompt)
             llm_response = respond_with_llm(user_prompt)
             assitant_message.write(llm_response)
-            assitant_message.markdown("\n\n. :blue[Source:Internet]", help="This is the reliable source")
+
+            rag_context_state = agent.graph.get_state({"configurable": {"thread_id": "1"}}).values["rag_context"]
+            if len(rag_context_state) > 0:
+                rag_context_str = ''.join([item.page_content for item in rag_context_state])
+                assitant_message.markdown("\n\n. :blue[Source:Document]", help=rag_context_str)
             msgs.add_message(assitant_message)
 
     # Draw the messages at the end, so newly generated ones show up immediately
