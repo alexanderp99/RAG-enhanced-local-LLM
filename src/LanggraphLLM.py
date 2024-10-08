@@ -168,7 +168,7 @@ class Langgraph:
         user_question = state["question"].content
 
         detected_language_code = detect(user_question)
-        detected_language_is_english = (detect(detected_language_code) == 'en')
+        detected_language_is_english = (detected_language_code == 'en')
 
         user_language_was_set = "user_language" in state and (state[
                                                                   "user_language"] is not None)  # If there exists a value, the translate_user_message_into_english must have set it, meaning the original user message was not english.
@@ -217,26 +217,18 @@ class Langgraph:
 
         question: BaseMessage = state["question"]
         user_message: str = state["question"]
-        template: str = f"""<|begin_of_text|><|start_header_id|>system<|end_header_id|>
 
-                You are a helpful AI assistant that translates questions into web queries. Your task is to provide a concise, clear web search query based on the input question. Do not respond with an answer or explanation, but with a query that one could input into a search engine to find relevant information.
-
-                Question:
-                {question}<|eot_id|>
-                <|start_header_id|>assistant<|end_header_id|>
-        """
         messages = [
             SystemMessage(
                 content=f"You are a helpful AI assistant that translates questions into web queries. Your task is to provide a concise, clear web search query based on the input question. Do not respond with an answer or explanation, but with a query that one could input into a search engine to find relevant information."),
             HumanMessage(content=question.content)
         ]
 
-        test_llm = self.profanity_check_model.with_structured_output(WebSearch)
-        test_response: SafetyCheck = test_llm.invoke(f"Question: {user_message}")
+        # test_llm = self.profanity_check_model.with_structured_output(WebSearch)
+        # test_response: SafetyCheck = test_llm.invoke(f"Question: {user_message}")
 
         response: BaseMessage = self.model.invoke(messages)
 
-        # response: BaseMessage = self.model.invoke(template)
         query: str = response.content.replace("\"",
                                               "")  # replacing redundant "". Otherwise the string is not interpreted correctly
         web_reponse = DuckDuckGoSearchResults().run(query)
@@ -260,17 +252,6 @@ class Langgraph:
         human_message: HumanMessage = next(
             filter(lambda x: type(x) is type(HumanMessage("")), list(reversed(state['messages']))))
 
-        template = f"""<|begin_of_text|><|start_header_id|>system<|end_header_id|>
-
-                You are a helpful AI assistant for answering questions using DOCUMENT text. Keep your answer grounded in the facts of the DOCUMENT. If the DOCUMENT does not contain the facts to answer the QUESTION return 'NONE'. If you use the document text, mention the link from the source.
-
-                DOCUMENT:
-                {str(web_results)}<|eot_id|>
-                <|start_header_id|>user<|end_header_id|>
-                {human_message.content} <|eot_id|>
-                <|start_header_id|>assistant<|end_header_id|>
-                """
-
         messages = [
             SystemMessage(
                 content=f"""You are a helpful AI assistant for answering questions using DOCUMENT text. Keep your answer grounded in the facts of the DOCUMENT. If the DOCUMENT does not contain the facts to answer the QUESTION return 'NONE'. If you use the document text, mention the link from the source.
@@ -281,8 +262,6 @@ class Langgraph:
         ]
 
         response: BaseMessage = self.model.invoke(messages)
-
-        # response: BaseMessage = self.model.invoke(template)
 
         return {"messages": [response]}
 
@@ -298,30 +277,16 @@ class Langgraph:
         return
 
     def hallucination_check(self, state: AgentState) -> str:
-
-        template: str = f"""<|begin_of_text|><|start_header_id|>system<|end_header_id|>
-                You are a helpful AI assistant assigned to check if a given answer, answers a question. Keep your answer grounded to the input given. If the answer does not answer the question return 'NONE'
-
-                Question:
-                {state["question"].content}
-                
-                Answer:
-                {state["question"].content}<|eot_id|>
-                <|start_header_id|>assistant<|end_header_id|>
-                """
-
         messages = [
             SystemMessage(
                 content=f"""You are a helpful AI assistant assigned to check if a given response, answers a question. Keep your answer grounded to the input given. If the answer does not answer the question return 'NONE'
 
                 Response:
                 {state["question"].content}"""),
-            HumanMessage(content=state["question"].content)
+            HumanMessage(content=state["messages"][-1].content)
         ]
 
         response: BaseMessage = self.model.invoke(messages)
-
-        # response: BaseMessage = self.model.invoke(template)
 
         hallicination_occured: bool = True if 'none' in response.content.lower() else False
         if hallicination_occured:
@@ -360,17 +325,6 @@ class Langgraph:
         return {"rag_context": rag_context}
 
     def document_agent(self, state: AgentState) -> dict:
-        template: str = f"""<|begin_of_text|><|start_header_id|>system<|end_header_id|>
-        
-        You are a helpful AI assistant for answering questions using DOCUMENT text. Keep your answer grounded in the facts of the DOCUMENT. If the DOCUMENT does not contain the facts to answer the QUESTION return 'NONE'
-        
-        DOCUMENT:
-        {''.join([item.page_content for item in state["rag_context"]])}<|eot_id|>
-        <|start_header_id|>user<|end_header_id|>
-        {state['messages'][-1].content} <|eot_id|>
-        <|start_header_id|>assistant<|end_header_id|>
-        """
-
         messages = [
             SystemMessage(
                 content=f"""You are a helpful AI assistant for answering questions using DOCUMENT text. Keep your answer grounded in the facts of the DOCUMENT. If the DOCUMENT does not contain the facts to answer the QUESTION return 'NONE'
@@ -382,20 +336,16 @@ class Langgraph:
 
         response: BaseMessage = self.model.invoke(messages)
 
-        # response = self.model.invoke(state["messages"])
-        # response: BaseMessage = self.model.invoke(template)
-
-        #
-        user_message = state['messages'][-1].content
-        rag_context = ''.join([item.page_content for item in state["rag_context"]])
-        test_llm = self.profanity_check_model.with_structured_output(
-            QuestionAnswered)
-        test_response: SafetyCheck = test_llm.invoke(f"question:{user_message} \n Source:{rag_context}")
+        # user_message = state['messages'][-1].content
+        # rag_context = ''.join([item.page_content for item in state["rag_context"]])
+        # test_llm = self.profanity_check_model.with_structured_output(
+        #    QuestionAnswered)
+        # test_response: SafetyCheck = test_llm.invoke(f"question:{user_message} \n Source:{rag_context}")
 
         return {"messages": [response]}
 
     def run(self, inputs: dict) -> BaseMessage:
-        resulted_agent_state: dict[str, Any] | Any = self.graph.invoke(inputs)
+        resulted_agent_state: dict[str, Any] | Any = self.graph.invoke(inputs, {"configurable": {"thread_id": "1"}})
         agent_response = resulted_agent_state["messages"][-1]
         return agent_response
 
