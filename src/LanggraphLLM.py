@@ -1,10 +1,11 @@
 import logging
-import os
 from logging import Logger
 from typing import List, Any
 
 import streamlit as st
+from flashrank import Ranker, RerankRequest
 from iso639 import Lang
+from langchain_community.chat_models import ChatOllama
 from langchain_community.tools import DuckDuckGoSearchResults
 from langchain_core.documents.base import Document
 from langchain_core.messages import BaseMessage, AIMessage
@@ -81,6 +82,14 @@ class QuestionAnswered(BaseModel):
     )
 
 
+class QuestionAnswer(BaseModel):
+    """Gives an answer to a question using Context."""
+
+    answer: str = Field(
+        description="The answer that should answer the question using the context"
+    )
+
+
 class Langgraph:
 
     def __init__(self):
@@ -94,6 +103,7 @@ class Langgraph:
         self.allow_hallucination_check = True
         self.config = {"configurable": {"thread_id": "1"}}
         self.memory = MemorySaver()
+        self.ranker = Ranker(model_name="ms-marco-MiniLM-L-12-v2", cache_dir="/ranker")
         # has to come last
         self.setup_workflow()
 
@@ -117,7 +127,7 @@ class Langgraph:
 
         self.workflow.set_entry_point("StartNode")
 
-        self.workflow.add_edge("VectorStorageFetcher", "DocumentAgent")
+        # self.workflow.add_edge("VectorStorageFetcher", "DocumentAgent")
         self.workflow.add_edge("PlainResponse", "EndNode")
         self.workflow.add_edge("RetrieveWebKnowledge", "PlainResponse")
         self.workflow.add_edge("UserMessageTranslator", "ProfanityCheck")
@@ -126,6 +136,9 @@ class Langgraph:
         self.workflow.add_conditional_edges("IntermediateNode1", self.check_if_document_search_enabled,
                                             {"DocumentSearchEnabled": "VectorStorageFetcher",
                                              "DocumentSearchDisabled": "RetrieveWebKnowledge"})
+        self.workflow.add_conditional_edges("VectorStorageFetcher",
+                                            self.check_if_vector_storage_fetcher_returned_result,
+                                            {"no_result": "RetrieveWebKnowledge", "multiple_results": "DocumentAgent"})
         self.workflow.add_conditional_edges(
             "EndNode", self.check_if_language_is_english2,
             {"userMessageIsEnglish": END, "userMessageIsNotEnglish": "SystemResponseTranslator"})
@@ -148,8 +161,7 @@ class Langgraph:
             {"hallucination": "ProfanityCheck", "no hallucination": "EndNode"})
         self.graph: CompiledGraph = self.workflow.compile(checkpointer=self.memory)
         img_data: bytes = self.graph.get_graph().draw_mermaid_png(draw_method=MermaidDrawMethod.API)
-        file_path: str = os.path.join("src", "graph.png")
-        with open(file_path, "wb") as f:
+        with open("graph.png", "wb") as f:
             f.write(img_data)
 
     def set_user_question_state(self, state: AgentState):
@@ -166,6 +178,9 @@ class Langgraph:
 
     def check_if_document_search_enabled(self, state: AgentState):
         return "DocumentSearchEnabled" if self.allow_document_search else "DocumentSearchDisabled"
+
+    def check_if_vector_storage_fetcher_returned_result(self, state: AgentState):
+        return "no_result" if state["rag_context"] is None else "multiple_results"
 
     def _check_if_language_is_english(self, state: AgentState):
         user_question = state["question"].content
@@ -229,6 +244,7 @@ class Langgraph:
 
         response: BaseMessage = self.model.invoke(messages)
 
+        # response: BaseMessage = self.model.invoke(template)
         query: str = response.content.replace("\"",
                                               "")  # replacing redundant "". Otherwise the string is not interpreted correctly
         web_reponse = DuckDuckGoSearchResults().run(query)
@@ -320,10 +336,15 @@ class Langgraph:
         user_message: str = state["question"].content
 
         result: list[Document] = self.vectordb.query_vector_database(user_message)
-        rag_context = result if result else None
 
-        logging.debug(f'RAG Result: {result[0]}' if result else 'RAG Result: None')
-        return {"rag_context": rag_context}
+        rerankrequest = RerankRequest(query=user_message, passages=[{"text": doc.page_content} for doc in result])
+        ranked_results = self.ranker.rerank(rerankrequest)
+
+        ranked_results = sorted(ranked_results, key=lambda x: x["score"], reverse=True)[:2]
+        docs = [Document(page_content=res["text"]) for res in ranked_results]
+
+        logging.debug(f'RAG Result: {docs[0]}' if docs else 'RAG Result: None')
+        return {"rag_context": docs}
 
     def document_agent(self, state: AgentState) -> dict:
         messages = [
