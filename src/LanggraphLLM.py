@@ -12,6 +12,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.runnables.graph import MermaidDrawMethod
 from langchain_ollama import ChatOllama as LatestChatOllama
 from langdetect import detect
+from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import StateGraph, END
 from langgraph.graph.graph import CompiledGraph
 
@@ -88,8 +89,13 @@ class Langgraph:
         self.translation_model = LatestChatOllama(model="aya", temperature=0)
         self.workflow: StateGraph = StateGraph(AgentState)
         self.vectordb: DocumentVectorStorage = DocumentVectorStorage()
+        self.allow_document_search = True
+        self.allow_profanity_check = True
+        self.allow_hallucination_check = True
+        self.config = {"configurable": {"thread_id": "1"}}
+        self.memory = MemorySaver()
+        # has to come last
         self.setup_workflow()
-        self.allow_document_search = False
 
     @st.cache_resource
     @staticmethod
@@ -140,7 +146,7 @@ class Langgraph:
             "HallucinationChecker",
             self.hallucination_check,
             {"hallucination": "ProfanityCheck", "no hallucination": "EndNode"})
-        self.graph: CompiledGraph = self.workflow.compile()
+        self.graph: CompiledGraph = self.workflow.compile(checkpointer=self.memory)
         img_data: bytes = self.graph.get_graph().draw_mermaid_png(draw_method=MermaidDrawMethod.API)
         file_path: str = os.path.join("src", "graph.png")
         with open(file_path, "wb") as f:
@@ -159,10 +165,7 @@ class Langgraph:
         return
 
     def check_if_document_search_enabled(self, state: AgentState):
-        if self.allow_document_search:
-            return "DocumentSearchEnabled"
-        else:
-            return "DocumentSearchDisabled"
+        return "DocumentSearchEnabled" if self.allow_document_search else "DocumentSearchDisabled"
 
     def _check_if_language_is_english(self, state: AgentState):
         user_question = state["question"].content
@@ -173,10 +176,7 @@ class Langgraph:
         user_language_was_set = "user_language" in state and (state[
                                                                   "user_language"] is not None)  # If there exists a value, the translate_user_message_into_english must have set it, meaning the original user message was not english.
 
-        if detected_language_is_english and not user_language_was_set:
-            return "userMessageIsEnglish"
-        else:
-            return "userMessageIsNotEnglish"
+        return "userMessageIsEnglish" if detected_language_is_english and not user_language_was_set else "userMessageIsNotEnglish"
 
     def check_if_language_is_english(self, state: AgentState):
         return self._check_if_language_is_english(state)
@@ -268,52 +268,53 @@ class Langgraph:
     def check_user_message_for_profoundness(self, state: AgentState) -> str:
         is_profound: bool = state["message_is_profound"]
 
-        if is_profound:
-            return "userMessageIsProfound"
-        else:
-            return "userMessageNotHarmful"
+        return "userMessageIsProfound" if is_profound else "userMessageNotHarmful"
 
     def check_for_hallucination(self, state: AgentState) -> None:
         return
 
     def hallucination_check(self, state: AgentState) -> str:
-        messages = [
-            SystemMessage(
-                content=f"""You are a helpful AI assistant assigned to check if a given response, answers a question. Keep your answer grounded to the input given. If the answer does not answer the question return 'NONE'
 
-                Response:
-                {state["question"].content}"""),
-            HumanMessage(content=state["messages"][-1].content)
-        ]
+        hallicination_occured: bool = None
 
-        response: BaseMessage = self.model.invoke(messages)
+        if self.allow_hallucination_check:
+            messages = [
+                SystemMessage(
+                    content=f"""You are a helpful AI assistant assigned to check if a given response, answers a question. Keep your answer grounded to the input given. If the answer does not answer the question return 'NONE'
+    
+                    Response:
+                    {state["question"].content}"""),
+                HumanMessage(content=state["messages"][-1].content)
+            ]
 
-        hallicination_occured: bool = True if 'none' in response.content.lower() else False
-        if hallicination_occured:
-            return "hallucination"
+            response: BaseMessage = self.model.invoke(messages)
+
+            hallicination_occured: bool = True if 'none' in response.content.lower() else False
         else:
-            return "no hallucination"
+            hallicination_occured = False
+
+        return "hallucination" if hallicination_occured else "no hallucination"
 
     def check_RAG_response(self, state: AgentState) -> str:
         last_message: BaseMessage = state['messages'][-1]
-        """if "function_call" not in last_message.additional_kwargs:
-            return "end"
-        else:
-            return "continue"""
-        if 'none' in last_message.content.lower():
-            return "RagResponseWasNotPossible"
-        else:
-            return "RAGHallucinationCheck"
+
+        return "RagResponseWasNotPossible" if 'none' in last_message.content.lower() else "RAGHallucinationCheck"
 
     def profanity_check(self, state: AgentState) -> dict:
         user_message: str = state["question"].content
 
-        test_llm = self.profanity_check_model.with_structured_output(SafetyCheck)
-        test_response: SafetyCheck = test_llm.invoke(user_message)  # profane!!
+        user_message_is_profound: bool = None
 
-        return {'message_is_profound': test_response.is_unethical,
-                "messages": [AIMessage(content="Your message is profound.")]} if test_response.is_unethical else {
-            'message_is_profound': test_response.is_unethical}
+        if self.allow_profanity_check:
+            test_llm = self.profanity_check_model.with_structured_output(SafetyCheck)
+            test_response: SafetyCheck = test_llm.invoke(user_message)  # profane!!
+            user_message_is_profound = test_response.is_unethical
+        else:
+            user_message_is_profound = False
+
+        return {'message_is_profound': True,
+                "messages": [AIMessage(content="Your message is profound.")]} if user_message_is_profound else {
+            'message_is_profound': False}
 
     def call_vectordb(self, state: AgentState) -> dict:
         user_message: str = state["question"].content
@@ -345,7 +346,7 @@ class Langgraph:
         return {"messages": [response]}
 
     def run(self, inputs: dict) -> BaseMessage:
-        resulted_agent_state: dict[str, Any] | Any = self.graph.invoke(inputs, {"configurable": {"thread_id": "1"}})
+        resulted_agent_state: dict[str, Any] | Any = self.graph.invoke(inputs, self.config)
         agent_response = resulted_agent_state["messages"][-1]
         return agent_response
 
@@ -353,7 +354,7 @@ class Langgraph:
         output_lines: List[str] = []
         last_ai_response: str = ""
 
-        for output in self.graph.stream(inputs):
+        for output in self.graph.stream(inputs, self.config):
             for key, value in output.items():
                 output_lines.append(f"Output from node '{key}':")
                 output_lines.append("---")
