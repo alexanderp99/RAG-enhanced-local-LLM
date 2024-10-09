@@ -16,21 +16,24 @@ from langchain_experimental.text_splitter import SemanticChunker
 from src.configuration.logger_config import setup_logging
 
 logger: Logger = setup_logging()
+from pathlib import Path, WindowsPath
 
 
 class DocumentVectorStorage:
 
     def __init__(self):
-        self.DATABASE_PATH: str = "./chroma_db"
-        self.INDEXED_FILES_PATH: str = "./indexedFiles"
+        self.PROJECT_ROOT = Path(__file__).resolve().parent.parent
+        self.INDEXED_FILES_PATH = self.PROJECT_ROOT / 'indexedFiles'
+        self.DATABASE_PATH: WindowsPath = str(self.PROJECT_ROOT / 'chroma_db')
+        self.EMBEDDING_CACHE: WindowsPath = str(self.PROJECT_ROOT / 'embedding-models/all-miniLM')
 
         embed_model: HuggingFaceEmbeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2",
-                                                                   cache_folder="./embedding-models/all-miniLM",
+                                                                   cache_folder=str(self.EMBEDDING_CACHE),
                                                                    model_kwargs={'device': 'cpu'})
 
         self.semantic_chunker: SemanticChunker = SemanticChunker(embed_model, breakpoint_threshold_type="percentile")
 
-        self.db: Chroma = Chroma(persist_directory=self.DATABASE_PATH, embedding_function=embed_model)
+        self.db: Chroma = Chroma(persist_directory=str(self.DATABASE_PATH), embedding_function=embed_model)
 
         indexed_filenames: List[str] = list(set([item["source"] for item in self.db.get()["metadatas"]]))
 
