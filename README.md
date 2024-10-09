@@ -90,7 +90,7 @@ Scriptpath: <python.exe>
 Script parameters: -m streamlit.web.cli run
 
 Streamlit Debuggen IDE:
-Scriptpath(streamlit!): C:/Users/alexp/PycharmProjects/RAG-enhanced-local-LLM/.venv/Lib/site-packages/streamlit
+Scriptpath(streamlit!): C:/Users/alexp/PycharmProjects/RAG-enhanceollama stopd-local-LLM/.venv/Lib/site-packages/streamlit
 Script parameters: run ./src/simple_streamlit.py
 Working directory: C:\Users\alexp\PycharmProjects\RAG-enhanced-local-LLM
 

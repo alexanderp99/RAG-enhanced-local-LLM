@@ -25,7 +25,10 @@ document_vector_storage: DocumentVectorStorage = agent.vectordb
 st.title("Bachelor RAG local LLM")
 
 selected_tab: str | None = st.sidebar.selectbox("Select Tab", ["Default", "vectordb"])
-enable_document_search_button = st.toggle("Enable Document Search")
+
+enable_document_search_button = None
+enable_profanity_check_button = None
+enable_hallucination_check_button = None
 
 if selected_tab == "Default":
     uploaded_document_names: list[str] = []
@@ -94,6 +97,10 @@ if selected_tab == "Default":
         st.write(last_agent_message)
 
 elif selected_tab == "vectordb":
+
+    enable_document_search_button = st.toggle("Enable Document Search")
+    enable_profanity_check_button = st.toggle("Enable Profanity Check")
+    enable_hallucination_check_button = st.toggle("Enable Hallucination Check")
 
     if st.button("Empty Vector Database", type="primary"):
         document_vector_storage.db.delete_collection()
