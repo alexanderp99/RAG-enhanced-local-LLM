@@ -1,9 +1,9 @@
 import unittest
 
-from langchain_community.chat_models import ChatOllama
 from langchain_community.tools import DuckDuckGoSearchResults
 from langchain_core.messages import BaseMessage
 from langchain_core.messages import HumanMessage
+from langchain_ollama import ChatOllama
 from pydantic import BaseModel, Field
 
 from src.LanggraphLLM import Langgraph
@@ -21,7 +21,7 @@ class QuestionAnsweredCheck(BaseModel):
         description="The answer that should answer the question"
     )
     answered_sufficiently: bool = Field(
-        desription="The check if the answer answers the question. The fact is used to verify that",
+        desription="Indicates with True or False, if the answer answers the question, according to the fact",
         default=False)
 
 
@@ -31,7 +31,7 @@ class TestVectorDatabase(unittest.TestCase):
         self.agent: Langgraph = Langgraph()
         self.document_vector_storage: DocumentVectorStorage = self.agent.vectordb
         self.document_vector_storage.get_indexed_filenames()
-        self.chatmodel: ChatOllama = ChatOllama(model='llama3:instruct', temperature=0)
+        self.chatmodel: ChatOllama = ChatOllama(model='llama3.1', temperature=0)
 
     def test_querying_the_internet_works(self):
         search = DuckDuckGoSearchResults()
