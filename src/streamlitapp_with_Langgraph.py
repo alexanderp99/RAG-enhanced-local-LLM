@@ -1,4 +1,5 @@
 from logging import Logger
+from typing import Any
 
 import pandas as pd
 import streamlit as st
@@ -16,7 +17,7 @@ logger: Logger = setup_logging()
 st.set_page_config(layout="wide")
 session_key: str = "langchain_messages"
 msgs: StreamlitChatMessageHistory = StreamlitChatMessageHistory(key=session_key)
-last_agent_message: None = None
+last_response_stream: Any = None
 
 # Initialize Langgraph class only once
 agent: Langgraph = Langgraph.get_langgraph_instance()
@@ -26,23 +27,28 @@ st.title("Bachelor RAG local LLM")
 
 selected_tab: str | None = st.sidebar.selectbox("Select Tab", ["Default", "vectordb"])
 
-enable_document_search_button = None
-enable_profanity_check_button = None
-enable_hallucination_check_button = None
+if "enable_document_search_button" not in st.session_state:
+    st.session_state.enable_document_search_button = True
+if "enable_profanity_check_button" not in st.session_state:
+    st.session_state.enable_profanity_check_button = False
+if "enable_hallucination_check_button" not in st.session_state:
+    st.session_state.enable_hallucination_check_button = False
 
 if selected_tab == "Default":
     uploaded_document_names: list[str] = []
 
-    if enable_document_search_button:
-        agent.allow_document_search = True
+    agent.allow_document_search = st.session_state.enable_document_search_button
+    agent.allow_profanity_check = st.session_state.enable_profanity_check_button
+    agent.allow_hallucination_check = st.session_state.enable_hallucination_check_button
 
-    uploaded_file: list[UploadedFile] | None | UploadedFile = st.file_uploader("Upload a file",
-                                                                               type=['txt', 'pdf', 'json', 'html',
-                                                                                     "md"],
-                                                                               accept_multiple_files=False)
+    uploaded_file: list[UploadedFile] | None | UploadedFile = st.file_uploader(
+        "A file here is added to the vector database and used for text retrieval",
+        type=['txt', 'pdf', 'json', 'html',
+              "md"],
+        accept_multiple_files=False)
 
     view_messages: DeltaGenerator = st.expander(
-        "View the message contents in session state | Planned: How model arrived at last answer")
+        "Press here to look how the agent arrived at the last answer (graph state)")
 
     if uploaded_file is not None:
         uploaded_document_names.append(uploaded_file.name)
@@ -58,12 +64,11 @@ if selected_tab == "Default":
         msgs.add_ai_message("How can I help you?")
 
 
-    def respond_with_llm(user_input: str):
-
+    def respond_with_llm():
         response_stream, final_response = agent.run_stream({"messages": msgs.messages})
 
-        global last_agent_message
-        last_agent_message = response_stream
+        global last_response_stream
+        last_response_stream = response_stream
 
         return final_response
 
@@ -79,28 +84,33 @@ if selected_tab == "Default":
         assitant_message = st.chat_message("assistant")
         with st.spinner("Loading..."):
             msgs.add_user_message(user_prompt)
-            llm_response = respond_with_llm(user_prompt)
+            llm_response = respond_with_llm()
             assitant_message.write(llm_response)
 
             rag_context_state = agent.graph.get_state({"configurable": {"thread_id": "1"}}).values["rag_context"]
             if len(rag_context_state) > 0:
                 rag_context_str = ''.join([item.page_content for item in rag_context_state])
-                assitant_message.markdown("\n\n. :blue[Source:Document]", help=rag_context_str)
-            msgs.add_message(assitant_message)
+                markdown_message = "\n\n:blue[Source]"
+                assitant_message.markdown(markdown_message, help=rag_context_str)
 
-    # Draw the messages at the end, so newly generated ones show up immediately
+                full_message = llm_response + markdown_message
+            else:
+                full_message = llm_response
+
+            msgs.add_ai_message(full_message)
+
+    # Show the response stream in expander
     with view_messages:
-        """
-        Contents of `st.session_state.langchain_messages`:
-        """
-        # view_messages.json(st.session_state.langchain_messages)
-        st.write(last_agent_message)
+        st.text(last_response_stream)
 
 elif selected_tab == "vectordb":
 
-    enable_document_search_button = st.toggle("Enable Document Search")
-    enable_profanity_check_button = st.toggle("Enable Profanity Check")
-    enable_hallucination_check_button = st.toggle("Enable Hallucination Check")
+    st.session_state.enable_document_search_button = st.toggle(
+        "Enable Document Search", value=st.session_state.enable_document_search_button)
+    st.session_state.enable_profanity_check_button = st.toggle(
+        "Enable Profanity Check", value=st.session_state.enable_profanity_check_button)
+    st.session_state.enable_hallucination_check_button = st.toggle(
+        "Enable Hallucination Check", value=st.session_state.enable_hallucination_check_button)
 
     if st.button("Empty Vector Database", type="primary"):
         document_vector_storage.db.delete_collection()
@@ -122,4 +132,4 @@ elif selected_tab == "vectordb":
         chunks_df: DataFrame = pd.DataFrame({"Chunks": chunks, "Filename": repeated_list_filenames})
     else:
         chunks_df = pd.DataFrame(columns=["Chunks"])
-    st.dataframe(chunks_df, width=1100, height=800)
+    st.dataframe(chunks_df, width=1100)
