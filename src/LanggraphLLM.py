@@ -154,8 +154,10 @@ class Langgraph:
         self.workflow.add_conditional_edges(
             "DocumentAgent",
             self.check_RAG_response,
-            {"RAGHallucinationCheck": "HallucinationChecker",
-             "RagResponseWasNotPossible": "RetrieveWebKnowledge"})
+            {"RagCheckSuccessful": "HallucinationChecker",
+             "RetryRagGeneration": "VectorStorageFetcher",
+             "DocumentSearchNoMorePossible": "RetrieveWebKnowledge",
+             })
         self.workflow.add_conditional_edges(
             "HallucinationChecker",
             self.hallucination_check,
@@ -326,7 +328,7 @@ class Langgraph:
 
     def hallucination_check(self, state: AgentState) -> str:
 
-        if (self.allow_hallucination_check):
+        if self.allow_hallucination_check:
             hallicination_occured: bool = state["hallucination_occured"]
         else:
             hallicination_occured = False
@@ -335,8 +337,19 @@ class Langgraph:
 
     def check_RAG_response(self, state: AgentState) -> str:
         last_message: BaseMessage = state['messages'][-1]
+        rag_context_size = len(state["rag_context"])
 
-        return "RagResponseWasNotPossible" if 'none' in last_message.content.lower() else "RAGHallucinationCheck"
+        document_search_no_more_possible = 'none' in last_message.content.lower() and (
+                    rag_context_size == state["hallucination_count"]+1)
+        answer_not_possible_but_more_context_available = 'none' in last_message.content.lower() and (
+                    rag_context_size > state["hallucination_count"]+1)
+
+        if document_search_no_more_possible:
+            return "DocumentSearchNoMorePossible"
+        elif answer_not_possible_but_more_context_available:
+            return "RetryRagGeneration"
+        else:
+            return "RagCheckSuccessful"
 
     def profanity_check(self, state: AgentState) -> dict:
         user_message: str = state["question"].content
@@ -375,7 +388,6 @@ class Langgraph:
         if hallucination_count >= len(ranked_results):
             raise Exception(
                 "The hallucination occured too often. No further semantic search results can be taken. Exiting.")
-
         else:
             search_result_idx = hallucination_count
 
@@ -403,7 +415,11 @@ class Langgraph:
         #    QuestionAnswered)
         # test_response: SafetyCheck = test_llm.invoke(f"question:{user_message} \n Source:{rag_context}")
 
-        return {"messages": [response]}
+        hallucination_count:int = state["hallucination_count"]
+        if 'none' in response.content.lower():
+            hallucination_count += 1
+
+        return {"messages": [response], "hallucination_count": hallucination_count}
 
     def run(self, inputs: dict) -> BaseMessage:
         resulted_agent_state: dict[str, Any] | Any = self.graph.invoke(inputs, self.config)
