@@ -4,6 +4,7 @@ from typing import List, Any
 
 import streamlit as st
 from flashrank import Ranker, RerankRequest
+# from ftlangdetect import detect
 from iso639 import Lang
 from langchain_community.chat_models import ChatOllama
 from langchain_community.tools import DuckDuckGoSearchResults
@@ -12,10 +13,10 @@ from langchain_core.messages import BaseMessage, AIMessage
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.runnables.graph import MermaidDrawMethod
 from langchain_ollama import ChatOllama as LatestChatOllama
-from langdetect import detect
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import StateGraph, END
 from langgraph.graph.graph import CompiledGraph
+from transformers import pipeline
 
 from src.VectorDatabase import DocumentVectorStorage
 from src.configuration.logger_config import setup_logging
@@ -29,12 +30,12 @@ from pydantic import BaseModel, Field
 
 
 class SafetyCheck(BaseModel):
-    """Checks if a given phrase/question/demand is inhumane."""
+    """Checks if a given input contains inhumane, illegal, or unethical content."""
 
-    input: str = Field(description="The input which has to be classified")
+    input: str = Field(description="The phrase, question, or demand to be classified.")
     is_unethical: bool = Field(
         default=False,
-        description="If the input is unethical or not. It is unethical if there is violence, self-harm, illegal, harmful, dangerous, hurts people, or terrorism mentioned."
+        description="True if the input contains unethical content. Unethical content includes, but is not limited to, mentions of violence, self-harm, illegal activity, lawbreaking, harm or danger to others, terrorism, or anything intended to cause injury or suffering."
     )
 
 
@@ -94,7 +95,7 @@ class Langgraph:
 
     def __init__(self):
         self.model: ChatOllama = LatestChatOllama(model='llama3:instruct', temperature=0)
-        self.profanity_check_model = LatestChatOllama(model='llama3.2:3b', temperature=0)
+        self.profanity_check_model = LatestChatOllama(model='llama3.1:latest', temperature=0)
         self.translation_model = LatestChatOllama(model="aya", temperature=0)
         self.workflow: StateGraph = StateGraph(AgentState)
         self.vectordb: DocumentVectorStorage = DocumentVectorStorage()
@@ -158,7 +159,7 @@ class Langgraph:
         self.workflow.add_conditional_edges(
             "HallucinationChecker",
             self.hallucination_check,
-            {"hallucination": "ProfanityCheck", "no hallucination": "EndNode"})
+            {"hallucination": "IntermediateNode1", "no hallucination": "EndNode"})
         self.graph: CompiledGraph = self.workflow.compile(checkpointer=self.memory)
         img_data: bytes = self.graph.get_graph().draw_mermaid_png(draw_method=MermaidDrawMethod.API)
         with open("graph.png", "wb") as f:
@@ -168,7 +169,7 @@ class Langgraph:
         """
         Adds the user question/message variable to the agent state
         """
-        return {"question": state["messages"][-1]}
+        return {"question": state["messages"][-1], "hallucination_count": 0, "hallucination_occured": False}
 
     def end_node(self, state: AgentState):
         return
@@ -185,9 +186,16 @@ class Langgraph:
     def _check_if_language_is_english(self, state: AgentState):
         user_question = state["question"].content
 
-        detected_language_code = detect(user_question)
-        detected_language_is_english = (detected_language_code == 'en')
+        # detected_language_code = detect(user_question)
+        # detected_language_code = detect(text=user_question, low_memory=False)["lang"]
 
+        model_ckpt = "papluca/xlm-roberta-base-language-detection"
+        pipe = pipeline("text-classification",
+                        model=model_ckpt)  # no , cache_dir="text_language_classification/ available
+        res = pipe(user_question, top_k=1, truncation=True)
+        detected_language_code = sorted(res, key=lambda x: x['score'], reverse=True)[0]['label']
+
+        detected_language_is_english = (detected_language_code == 'en')
         user_language_was_set = "user_language" in state and (state[
                                                                   "user_language"] is not None)  # If there exists a value, the translate_user_message_into_english must have set it, meaning the original user message was not english.
 
@@ -202,7 +210,11 @@ class Langgraph:
     def translate_user_message_into_english(self, state: AgentState):
         user_question = state["question"].content
 
-        detected_language_code = detect(user_question)
+        model_ckpt = "papluca/xlm-roberta-base-language-detection"
+        pipe = pipeline("text-classification",
+                        model=model_ckpt)  # no , cache_dir="text_language_classification/ available
+        res = pipe(user_question, top_k=1, truncation=True)
+        detected_language_code = sorted(res, key=lambda x: x['score'], reverse=True)[0]['label']
         language_name = Lang(detected_language_code).name
 
         messages = [
@@ -287,25 +299,35 @@ class Langgraph:
         return "userMessageIsProfound" if is_profound else "userMessageNotHarmful"
 
     def check_for_hallucination(self, state: AgentState) -> None:
-        return
-
-    def hallucination_check(self, state: AgentState) -> str:
 
         hallicination_occured: bool = None
+        hallucination_count: int = state["hallucination_count"] if state["hallucination_count"] is not None else 0
 
         if self.allow_hallucination_check:
             messages = [
                 SystemMessage(
                     content=f"""You are a helpful AI assistant assigned to check if a given response, answers a question. Keep your answer grounded to the input given. If the answer does not answer the question return 'NONE'
-    
-                    Response:
-                    {state["question"].content}"""),
+
+                            Response:
+                            {state["question"].content}"""),
                 HumanMessage(content=state["messages"][-1].content)
             ]
-
             response: BaseMessage = self.model.invoke(messages)
 
-            hallicination_occured: bool = True if 'none' in response.content.lower() else False
+            if 'none' in response.content.lower():
+                hallucination_count += 1
+                hallicination_occured = True
+            else:
+                hallicination_occured = False
+        else:
+            hallicination_occured = False
+
+        return {"hallicination_occured": hallicination_occured, "hallucination_count": hallucination_count}
+
+    def hallucination_check(self, state: AgentState) -> str:
+
+        if (self.allow_hallucination_check):
+            hallicination_occured: bool = state["hallucination_occured"]
         else:
             hallicination_occured = False
 
@@ -319,28 +341,45 @@ class Langgraph:
     def profanity_check(self, state: AgentState) -> dict:
         user_message: str = state["question"].content
 
-        user_message_is_profound: bool = None
+        user_message_is_profane: bool = None
 
         if self.allow_profanity_check:
             test_llm = self.profanity_check_model.with_structured_output(SafetyCheck)
             test_response: SafetyCheck = test_llm.invoke(user_message)  # profane!!
-            user_message_is_profound = test_response.is_unethical
+            user_message_is_profane = test_response is None or test_response.is_unethical
         else:
-            user_message_is_profound = False
+            user_message_is_profane = False
 
         return {'message_is_profound': True,
-                "messages": [AIMessage(content="Your message is profound.")]} if user_message_is_profound else {
+                "messages": [AIMessage(content="Your message is profane.")]} if user_message_is_profane else {
             'message_is_profound': False}
 
     def call_vectordb(self, state: AgentState) -> dict:
         user_message: str = state["question"].content
+        hallucination_count: int = state["hallucination_count"]
 
         result: list[Document] = self.vectordb.query_vector_database(user_message)
 
-        rerankrequest = RerankRequest(query=user_message, passages=[{"text": doc.page_content} for doc in result])
+        # question_answerer = pipeline("question-answering", model='distilbert-base-cased-distilled-squad',
+        #                             cache_dir="qa_distillation/")
+        # text_list = [doc.page_content for doc in result]
+        #
+        # answers = [question_answerer(question=user_message, context=each_context) for each_context in text_list]
+
+        rerankrequest = RerankRequest(query=user_message, passages=[{
+            "text": doc.page_content}
+            for doc in result])
         ranked_results = self.ranker.rerank(rerankrequest)
 
-        ranked_results = sorted(ranked_results, key=lambda x: x["score"], reverse=True)[:2]
+        search_result_idx = 0
+        if hallucination_count >= len(ranked_results):
+            raise Exception(
+                "The hallucination occured too often. No further semantic search results can be taken. Exiting.")
+
+        else:
+            search_result_idx = hallucination_count
+
+        ranked_results = [sorted(ranked_results, key=lambda x: x["score"], reverse=True)[search_result_idx]]
         docs = [Document(page_content=res["text"]) for res in ranked_results]
 
         logging.debug(f'RAG Result: {docs[0]}' if docs else 'RAG Result: None')
