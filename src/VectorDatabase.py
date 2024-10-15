@@ -41,7 +41,6 @@ class DocumentVectorStorage:
         self.index_new_files(unindexed_files)
 
     def index_new_files(self, unindexed_filenames: List[str]) -> None:
-
         for each_filename in unindexed_filenames:
             filetype: str = os.path.splitext(each_filename)[1].lower()
             doc: List[Document] = self.load_file(each_filename, filetype)
