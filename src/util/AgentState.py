@@ -30,3 +30,5 @@ class AgentState(TypedDict):
     webquery: str
     web_results: List[SearchResult]
     user_language: str
+    hallucination_occured: bool
+    hallucination_count: int
