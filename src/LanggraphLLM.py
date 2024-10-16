@@ -337,12 +337,12 @@ class Langgraph:
 
     def check_RAG_response(self, state: AgentState) -> str:
         last_message: BaseMessage = state['messages'][-1]
-        rag_context_size = len(state["rag_context"])
+        rag_context_size = len(state["whole_available_rag_context"])
 
         document_search_no_more_possible = 'none' in last_message.content.lower() and (
-                    rag_context_size == state["hallucination_count"]+1)
+                rag_context_size == state["hallucination_count"])
         answer_not_possible_but_more_context_available = 'none' in last_message.content.lower() and (
-                    rag_context_size > state["hallucination_count"]+1)
+                rag_context_size > state["hallucination_count"])
 
         if document_search_no_more_possible:
             return "DocumentSearchNoMorePossible"
@@ -395,7 +395,7 @@ class Langgraph:
         docs = [Document(page_content=res["text"]) for res in ranked_results]
 
         logging.debug(f'RAG Result: {docs[0]}' if docs else 'RAG Result: None')
-        return {"rag_context": docs}
+        return {"rag_context": docs, "whole_available_rag_context": result}
 
     def document_agent(self, state: AgentState) -> dict:
         messages = [
@@ -415,7 +415,7 @@ class Langgraph:
         #    QuestionAnswered)
         # test_response: SafetyCheck = test_llm.invoke(f"question:{user_message} \n Source:{rag_context}")
 
-        hallucination_count:int = state["hallucination_count"]
+        hallucination_count: int = state["hallucination_count"]
         if 'none' in response.content.lower():
             hallucination_count += 1
 
