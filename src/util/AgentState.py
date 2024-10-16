@@ -32,3 +32,4 @@ class AgentState(TypedDict):
     user_language: str
     hallucination_occured: bool
     hallucination_count: int
+    whole_available_rag_context: Sequence[Document]
