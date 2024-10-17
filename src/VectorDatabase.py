@@ -8,10 +8,10 @@ from typing import List, Tuple, Dict
 from langchain_chroma import Chroma
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.document_loaders import UnstructuredFileLoader
-from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_core.documents.base import Document
 from langchain_core.tools import tool
 from langchain_experimental.text_splitter import SemanticChunker
+from langchain_huggingface import HuggingFaceEmbeddings
 
 from src.configuration.logger_config import setup_logging
 
