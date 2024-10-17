@@ -1,6 +1,5 @@
 import logging
 import unittest
-from logging import Logger
 
 from langchain_core.messages import BaseMessage
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -11,7 +10,8 @@ from src.LanggraphLLM import Langgraph
 from src.VectorDatabase import DocumentVectorStorage
 from src.configuration.logger_config import setup_logging
 
-logger: Logger = setup_logging()
+setup_logging()
+logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
 
@@ -166,6 +166,9 @@ class TestVectorDatabase(unittest.TestCase):
                 self._check_single_profanity_check_ability(
                     case
                 )
+
+    def test_logger(self):
+        logger.info("warning")
 
     def test_single_question_answer_ability(self):
         question = "Is there a car rental?"
