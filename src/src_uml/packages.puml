@@ -1,0 +1,93 @@
+@startuml packages
+set namespaceSeparator none
+package "src" as src {
+}
+package "src.LanggraphLLM" as src.LanggraphLLM {
+}
+package "src.ProfanityChecker" as src.ProfanityChecker {
+}
+package "src.VectorDatabase" as src.VectorDatabase {
+}
+package "src.configuration" as src.configuration {
+}
+package "src.configuration.logger_config" as src.configuration.logger_config {
+}
+package "src.streamlitapp_with_Langgraph" as src.streamlitapp_with_Langgraph {
+}
+package "src.testing" as src.testing {
+}
+package "src.testing.Articles" as src.testing.Articles {
+}
+package "src.testing.Langgraph_router_with_agent_and_tool" as src.testing.Langgraph_router_with_agent_and_tool {
+}
+package "src.testing.Langgraph_weathermap" as src.testing.Langgraph_weathermap {
+}
+package "src.testing.MultiAgent2" as src.testing.MultiAgent2 {
+}
+package "src.testing.Ollama_chat_completions_api" as src.testing.Ollama_chat_completions_api {
+}
+package "src.testing.SpecialTokenTest" as src.testing.SpecialTokenTest {
+}
+package "src.testing.Translator" as src.testing.Translator {
+}
+package "src.testing.finetuning" as src.testing.finetuning {
+}
+package "src.testing.function_calling" as src.testing.function_calling {
+}
+package "src.testing.langchain_agent_duckduckgo_calculator_reasoning" as src.testing.langchain_agent_duckduckgo_calculator_reasoning {
+}
+package "src.testing.langchain_few_shot_prompt_test" as src.testing.langchain_few_shot_prompt_test {
+}
+package "src.testing.langchain_initialise_duckduckgo_agent" as src.testing.langchain_initialise_duckduckgo_agent {
+}
+package "src.testing.langgraph_duckduckgo_wrap_in_tool" as src.testing.langgraph_duckduckgo_wrap_in_tool {
+}
+package "src.testing.langgraph_tell_time" as src.testing.langgraph_tell_time {
+}
+package "src.testing.llm_formualte_web_query" as src.testing.llm_formualte_web_query {
+}
+package "src.testing.llm_temperature_test" as src.testing.llm_temperature_test {
+}
+package "src.testing.math_chain" as src.testing.math_chain {
+}
+package "src.testing.qwen_profoundness_test" as src.testing.qwen_profoundness_test {
+}
+package "src.testing.simple_math_and_RAG_agent" as src.testing.simple_math_and_RAG_agent {
+}
+package "src.testing.simple_math_and_reasoning_agent" as src.testing.simple_math_and_reasoning_agent {
+}
+package "src.testing.slit" as src.testing.slit {
+}
+package "src.testing.slit2" as src.testing.slit2 {
+}
+package "src.testing.streamlitapp_internet_version" as src.testing.streamlitapp_internet_version {
+}
+package "src.testing.tool_calling_mistral" as src.testing.tool_calling_mistral {
+}
+package "src.testing.tool_calling_mistral_math" as src.testing.tool_calling_mistral_math {
+}
+package "src.testing.tool_calling_mistral_react" as src.testing.tool_calling_mistral_react {
+}
+package "src.testing.tool_calling_selfmade" as src.testing.tool_calling_selfmade {
+}
+package "src.testing.tool_calling_selfmade_latest" as src.testing.tool_calling_selfmade_latest {
+}
+package "src.testing.tool_calling_selfmade_latest2" as src.testing.tool_calling_selfmade_latest2 {
+}
+package "src.util" as src.util {
+}
+package "src.util.SearchResult" as src.util.SearchResult {
+}
+src.LanggraphLLM --> src.ProfanityChecker
+src.LanggraphLLM --> src.VectorDatabase
+src.LanggraphLLM --> src.configuration.logger_config
+src.LanggraphLLM --> src.util.SearchResult
+src.ProfanityChecker --> src.configuration.logger_config
+src.VectorDatabase --> src.configuration.logger_config
+src.streamlitapp_with_Langgraph --> src.LanggraphLLM
+src.streamlitapp_with_Langgraph --> src.VectorDatabase
+src.streamlitapp_with_Langgraph --> src.configuration.logger_config
+src.testing.MultiAgent2 --> src.VectorDatabase
+src.testing.Ollama_chat_completions_api --> src.VectorDatabase
+src.testing.simple_math_and_RAG_agent --> src.VectorDatabase
+@enduml

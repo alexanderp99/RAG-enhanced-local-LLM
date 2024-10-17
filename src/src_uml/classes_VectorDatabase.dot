@@ -1,0 +1,5 @@
+digraph "classes_VectorDatabase" {
+rankdir=BT
+charset="utf-8"
+"src.VectorDatabase.DocumentVectorStorage" [color="black", fontcolor="black", label=<{DocumentVectorStorage|DATABASE_PATH : str<br ALIGN="LEFT"/>INDEXED_FILES_PATH : str<br ALIGN="LEFT"/>db : Chroma<br ALIGN="LEFT"/>semantic_chunker : SemanticChunker<br ALIGN="LEFT"/>|extract_unindexed_files(indexed_filenames: List[str]): List[str]<br ALIGN="LEFT"/>get_all_chunks(): List[str]<br ALIGN="LEFT"/>get_indexed_filenames(): List[str]<br ALIGN="LEFT"/>get_local_knowledge(query: str): List[Document]<br ALIGN="LEFT"/>index_new_file(filepath: str): None<br ALIGN="LEFT"/>index_new_files(unindexed_filenames: List[str]): None<br ALIGN="LEFT"/>load_file(filename: str, filetype: str): List[Document]<br ALIGN="LEFT"/>process_and_index_file(uploaded_file: io.BytesIO): None<br ALIGN="LEFT"/>query_vector_database(query: str): List[Document]<br ALIGN="LEFT"/>query_vector_database_with_relevance(query: str): List[Tuple[Document, float]]<br ALIGN="LEFT"/>}>, shape="record", style="solid"];
+}

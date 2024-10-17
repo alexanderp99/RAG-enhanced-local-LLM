@@ -1,0 +1,5 @@
+digraph "classes_ProfanityChecker" {
+rankdir=BT
+charset="utf-8"
+"src.ProfanityChecker.ProfanityChecker" [color="black", fontcolor="black", label=<{ProfanityChecker|<br ALIGN="LEFT"/>|is_profound(phrase: str): List[int]<br ALIGN="LEFT"/>}>, shape="record", style="solid"];
+}
