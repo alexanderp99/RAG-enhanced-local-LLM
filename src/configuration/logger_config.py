@@ -11,7 +11,7 @@ def get_project_path():
     return os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
-def setup_logging(config_file_path=None):
+def setup_logging(config_file_path=None) -> None:
     project_path = get_project_path()
 
     if config_file_path is None:
@@ -26,6 +26,3 @@ def setup_logging(config_file_path=None):
         config = yaml.safe_load(f)
 
     logging.config.dictConfig(config)
-    logger = logging.getLogger(__name__)
-
-    return logger
