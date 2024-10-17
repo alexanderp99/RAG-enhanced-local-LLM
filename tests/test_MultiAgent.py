@@ -4,6 +4,7 @@ import unittest
 from langchain_core.messages import BaseMessage
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_ollama import ChatOllama
+from langchain_ollama import ChatOllama as LatestChatOllama
 from pydantic import BaseModel, Field
 
 from src.LanggraphLLM import Langgraph
@@ -34,16 +35,56 @@ class TestVectorDatabase(unittest.TestCase):
     def setUp(self):
         self.agent: Langgraph = Langgraph()
         self.agent.allow_profanity_check = False
-        self.agent.allow_hallucination_check = True
+        self.agent.allow_hallucination_check = False
         self.document_vector_storage: DocumentVectorStorage = self.agent.vectordb
         self.document_vector_storage.get_indexed_filenames()
         self.chatmodel: ChatOllama = ChatOllama(model='llama3.1', temperature=0)
+        self.translation_model = LatestChatOllama(model="aya", temperature=0)
+
+    def _check_single_math_answer_ability(self, question: str, fact: str):
+        inputs = {"messages": [HumanMessage(content=question)]}
+        result: BaseMessage = self.agent.run(inputs)
+
+        if fact.lower() in result.content().lower():
+            answer_correct = True
+        else:
+            answer_correct = False
+
+        self.assertTrue(answer_correct)
+
+    def test_reasoning_ability(self):
+        test_cases = [
+            {"question": "What is 5 times 10?", "fact": "50"},
+            {"question": "What is the square root of 16?",
+             "fact": "4"},
+        ]
+
+        for case in test_cases:
+            with self.subTest(case=case):
+                self._check_single_question_answer_ability(
+                    case['question'], case['fact']
+                )
+
+    def test_mathematical_ability(self):
+        test_cases = [
+            {"question": "What is 5 times 10?", "fact": "50"},
+            {"question": "What is the square root of 16?",
+             "fact": "4"},
+        ]
+
+        for case in test_cases:
+            with self.subTest(case=case):
+                self._check_single_math_answer_ability(
+                    case['question'], case['fact']
+                )
 
     def test_querying_the_internet_works(self):
-        """search = DuckDuckGoSearchResults()
-        web_result = search.run("What is langchain")
-        expected_result = "LangChain is a powerful tool that can be used to build a wide range of LLM-powered applications"
-        self.assertTrue(expected_result in web_result)"""
+        question = "What is langchain"
+        inputs = {"messages": [HumanMessage(content=question)]}
+        response: BaseMessage = self.chatmodel.invoke(inputs)
+
+        expected_result = "a framework to build with LLMs by chaining interoperable components"
+        self.assertTrue(expected_result.lower() in response.content.lower())
 
     def _check_single_question_answer_ability(self, question, fact):
         inputs = {"messages": [HumanMessage(content=question)]}
@@ -76,6 +117,67 @@ class TestVectorDatabase(unittest.TestCase):
         logger.debug(f"Verdict: {qa_check_response.content}")
         # self.assertTrue(test_response.answered_sufficiently)
         self.assertTrue(qa_check_response.content.lower() == "true")
+
+    def _check_single_question_answer_ability(self, question, english_question, fact):
+        inputs = {"messages": [HumanMessage(content=question)]}
+        result: BaseMessage = self.agent.run(inputs)
+
+        translation_messages = [
+            SystemMessage(
+                content="You are a professional translator. Your job is to translate the user input into english. Only respond with the translated sentence."),
+            result
+        ]
+        translated_response: BaseMessage = self.translation_model.invoke(translation_messages)
+
+        messages = [
+            SystemMessage(
+                content=f"""You are a helpful AI assistant assigned to check if a given answer answers a question given the fact. Keep your answer grounded to the input given. If the answer does not answer the question, return only 'FALSE' as the answer. If the answer answers the question return only 'TRUE'."""
+            ),
+            HumanMessage(
+                content=f"""Question:
+                    {english_question}
+
+                    Fact:
+                    {fact}
+
+                    Answer:
+                    {translated_response.content}"""
+            )
+        ]
+
+        qa_check_response: BaseMessage = self.chatmodel.invoke(messages)
+
+        logger.debug(f"Question: {question}")
+        logger.debug(f"Fact: {fact}")
+        logger.debug(f"Answer: {result.content}")
+        logger.debug(f"Verdict: {qa_check_response.content}")
+
+        self.assertTrue(qa_check_response.content.lower() == "true")
+
+    def test_french_web_question_answer_ability(self):
+        test_cases = [
+            {"question": "Que s'est-il passé récemment avec Liam Payne?",
+             "english_question": "What recently happened with Liam Payne?",
+             "fact": "Liam Payne died."},
+        ]
+
+        for case in test_cases:
+            with self.subTest(case=case):
+                self._check_single_french_question_answer_ability(
+                    case['question'], case['english_question'], case['fact']
+                )
+
+    def test_french_question_answer_ability(self):
+        test_cases = [
+            {"question": "Y a-t-il un service de location de voitures ?", "english_question": "Is there a car rental?",
+             "fact": "There is a car rental."},
+        ]
+
+        for case in test_cases:
+            with self.subTest(case=case):
+                self._check_single_french_question_answer_ability(
+                    case['question'], case['english_question'], case['fact']
+                )
 
     def test_multiple_question_answer_ability(self):
         test_cases = [
@@ -117,7 +219,7 @@ class TestVectorDatabase(unittest.TestCase):
         fact = "The BIO-breakfast basket will be delivered to the door at approximately 8 am the morning after your arrival."
         inputs = {"messages": [HumanMessage(content=question)]}
         result: BaseMessage = self.agent.run(inputs)
-        # llm = self.chatmodel.with_structured_output(QuestionAnsweredCheck)
+
         messages = [
             SystemMessage(
                 content=f"""You are a helpful AI assistant assigned to check if a given answer answers a question given the fact. Keep your answer grounded to the input given. If the answer does not answer the question, return only 'FALSE' as the answer. If the answer answers the question return only 'TRUE'."""
@@ -135,9 +237,6 @@ class TestVectorDatabase(unittest.TestCase):
         ]
 
         qa_check_response: BaseMessage = self.chatmodel.invoke(messages)
-        # test_response: QuestionAnsweredCheck = llm.invoke(
-        #    f"Question:{question} \n Fact:{fact} \n Answer:{result.content}"
-        # )
 
         logger.debug(f"Question: {question}")
         logger.debug(f"Fact: {fact}")
@@ -165,6 +264,12 @@ class TestVectorDatabase(unittest.TestCase):
                 self._check_single_profanity_check_ability(
                     case
                 )
+
+    def _check_single_profanity_check_ability(self, question, fact):
+        inputs = {"messages": [HumanMessage(content=question)]}
+        result: BaseMessage = self.agent.run(inputs)
+
+        self.assertTrue("profound" in result.content.lower())
 
     def test_logger(self):
         logger.info("warning")
