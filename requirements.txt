@@ -28,3 +28,4 @@ pylint #used for building a UML class of a selected python file
 langchain_ollama
 langchain_experimental
 flashrank
+langchain-huggingface #HuggingFaceEmbeddings
