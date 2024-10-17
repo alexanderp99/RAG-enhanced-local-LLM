@@ -1,4 +1,4 @@
-from logging import Logger
+import logging
 from typing import Any
 
 import pandas as pd
@@ -12,7 +12,8 @@ from src.LanggraphLLM import Langgraph
 from src.VectorDatabase import DocumentVectorStorage
 from src.configuration.logger_config import setup_logging
 
-logger: Logger = setup_logging()
+setup_logging()
+logger = logging.getLogger(__name__)
 
 st.set_page_config(layout="wide")
 session_key: str = "langchain_messages"
@@ -22,6 +23,8 @@ last_response_stream: Any = None
 # Initialize Langgraph class only once
 agent: Langgraph = Langgraph.get_langgraph_instance()
 document_vector_storage: DocumentVectorStorage = agent.vectordb
+
+logger.debug("Application call")
 
 st.title("Bachelor RAG local LLM")
 

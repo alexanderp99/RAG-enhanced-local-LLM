@@ -1,7 +1,7 @@
 import io
 import json
+import logging
 import os
-from logging import Logger
 from typing import List, Tuple, Dict
 
 # from langchain_community.vectorstores import Chroma
@@ -15,7 +15,8 @@ from langchain_huggingface import HuggingFaceEmbeddings
 
 from src.configuration.logger_config import setup_logging
 
-logger: Logger = setup_logging()
+setup_logging()
+logger = logging.getLogger(__name__)
 from pathlib import Path, WindowsPath
 
 

@@ -12,7 +12,6 @@ from src.configuration.logger_config import setup_logging
 
 setup_logging()
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.DEBUG)
 
 
 # Source:https://python.langchain.com/docs/integrations/tools/ddg
@@ -71,10 +70,10 @@ class TestVectorDatabase(unittest.TestCase):
         #    f"Question:{question} \n Fact:{fact} \n Answer:{result.content}"
         # )
 
-        logging.debug(f"Question: {question}")
-        logging.debug(f"Fact: {fact}")
-        logging.debug(f"Answer: {result.content}")
-        logging.debug(f"Verdict: {qa_check_response.content}")
+        logger.debug(f"Question: {question}")
+        logger.debug(f"Fact: {fact}")
+        logger.debug(f"Answer: {result.content}")
+        logger.debug(f"Verdict: {qa_check_response.content}")
         # self.assertTrue(test_response.answered_sufficiently)
         self.assertTrue(qa_check_response.content.lower() == "true")
 
@@ -140,10 +139,10 @@ class TestVectorDatabase(unittest.TestCase):
         #    f"Question:{question} \n Fact:{fact} \n Answer:{result.content}"
         # )
 
-        logging.debug(f"Question: {question}")
-        logging.debug(f"Fact: {fact}")
-        logging.debug(f"Answer: {result.content}")
-        logging.debug(f"Verdict: {qa_check_response.content}")
+        logger.debug(f"Question: {question}")
+        logger.debug(f"Fact: {fact}")
+        logger.debug(f"Answer: {result.content}")
+        logger.debug(f"Verdict: {qa_check_response.content}")
         # self.assertTrue(test_response.answered_sufficiently)
         self.assertTrue(qa_check_response.content.lower() == "true")
 

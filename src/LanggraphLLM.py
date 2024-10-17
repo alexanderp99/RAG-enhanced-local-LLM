@@ -1,5 +1,4 @@
 import logging
-from logging import Logger
 from typing import List, Any
 
 import streamlit as st
@@ -23,8 +22,8 @@ from src.configuration.logger_config import setup_logging
 from util.AgentState import AgentState
 from util.SearchResult import SearchResult as WebSearchResult
 
-logger: Logger = setup_logging()
-HumanMessage
+setup_logging()
+logger = logging.getLogger(__name__)
 
 from pydantic import BaseModel, Field
 
@@ -164,8 +163,8 @@ class Langgraph:
             {"hallucination": "IntermediateNode1", "no hallucination": "EndNode"})
         self.graph: CompiledGraph = self.workflow.compile(checkpointer=self.memory)
         img_data: bytes = self.graph.get_graph().draw_mermaid_png(draw_method=MermaidDrawMethod.API)
-        with open("graph.png", "wb") as f:
-            f.write(img_data)
+        # with open("src/graph.png", "wb") as f:
+        #    f.write(img_data)
 
     def set_user_question_state(self, state: AgentState):
         """
@@ -394,7 +393,7 @@ class Langgraph:
         ranked_results = [sorted(ranked_results, key=lambda x: x["score"], reverse=True)[search_result_idx]]
         docs = [Document(page_content=res["text"]) for res in ranked_results]
 
-        logging.debug(f'RAG Result: {docs[0]}' if docs else 'RAG Result: None')
+        logger.debug(f'RAG Result: {docs[0]}' if docs else 'RAG Result: None')
         return {"rag_context": docs, "whole_available_rag_context": result}
 
     def document_agent(self, state: AgentState) -> dict:
