@@ -37,6 +37,9 @@ if "enable_hallucination_check_button" not in st.session_state:
 if selected_tab == "Default":
     uploaded_document_names: list[str] = []
 
+    st.session_state.enable_document_search_button = st.toggle(
+        "Enable Document Search", value=st.session_state.enable_document_search_button)
+
     agent.allow_document_search = st.session_state.enable_document_search_button
     agent.allow_profanity_check = st.session_state.enable_profanity_check_button
     agent.allow_hallucination_check = st.session_state.enable_hallucination_check_button
@@ -105,8 +108,6 @@ if selected_tab == "Default":
 
 elif selected_tab == "vectordb":
 
-    st.session_state.enable_document_search_button = st.toggle(
-        "Enable Document Search", value=st.session_state.enable_document_search_button)
     st.session_state.enable_profanity_check_button = st.toggle(
         "Enable Profanity Check", value=st.session_state.enable_profanity_check_button)
     st.session_state.enable_hallucination_check_button = st.toggle(
