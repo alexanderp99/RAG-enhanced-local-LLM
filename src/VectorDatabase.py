@@ -2,6 +2,10 @@ import io
 import json
 import logging
 import os
+# setup_logging()
+# logger = get_logger(__name__)
+# logger = logging.getLogger(__name__)
+from pathlib import Path, WindowsPath
 from typing import List, Tuple, Dict
 
 # from langchain_community.vectorstores import Chroma
@@ -13,11 +17,9 @@ from langchain_core.tools import tool
 from langchain_experimental.text_splitter import SemanticChunker
 from langchain_huggingface import HuggingFaceEmbeddings
 
-from src.configuration.logger_config import setup_logging
+from .test import Dummy
 
-setup_logging()
 logger = logging.getLogger(__name__)
-from pathlib import Path, WindowsPath
 
 
 class DocumentVectorStorage:
@@ -40,6 +42,13 @@ class DocumentVectorStorage:
 
         unindexed_files = self.extract_unindexed_files(indexed_filenames)
         self.index_new_files(unindexed_files)
+
+        logger.debug("VectorDB CTOR 1!")
+        logger.debug("VectorDB CTOR 2!")
+
+        Dummy.run_script()
+
+        logger.debug("VectorDB CTOR 3!")
 
     def index_new_files(self, unindexed_filenames: List[str]) -> None:
         for each_filename in unindexed_filenames:

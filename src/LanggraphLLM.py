@@ -1,4 +1,5 @@
 import logging
+import warnings
 from typing import List, Any
 
 import streamlit as st
@@ -15,17 +16,14 @@ from langchain_ollama import ChatOllama as LatestChatOllama
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import StateGraph, END
 from langgraph.graph.graph import CompiledGraph
+from pydantic import BaseModel, Field
 from transformers import pipeline
 
 from src.VectorDatabase import DocumentVectorStorage
-from src.configuration.logger_config import setup_logging
 from util.AgentState import AgentState
 from util.SearchResult import SearchResult as WebSearchResult
 
-setup_logging()
 logger = logging.getLogger(__name__)
-
-from pydantic import BaseModel, Field
 
 
 class SafetyCheck(BaseModel):
@@ -103,8 +101,13 @@ class Langgraph:
         self.allow_hallucination_check = True
         self.config = {"configurable": {"thread_id": "1"}}
         self.memory = MemorySaver()
-        self.ranker = Ranker(model_name="ms-marco-MiniLM-L-12-v2", cache_dir="/ranker")
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            self.ranker = Ranker(model_name="ms-marco-MiniLM-L-12-v2", cache_dir="/ranker") #         # if not sys.warnoptions:  # flashrank\Ranker.py:115: ResourceWarning: unclosed file <_io.TextIOWrapper name='\\ranker\\ms-marco-MiniLM-L-12-v2\\config.json' mode='r' encoding='cp1252'> config = json.load(open(str(self.model_dir / "config.json"))) https://stackoverflow.com/questions/26563711/disabling-python-3-2-resourcewarning
         # has to come last
+        logger.debug("Langgraph CTOR 1!")
+        logger.debug("Langgraph CTOR 2!")
+        logger.debug("Langgraph CTOR 3!")
         self.setup_workflow()
 
     @st.cache_resource

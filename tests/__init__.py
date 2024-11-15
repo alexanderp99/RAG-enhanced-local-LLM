@@ -8,3 +8,9 @@ from src.LanggraphLLM import Langgraph
 
 Langgraph
 unittest
+
+from src.configuration.logger_config import setup_logging
+import logging
+
+setup_logging()
+logger = logging.getLogger(__name__)

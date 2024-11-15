@@ -7,13 +7,9 @@ from langchain_ollama import ChatOllama
 from langchain_ollama import ChatOllama as LatestChatOllama
 from pydantic import BaseModel, Field
 
+logger = logging.getLogger(__name__)
 from src.LanggraphLLM import Langgraph
 from src.VectorDatabase import DocumentVectorStorage
-from src.configuration.logger_config import setup_logging
-
-setup_logging()
-logger = logging.getLogger(__name__)
-
 
 # Source:https://python.langchain.com/docs/integrations/tools/ddg
 
@@ -52,6 +48,9 @@ class TestVectorDatabase(unittest.TestCase):
 
         self.assertTrue(answer_correct)
 
+    def test_logging(self):
+        logger.info("INFO! ;)")
+
     def test_reasoning_ability(self):
         test_cases = [
             {"question": "What is 5 times 10?", "fact": "50"},
@@ -61,7 +60,7 @@ class TestVectorDatabase(unittest.TestCase):
 
         for case in test_cases:
             with self.subTest(case=case):
-                self._check_single_question_answer_ability(
+                self._check_single_math_answer_ability(
                     case['question'], case['fact']
                 )
 
@@ -71,7 +70,6 @@ class TestVectorDatabase(unittest.TestCase):
             {"question": "What is the square root of 16?",
              "fact": "4"},
         ]
-
         for case in test_cases:
             with self.subTest(case=case):
                 self._check_single_math_answer_ability(

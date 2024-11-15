@@ -13,16 +13,15 @@ def get_project_path():
 
 def setup_logging(config_file_path=None) -> None:
     project_path = get_project_path()
-
     if config_file_path is None:
         config_file_path = DEFAULT_CONFIG_FILE
-
     config_path = os.path.join(project_path, config_file_path)
-
     if not os.path.exists(config_path):
         raise FileNotFoundError(f"Config file '{config_path}' not found.")
-
     with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
-
     logging.config.dictConfig(config)
+
+
+def get_logger(name):
+    return logging.getLogger(name)
