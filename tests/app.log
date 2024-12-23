@@ -1,0 +1,672 @@
+2024-10-19 11:56:52,061 - datasets - INFO - PyTorch version 2.2.2 available.
+2024-10-19 11:56:52,505 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2024-10-19 12:05:41,578 - datasets - INFO - PyTorch version 2.2.2 available.
+2024-10-19 12:05:41,897 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2024-10-19 12:05:51,531 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 12:06:05,560 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 12:06:10,068 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 12:06:12,283 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 12:06:15,776 - rquest.connect - DEBUG - starting new connection: https://duckduckgo.com/
+2024-10-19 12:06:16,194 - primp - INFO - response: https://duckduckgo.com/ 202 14134
+2024-10-19 12:06:16,195 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 14134
+2024-10-19 12:06:17,689 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 12:06:18,576 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 12:06:21,198 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 12:06:23,935 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 12:06:26,860 - rquest.connect - DEBUG - starting new connection: https://duckduckgo.com/
+2024-10-19 12:06:27,194 - primp - INFO - response: https://duckduckgo.com/ 202 13571
+2024-10-19 12:06:27,194 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 13571
+2024-10-19 12:07:56,832 - datasets - INFO - PyTorch version 2.2.2 available.
+2024-10-19 12:07:56,971 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2024-10-19 12:08:14,777 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 14134
+2024-10-19 12:08:25,845 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 13575
+2024-10-19 12:10:35,455 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 14134
+2024-10-19 12:10:46,384 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 13581
+2024-10-19 19:22:00,849 - datasets - INFO - PyTorch version 2.2.2 available.
+2024-10-19 19:22:01,235 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2024-10-19 19:22:03,258 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2024-10-19 19:22:03,457 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
+2024-10-19 19:22:07,603 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 19:22:30,276 - datasets - INFO - PyTorch version 2.2.2 available.
+2024-10-19 19:22:30,426 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2024-10-19 19:22:32,275 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2024-10-19 19:22:32,395 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
+2024-10-19 19:22:36,266 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 19:22:40,354 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 19:22:44,883 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 19:22:47,083 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 19:22:50,588 - rquest.connect - DEBUG - starting new connection: https://duckduckgo.com/
+2024-10-19 19:22:50,977 - primp - INFO - response: https://duckduckgo.com/ 202 14136
+2024-10-19 19:22:50,977 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 14136
+2024-10-19 19:22:52,376 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 19:22:53,271 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 19:22:55,860 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 19:22:58,602 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 19:23:01,538 - rquest.connect - DEBUG - starting new connection: https://duckduckgo.com/
+2024-10-19 19:23:01,802 - primp - INFO - response: https://duckduckgo.com/ 202 13572
+2024-10-19 19:23:01,802 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 13572
+2024-10-19 19:35:00,430 - datasets - INFO - PyTorch version 2.2.2 available.
+2024-10-19 19:35:00,584 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2024-10-19 19:35:03,015 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2024-10-19 19:35:03,133 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
+2024-10-19 19:35:07,176 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 19:35:11,005 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 19:35:15,589 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 19:35:17,773 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 19:35:21,012 - rquest.connect - DEBUG - starting new connection: https://duckduckgo.com/
+2024-10-19 19:35:21,419 - primp - INFO - response: https://duckduckgo.com/ 202 14139
+2024-10-19 19:35:21,419 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 14139
+2024-10-19 19:35:22,815 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 19:35:23,695 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 19:35:26,284 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 19:35:29,017 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 19:35:31,921 - rquest.connect - DEBUG - starting new connection: https://duckduckgo.com/
+2024-10-19 19:35:32,350 - primp - INFO - response: https://duckduckgo.com/ 202 13571
+2024-10-19 19:35:32,351 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 13571
+2024-10-19 19:57:44,546 - datasets - INFO - PyTorch version 2.2.2 available.
+2024-10-19 19:57:44,694 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2024-10-19 19:57:46,960 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2024-10-19 19:57:47,076 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
+2024-10-19 20:04:14,822 - datasets - INFO - PyTorch version 2.2.2 available.
+2024-10-19 20:04:14,964 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2024-10-19 20:04:16,869 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2024-10-19 20:04:16,986 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
+2024-10-19 20:04:21,097 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 20:04:21,578 - src.LanggraphLLM - DEBUG - RAG Result: page_content='0043 (0) 6462 2213 An on-call chemist is available outside of business hours please refer to the following link or inquire on the reception. http://www.apothekenindex.at
+
+Cleaning during your stay If you would like your chalet cleaned during your stay, please come to our reception to arrange times (vacuuming, cleaning the bathroom, towel change …..) Charges will be applied depending on cleaning duration
+
+Climbing for Kids High Rope Climing Garden at the middle station of the Dorfbahn Cable Car
+
+Dinner Delivery service from Restaurant Chili,
+
+Monday and Tuesday -  FONDUE Thursday and Friday – “Ripperl” Spare Ribs Please note your order must be placed online by 11am or ask at the reception for further information. You may pay in cash directly upon delivery. Dentist
+
+Pfarrwerfen:
+
+Dr.med.univ. Othmar Frühmann, Ph. 0043 (0) 6468 7577 Monday to Thursday 10am – 2pm and 2.30pm – 5pm
+
+Werfen:
+
+Dr.med.univ. Manfred Geringer, Ph. 0043 (0) 6468 8283 0 Monday 8am – 11am Tuesday to Thursday 8am – 11am and 1pm – 4pm or Wednesday 1pm – 4pm
+
+Doctor’s Surgery Pfarrwerfen: Dr. Christoph Fürthauer, Ph. 0043 (0) 6468 5402 0
+
+Hours:
+
+Mon, Tue, Wed and Fri 7.30 – 11am Mon and Wed 5 – 6pm Please call for an appointment. (You will require your passport or E-Card)
+
+Werfen: Dr. Kay Drabeck
+
+Ph. 0043 (0) 6468/5264
+
+Markt 23 (1st floor)
+
+Ordination:
+
+Mo 07.00
+
+
+
+12.00
+
+Tue15.00
+
+
+
+19.00
+
+Me 09.30
+
+
+
+12.00
+
+Th 15.00
+
+
+
+19.00
+
+Fr 07.30
+
+
+
+12.00
+
+Dogs We kindly request that dogs do not enter bedrooms and are not allowed on furniture. Just near the reception your will find a dog station providing plastic bags for your dogs’ waste. Please respect other guests by keeping your dog on a lead at all times and keeping barking to a minimum. Dog wastes can contaminate our cow grazing areas so please pick up after your pet. We wish to remind you that dogs must be kept on a lead within the village of Werfenweng at all time´s. For the final cleaning we charge € 35,- per dog and stay on your bill. Farmers Market Werfenweng Specialties from regional farmers, Ph.'
+2024-10-19 20:04:25,007 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 20:04:25,420 - src.LanggraphLLM - DEBUG - RAG Result: page_content='0043 (0) 6466 789
+
+Open from 9am – 6pm. Closed Thursday and Sunday Situated behind the Travel Charm Berg Resort Hotel in the centre of the village. Fire Extinguisher There is a fire extinguisher located in the entry foyer of every chalet. Fire Place To allow a flow of air into the fireplace please ensure the lever is positioned to the +. Once the flame has died, you may move the lever to the - to ensure the heat is stored within the fire place. Never remove ash yourself. If you feel there is too much ash, please inform us in the reception. Ash can usually be collected for up to a week depending on the amount of fire wood used. Fire Wood Please help yourself to the firewood we have provided around the chalets. Fondue Every Monday and Tuesday you have the option to order Fondue to be delivered to your chalet. Please use the yellow bucket under the sink for old oil. Your order may be placed in woodridge.myoha.at
+
+Golf As a Guest of Wood Ridge you are entitled to cheaper green fees at the Open Golf course. St Johann located just 15minutes away. Please ask on the reception for your discount voucher. Hair Dresser Mobile hair dresser Sonja comes directly to your chalet. Appointments are necessary. Ph. 0043 (0) 664 1702066
+
+Hiking Guided hiking tours, Ph. 0043 (0) 6466 420 Inquire and register in the tourist info! For High Alpine Tours please contact the Sport Store “Alpin” Ph. 0043 (0) 6466 391570
+
+Horse and Carriage Rides Steiger Simon, Ph. 0043 (0) 6466 682 or 0043 (0) 664 5852319 Carriage rides, horseback riding, trail rides, Please call to arrange riding times
+
+Internet Free Wifi is provided in each chalet. Password: Woodridge
+
+For unwanted Electric Smog, feel free to unplug the router. Lost and Found Council chambers in Werfenweng, Ph. 0043 (0) 6466 414
+
+Massages Massages are conducted directly in your chalet. Order a time slot online in myoha. The type of massage may be disscussed with the therapist directly. Moutain Huts Alpengasthof Bischlinghöhe, Ph. 0043 (0) 664 5123785
+
+Anton-Proksch-Haus, Ph. 0043 (0) 6466 673
+
+Auszeit, Ph. 0043 (0) 650 2200480
+
+Bischlingalm, Ph. 0043 (0) 650 7506311
+
+Dr.-Heinrich-Hackel-Hütte, Ph. 0043 (0) 664 3429 114
+
+Elmaualm, Ph. 0043 (0) 664 9169900
+
+Frommeralm, Ph. 0043 (0) 664 2336819
+
+Gamsblickalm, Ph. 0043 (0) 6466 489
+
+Mahdeggalm, Ph. 0043 (0) 6468 7110
+
+Mayrhofalm, Ph. 0043 (0) 664 4515757
+
+Moosalm am Ladenberg, Ph. 0043 (0) 664 1500439
+
+Paragliding in Werfenweng Tandem flights / Flight school:
+
+Sepp & Stefan Rebernig, Ph. 0043 (0) 664 4420 002 or  0043 (0) 664 3562 468 Fly Tandem, Ph. 0043 (0) 650 8263361 Payment options in Wood Ridge We accept: Master Card, Visa, Diners,Maestro and Cash
+
+Petrol Station (6km)
+
+Pfarrwerfen:
+
+BP Imlau, Ph. 0043 (0 )6468 5327 Monday to Saturday 6am – 10pm Sunday and Friday 8am – 8pm
+
+IQ Tankstelle, Johann Buchsteiner, Ph. 0043 (0) 6468 5416 Monday to Friday 7am – 7pm Saturday 7am – 5pm Closed on Sundays and Public Holidays Post Office Within the supermarket Nah & Frisch Werfenweng – Nah & Frisch: Ph. 0043 (0) 6466 409
+
+Reception Opening hours: daily 8am to midday and 3pm to 5pm Call any time between 8am and 9pm Reception, Ph. 0043 (0) 664 123 30 87
+
+For emergencies after 9pm,
+
+Ph. 0043 (0) 6645570737
+
+Restaurants Almstüberl zan Hascht, Ph. 0043 (0) 6466 20090 (closed We and Thu) Auszeit top station of the Rosnerköpfl, Ph. 0043 (0) 650 2200480 Chili im Wenghof, Ph. 0043 (0) 6466 20051 Gasthof Barbarahof, Ph. 0043 (0) 6466 402 Gasthof Schöntal, Ph. 0043 (0) 6466 447 Gasthof Strassreith, Ph. 0043 (0) 6466 408 Gasthof Tennenblick, Ph. 0043 (0) 6466 451 Restaurant Alpenzeit (Gaultmillau), Ph. 0043 (0) 6466 391504 (closed Sun and Mo) Restaurant Eulersberg, Ph. 0043 (0) 664 2225151 (closed Mo) Seealmstüberl (next to the lake), Ph. 0043 (0) 6466 20031 Stoa Alm (Burger and Snack and Bar), Ph. 0043 (0) 650 2200480 Stroblhaus, Ph. 0043 (0 )6466 391533 (closed Tue) Strussingalm on the mountain, Ph. 0043 (0) 6466 449 or 473 Wenger Alpenhof, Ph. 0043 (0) 660 7816609 Werfenwenger Bauernladen, Ph. 0043 (0) 6466 789 (closed Thu and Sun) Zistelberghof, Ph. 0043 (0) 6466 443 Road Side Assistance St. Johann/Pg. : ÖAMTC SAMTC, Ph.'
+2024-10-19 20:04:29,595 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 20:04:29,976 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Important Information from A
+
+
+
+Z Summer 2022
+
+Emergency Call 112 International Emergency Call (without SIM-Card possible) 122 Fire Service 133 Police 140 Alpine-Emergency Call 141 Doctor-Emergency Service 144 Ambulance
+
+Archery Range Peter Ampferer (Pfarrwerfen), Ph. 0043 (0) 664 1422533 With 3D animal targets.'
+2024-10-19 20:04:31,873 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 20:04:32,297 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Please call to arrange opening times. Banks Raiffeisenkassen: Werfenweng, Ph. 0043 (0) 6466 440 (ATM) International
+
+Pfarrwerfen, Ph. 0043 (0) 6468 5486 (ATM) International
+
+Werfen, Ph. 0043 (0) 6468 5254 (ATM) International
+
+Bars Stoa Alm, Ph. 0043 (0) 650 2200480 Stroblhaus, Ph. 0043 (0) 6466 3910
+
+Bike Rental Sport Alpin, Ph. 0043 (0) 20221 or 0043 (0) 391570 next to the cable car station Rosnerköpfl in the village Bikes, mountainbikes, e-bikes and more…. For WERFENWENG-CARD holders the rental is free
+
+Bowling Experience the Austrian form of bowling in restaurant Schwungradl in Pfarrwerfen, Ph. 0043 (0) 64687979
+
+Breakfast Your BIO-breakfast basket will be delivered to your door at approximately 8 am the morning after your arrival.'
+2024-10-19 20:04:35,205 - rquest.connect - DEBUG - starting new connection: https://duckduckgo.com/
+2024-10-19 20:04:35,618 - primp - INFO - response: https://duckduckgo.com/ 202 14136
+2024-10-19 20:04:35,618 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 14136
+2024-10-19 20:04:37,095 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 20:04:37,328 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Ph. 0043 (0) 6466 789
+
+Cable Car Werfenweng Werfenweng, Tel. 0043 (0) 6466 614 daily operation hours from 09 to 12 am and 1 to 4.45 pm
+
+In case of bad weather (raining in the morning) the cable car will not operate
+
+Pre-season: 08.12.2022 - 11.12.2022
+
+Season start: 17.12.2022
+
+High season: 17.12.2022 - 08.01.2023 & 28.01.2023 - 05.03.2023
+
+Mid season: 09.01.2023 - 27.01.2023
+
+Post-season: 06.03.2023 - 10.04.2023
+
+possible changes due to current snow conditions and official regulations. Car Rental
+
+Tourist INFO Werfenweng,
+
+Ph. 0043 (0) 06466 42040
+
+“Grashoppers” (Bio-Gas-Car 0,1cent /km) or Smile-E (Electric-Car) BMWs
+
+For WERFENWENG-CARD holders is the rental for free
+
+Check in/Check out times In order to make your stay at Wood Ridge comfortable we value high standards of cleanliness and for this reason the cleaning takes a considerable amount of time. With this in mind, we kindly request that you abide by our check in & check out times.'
+2024-10-19 20:04:38,030 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 20:04:38,237 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Please call to arrange opening times. Banks Raiffeisenkassen: Werfenweng, Ph. 0043 (0) 6466 440 (ATM) International
+
+Pfarrwerfen, Ph. 0043 (0) 6468 5486 (ATM) International
+
+Werfen, Ph. 0043 (0) 6468 5254 (ATM) International
+
+Bars Stoa Alm, Ph. 0043 (0) 650 2200480 Stroblhaus, Ph. 0043 (0) 6466 3910
+
+Bike Rental Sport Alpin, Ph. 0043 (0) 20221 or 0043 (0) 391570 next to the cable car station Rosnerköpfl in the village Bikes, mountainbikes, e-bikes and more…. For WERFENWENG-CARD holders the rental is free
+
+Bowling Experience the Austrian form of bowling in restaurant Schwungradl in Pfarrwerfen, Ph. 0043 (0) 64687979
+
+Breakfast Your BIO-breakfast basket will be delivered to your door at approximately 8 am the morning after your arrival.'
+2024-10-19 20:04:40,706 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 20:04:40,893 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Important Information from A
+
+
+
+Z Summer 2022
+
+Emergency Call 112 International Emergency Call (without SIM-Card possible) 122 Fire Service 133 Police 140 Alpine-Emergency Call 141 Doctor-Emergency Service 144 Ambulance
+
+Archery Range Peter Ampferer (Pfarrwerfen), Ph. 0043 (0) 664 1422533 With 3D animal targets.'
+2024-10-19 20:04:43,535 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 20:04:43,722 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Check in 3 – 5pm Check out 8 - 10am Chemist Werfen: Sonnenapotheke, Ph. 0043 (0) 6468 5282
+
+Bischofshofen: Löwenapotheke, Ph. 0043 (0) 6462 2772
+
+Bischofshofen: Marienapotheke, Ph.'
+2024-10-19 20:04:53,820 - datasets - INFO - PyTorch version 2.2.2 available.
+2024-10-19 20:04:53,967 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2024-10-19 20:04:55,970 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2024-10-19 20:04:56,092 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
+2024-10-19 20:05:00,033 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 20:05:00,453 - src.LanggraphLLM - DEBUG - RAG Result: page_content='0043 (0) 6462 2213 An on-call chemist is available outside of business hours please refer to the following link or inquire on the reception. http://www.apothekenindex.at
+
+Cleaning during your stay If you would like your chalet cleaned during your stay, please come to our reception to arrange times (vacuuming, cleaning the bathroom, towel change …..) Charges will be applied depending on cleaning duration
+
+Climbing for Kids High Rope Climing Garden at the middle station of the Dorfbahn Cable Car
+
+Dinner Delivery service from Restaurant Chili,
+
+Monday and Tuesday -  FONDUE Thursday and Friday – “Ripperl” Spare Ribs Please note your order must be placed online by 11am or ask at the reception for further information. You may pay in cash directly upon delivery. Dentist
+
+Pfarrwerfen:
+
+Dr.med.univ. Othmar Frühmann, Ph. 0043 (0) 6468 7577 Monday to Thursday 10am – 2pm and 2.30pm – 5pm
+
+Werfen:
+
+Dr.med.univ. Manfred Geringer, Ph. 0043 (0) 6468 8283 0 Monday 8am – 11am Tuesday to Thursday 8am – 11am and 1pm – 4pm or Wednesday 1pm – 4pm
+
+Doctor’s Surgery Pfarrwerfen: Dr. Christoph Fürthauer, Ph. 0043 (0) 6468 5402 0
+
+Hours:
+
+Mon, Tue, Wed and Fri 7.30 – 11am Mon and Wed 5 – 6pm Please call for an appointment. (You will require your passport or E-Card)
+
+Werfen: Dr. Kay Drabeck
+
+Ph. 0043 (0) 6468/5264
+
+Markt 23 (1st floor)
+
+Ordination:
+
+Mo 07.00
+
+
+
+12.00
+
+Tue15.00
+
+
+
+19.00
+
+Me 09.30
+
+
+
+12.00
+
+Th 15.00
+
+
+
+19.00
+
+Fr 07.30
+
+
+
+12.00
+
+Dogs We kindly request that dogs do not enter bedrooms and are not allowed on furniture. Just near the reception your will find a dog station providing plastic bags for your dogs’ waste. Please respect other guests by keeping your dog on a lead at all times and keeping barking to a minimum. Dog wastes can contaminate our cow grazing areas so please pick up after your pet. We wish to remind you that dogs must be kept on a lead within the village of Werfenweng at all time´s. For the final cleaning we charge € 35,- per dog and stay on your bill. Farmers Market Werfenweng Specialties from regional farmers, Ph.'
+2024-10-19 20:05:01,756 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 20:05:02,145 - src.LanggraphLLM - DEBUG - RAG Result: page_content='0043 (0) 6466 789
+
+Open from 9am – 6pm. Closed Thursday and Sunday Situated behind the Travel Charm Berg Resort Hotel in the centre of the village. Fire Extinguisher There is a fire extinguisher located in the entry foyer of every chalet. Fire Place To allow a flow of air into the fireplace please ensure the lever is positioned to the +. Once the flame has died, you may move the lever to the - to ensure the heat is stored within the fire place. Never remove ash yourself. If you feel there is too much ash, please inform us in the reception. Ash can usually be collected for up to a week depending on the amount of fire wood used. Fire Wood Please help yourself to the firewood we have provided around the chalets. Fondue Every Monday and Tuesday you have the option to order Fondue to be delivered to your chalet. Please use the yellow bucket under the sink for old oil. Your order may be placed in woodridge.myoha.at
+
+Golf As a Guest of Wood Ridge you are entitled to cheaper green fees at the Open Golf course. St Johann located just 15minutes away. Please ask on the reception for your discount voucher. Hair Dresser Mobile hair dresser Sonja comes directly to your chalet. Appointments are necessary. Ph. 0043 (0) 664 1702066
+
+Hiking Guided hiking tours, Ph. 0043 (0) 6466 420 Inquire and register in the tourist info! For High Alpine Tours please contact the Sport Store “Alpin” Ph. 0043 (0) 6466 391570
+
+Horse and Carriage Rides Steiger Simon, Ph. 0043 (0) 6466 682 or 0043 (0) 664 5852319 Carriage rides, horseback riding, trail rides, Please call to arrange riding times
+
+Internet Free Wifi is provided in each chalet. Password: Woodridge
+
+For unwanted Electric Smog, feel free to unplug the router. Lost and Found Council chambers in Werfenweng, Ph. 0043 (0) 6466 414
+
+Massages Massages are conducted directly in your chalet. Order a time slot online in myoha. The type of massage may be disscussed with the therapist directly. Moutain Huts Alpengasthof Bischlinghöhe, Ph. 0043 (0) 664 5123785
+
+Anton-Proksch-Haus, Ph. 0043 (0) 6466 673
+
+Auszeit, Ph. 0043 (0) 650 2200480
+
+Bischlingalm, Ph. 0043 (0) 650 7506311
+
+Dr.-Heinrich-Hackel-Hütte, Ph. 0043 (0) 664 3429 114
+
+Elmaualm, Ph. 0043 (0) 664 9169900
+
+Frommeralm, Ph. 0043 (0) 664 2336819
+
+Gamsblickalm, Ph. 0043 (0) 6466 489
+
+Mahdeggalm, Ph. 0043 (0) 6468 7110
+
+Mayrhofalm, Ph. 0043 (0) 664 4515757
+
+Moosalm am Ladenberg, Ph. 0043 (0) 664 1500439
+
+Paragliding in Werfenweng Tandem flights / Flight school:
+
+Sepp & Stefan Rebernig, Ph. 0043 (0) 664 4420 002 or  0043 (0) 664 3562 468 Fly Tandem, Ph. 0043 (0) 650 8263361 Payment options in Wood Ridge We accept: Master Card, Visa, Diners,Maestro and Cash
+
+Petrol Station (6km)
+
+Pfarrwerfen:
+
+BP Imlau, Ph. 0043 (0 )6468 5327 Monday to Saturday 6am – 10pm Sunday and Friday 8am – 8pm
+
+IQ Tankstelle, Johann Buchsteiner, Ph. 0043 (0) 6468 5416 Monday to Friday 7am – 7pm Saturday 7am – 5pm Closed on Sundays and Public Holidays Post Office Within the supermarket Nah & Frisch Werfenweng – Nah & Frisch: Ph. 0043 (0) 6466 409
+
+Reception Opening hours: daily 8am to midday and 3pm to 5pm Call any time between 8am and 9pm Reception, Ph. 0043 (0) 664 123 30 87
+
+For emergencies after 9pm,
+
+Ph. 0043 (0) 6645570737
+
+Restaurants Almstüberl zan Hascht, Ph. 0043 (0) 6466 20090 (closed We and Thu) Auszeit top station of the Rosnerköpfl, Ph. 0043 (0) 650 2200480 Chili im Wenghof, Ph. 0043 (0) 6466 20051 Gasthof Barbarahof, Ph. 0043 (0) 6466 402 Gasthof Schöntal, Ph. 0043 (0) 6466 447 Gasthof Strassreith, Ph. 0043 (0) 6466 408 Gasthof Tennenblick, Ph. 0043 (0) 6466 451 Restaurant Alpenzeit (Gaultmillau), Ph. 0043 (0) 6466 391504 (closed Sun and Mo) Restaurant Eulersberg, Ph. 0043 (0) 664 2225151 (closed Mo) Seealmstüberl (next to the lake), Ph. 0043 (0) 6466 20031 Stoa Alm (Burger and Snack and Bar), Ph. 0043 (0) 650 2200480 Stroblhaus, Ph. 0043 (0 )6466 391533 (closed Tue) Strussingalm on the mountain, Ph. 0043 (0) 6466 449 or 473 Wenger Alpenhof, Ph. 0043 (0) 660 7816609 Werfenwenger Bauernladen, Ph. 0043 (0) 6466 789 (closed Thu and Sun) Zistelberghof, Ph. 0043 (0) 6466 443 Road Side Assistance St. Johann/Pg. : ÖAMTC SAMTC, Ph.'
+2024-10-19 20:05:06,389 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 20:05:06,812 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Important Information from A
+
+
+
+Z Summer 2022
+
+Emergency Call 112 International Emergency Call (without SIM-Card possible) 122 Fire Service 133 Police 140 Alpine-Emergency Call 141 Doctor-Emergency Service 144 Ambulance
+
+Archery Range Peter Ampferer (Pfarrwerfen), Ph. 0043 (0) 664 1422533 With 3D animal targets.'
+2024-10-19 20:05:08,632 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 20:05:09,009 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Please call to arrange opening times. Banks Raiffeisenkassen: Werfenweng, Ph. 0043 (0) 6466 440 (ATM) International
+
+Pfarrwerfen, Ph. 0043 (0) 6468 5486 (ATM) International
+
+Werfen, Ph. 0043 (0) 6468 5254 (ATM) International
+
+Bars Stoa Alm, Ph. 0043 (0) 650 2200480 Stroblhaus, Ph. 0043 (0) 6466 3910
+
+Bike Rental Sport Alpin, Ph. 0043 (0) 20221 or 0043 (0) 391570 next to the cable car station Rosnerköpfl in the village Bikes, mountainbikes, e-bikes and more…. For WERFENWENG-CARD holders the rental is free
+
+Bowling Experience the Austrian form of bowling in restaurant Schwungradl in Pfarrwerfen, Ph. 0043 (0) 64687979
+
+Breakfast Your BIO-breakfast basket will be delivered to your door at approximately 8 am the morning after your arrival.'
+2024-10-19 20:05:11,867 - rquest.connect - DEBUG - starting new connection: https://duckduckgo.com/
+2024-10-19 20:05:12,200 - primp - INFO - response: https://duckduckgo.com/ 202 14138
+2024-10-19 20:05:12,201 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 14138
+2024-10-19 20:05:13,773 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 20:05:13,953 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Ph. 0043 (0) 6466 789
+
+Cable Car Werfenweng Werfenweng, Tel. 0043 (0) 6466 614 daily operation hours from 09 to 12 am and 1 to 4.45 pm
+
+In case of bad weather (raining in the morning) the cable car will not operate
+
+Pre-season: 08.12.2022 - 11.12.2022
+
+Season start: 17.12.2022
+
+High season: 17.12.2022 - 08.01.2023 & 28.01.2023 - 05.03.2023
+
+Mid season: 09.01.2023 - 27.01.2023
+
+Post-season: 06.03.2023 - 10.04.2023
+
+possible changes due to current snow conditions and official regulations. Car Rental
+
+Tourist INFO Werfenweng,
+
+Ph. 0043 (0) 06466 42040
+
+“Grashoppers” (Bio-Gas-Car 0,1cent /km) or Smile-E (Electric-Car) BMWs
+
+For WERFENWENG-CARD holders is the rental for free
+
+Check in/Check out times In order to make your stay at Wood Ridge comfortable we value high standards of cleanliness and for this reason the cleaning takes a considerable amount of time. With this in mind, we kindly request that you abide by our check in & check out times.'
+2024-10-19 20:05:14,678 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 20:05:14,858 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Please call to arrange opening times. Banks Raiffeisenkassen: Werfenweng, Ph. 0043 (0) 6466 440 (ATM) International
+
+Pfarrwerfen, Ph. 0043 (0) 6468 5486 (ATM) International
+
+Werfen, Ph. 0043 (0) 6468 5254 (ATM) International
+
+Bars Stoa Alm, Ph. 0043 (0) 650 2200480 Stroblhaus, Ph. 0043 (0) 6466 3910
+
+Bike Rental Sport Alpin, Ph. 0043 (0) 20221 or 0043 (0) 391570 next to the cable car station Rosnerköpfl in the village Bikes, mountainbikes, e-bikes and more…. For WERFENWENG-CARD holders the rental is free
+
+Bowling Experience the Austrian form of bowling in restaurant Schwungradl in Pfarrwerfen, Ph. 0043 (0) 64687979
+
+Breakfast Your BIO-breakfast basket will be delivered to your door at approximately 8 am the morning after your arrival.'
+2024-10-19 20:05:17,293 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 20:05:17,477 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Important Information from A
+
+
+
+Z Summer 2022
+
+Emergency Call 112 International Emergency Call (without SIM-Card possible) 122 Fire Service 133 Police 140 Alpine-Emergency Call 141 Doctor-Emergency Service 144 Ambulance
+
+Archery Range Peter Ampferer (Pfarrwerfen), Ph. 0043 (0) 664 1422533 With 3D animal targets.'
+2024-10-19 20:05:20,037 - flashrank.Ranker - DEBUG - Running pairwise ranking..
+2024-10-19 20:05:20,219 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Check in 3 – 5pm Check out 8 - 10am Chemist Werfen: Sonnenapotheke, Ph. 0043 (0) 6468 5282
+
+Bischofshofen: Löwenapotheke, Ph. 0043 (0) 6462 2772
+
+Bischofshofen: Marienapotheke, Ph.'
+2024-10-19 20:05:23,013 - rquest.connect - DEBUG - starting new connection: https://duckduckgo.com/
+2024-10-19 20:05:23,343 - primp - INFO - response: https://duckduckgo.com/ 202 13574
+2024-10-19 20:05:23,344 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 13574
+2024-10-19 20:06:11,931 - datasets - INFO - PyTorch version 2.2.2 available.
+2024-10-19 20:06:12,078 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2024-10-19 20:06:14,221 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2024-10-19 20:06:14,336 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
+2024-10-19 20:07:14,161 - datasets - INFO - PyTorch version 2.2.2 available.
+2024-10-19 20:07:14,514 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2024-10-19 20:07:16,981 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2024-10-19 20:07:17,412 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
+2024-10-19 20:10:04,815 - datasets - INFO - PyTorch version 2.2.2 available.
+2024-10-19 20:10:05,066 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2024-10-19 20:10:09,679 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2024-10-19 20:10:10,087 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
+2024-10-19 20:40:47,246 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2024-10-19 20:40:49,677 - datasets - INFO - PyTorch version 2.2.2 available.
+2024-10-19 20:40:49,823 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2024-10-19 20:40:51,781 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2024-10-19 20:40:51,890 - chromadb.config - DEBUG - Starting component System
+2024-10-19 20:40:51,890 - chromadb.config - DEBUG - Starting component Posthog
+2024-10-19 20:40:51,890 - chromadb.config - DEBUG - Starting component OpenTelemetryClient
+2024-10-19 20:40:51,890 - chromadb.config - DEBUG - Starting component SqliteDB
+2024-10-19 20:40:51,893 - chromadb.config - DEBUG - Starting component QuotaEnforcer
+2024-10-19 20:40:51,894 - chromadb.config - DEBUG - Starting component LocalSegmentManager
+2024-10-19 20:40:51,894 - chromadb.config - DEBUG - Starting component SegmentAPI
+2024-10-19 20:40:51,897 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
+2024-10-19 20:40:51,907 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-10-19 20:40:51,907 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-10-19 20:40:51,907 - src.test.Dummy - INFO - Valueable info in dummy
+2024-10-19 20:40:51,907 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-10-19 20:40:52,254 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
+2024-10-19 20:40:52,254 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
+2024-10-19 20:40:52,254 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
+2024-10-19 20:42:58,658 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
+2024-10-19 20:43:01,100 - datasets - INFO - PyTorch version 2.2.2 available.
+2024-10-19 20:43:01,247 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2024-10-19 20:43:04,079 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2024-10-19 20:43:04,188 - chromadb.config - DEBUG - Starting component System
+2024-10-19 20:43:04,188 - chromadb.config - DEBUG - Starting component Posthog
+2024-10-19 20:43:04,188 - chromadb.config - DEBUG - Starting component OpenTelemetryClient
+2024-10-19 20:43:04,188 - chromadb.config - DEBUG - Starting component SqliteDB
+2024-10-19 20:43:04,191 - chromadb.config - DEBUG - Starting component QuotaEnforcer
+2024-10-19 20:43:04,191 - chromadb.config - DEBUG - Starting component LocalSegmentManager
+2024-10-19 20:43:04,191 - chromadb.config - DEBUG - Starting component SegmentAPI
+2024-10-19 20:43:04,195 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
+2024-10-19 20:43:04,205 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-10-19 20:43:04,205 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-10-19 20:43:04,205 - src.test.Dummy - INFO - Valueable info in dummy
+2024-10-19 20:43:04,205 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-10-19 20:43:04,571 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
+2024-10-19 20:43:04,571 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
+2024-10-19 20:43:04,571 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
+2024-10-19 20:48:46,788 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-10-19 20:48:46,788 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-10-19 20:48:46,788 - src.test.Dummy - INFO - Valueable info in dummy
+2024-10-19 20:48:46,788 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-10-19 20:48:47,133 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
+2024-10-19 20:48:47,133 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
+2024-10-19 20:48:47,133 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
+2024-10-19 20:49:06,908 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-10-19 20:49:06,908 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-10-19 20:49:06,908 - src.test.Dummy - INFO - Valueable info in dummy
+2024-10-19 20:49:06,908 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-10-19 20:49:07,255 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
+2024-10-19 20:49:07,255 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
+2024-10-19 20:49:07,255 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
+2024-10-19 20:50:28,742 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-10-19 20:50:28,742 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-10-19 20:50:28,742 - src.test.Dummy - INFO - Valueable info in dummy
+2024-10-19 20:50:28,742 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-10-19 20:50:29,091 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
+2024-10-19 20:50:29,091 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
+2024-10-19 20:50:29,091 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
+2024-10-19 21:09:02,906 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-10-19 21:09:02,906 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-10-19 21:09:02,906 - src.test.Dummy - INFO - Valueable info in dummy
+2024-10-19 21:09:02,907 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-10-19 21:09:03,251 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
+2024-10-19 21:09:03,251 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
+2024-10-19 21:09:03,251 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
+2024-10-19 21:09:42,078 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-10-19 21:09:42,078 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-10-19 21:09:42,078 - src.test.Dummy - INFO - Valueable info in dummy
+2024-10-19 21:09:42,078 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-10-19 21:09:42,426 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
+2024-10-19 21:09:42,426 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
+2024-10-19 21:09:42,426 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
+2024-10-19 21:10:13,652 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-10-19 21:10:13,652 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-10-19 21:10:13,652 - src.test.Dummy - INFO - Valueable info in dummy
+2024-10-19 21:10:13,652 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-10-19 21:10:14,012 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
+2024-10-19 21:10:14,012 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
+2024-10-19 21:10:14,012 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
+2024-10-19 21:12:13,352 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-10-19 21:12:13,352 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-10-19 21:12:13,353 - src.test.Dummy - INFO - Valueable info in dummy
+2024-10-19 21:12:13,353 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-10-19 21:12:13,722 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
+2024-10-19 21:12:13,722 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
+2024-10-19 21:12:13,722 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
+2024-10-19 21:17:44,776 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-10-19 21:17:44,776 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-10-19 21:17:44,778 - src.test.Dummy - INFO - Valueable info in dummy
+2024-10-19 21:17:44,778 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-10-19 21:17:45,144 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
+2024-10-19 21:17:45,144 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
+2024-10-19 21:17:45,144 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
+2024-10-19 21:19:42,969 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-10-19 21:19:42,969 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-10-19 21:19:42,969 - src.test.Dummy - INFO - Valueable info in dummy
+2024-10-19 21:19:42,969 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-10-19 21:19:43,409 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
+2024-10-19 21:19:43,409 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
+2024-10-19 21:19:43,409 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
+2024-10-19 21:21:01,536 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-10-19 21:21:01,536 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-10-19 21:21:01,536 - src.test.Dummy - INFO - Valueable info in dummy
+2024-10-19 21:21:01,537 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-10-19 21:22:37,646 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-10-19 21:22:37,646 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-10-19 21:22:37,646 - src.test.Dummy - INFO - Valueable info in dummy
+2024-10-19 21:22:37,646 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-10-19 21:23:14,351 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-10-19 21:23:14,351 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-10-19 21:23:14,351 - src.test.Dummy - INFO - Valueable info in dummy
+2024-10-19 21:23:14,351 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-10-19 21:23:41,303 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-10-19 21:23:41,303 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-10-19 21:23:41,303 - src.test.Dummy - INFO - Valueable info in dummy
+2024-10-19 21:23:41,304 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-10-19 21:23:41,656 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
+2024-10-19 21:23:41,656 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
+2024-10-19 21:23:41,656 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
+2024-12-07 09:32:17,694 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-12-07 09:32:17,694 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-12-07 09:32:17,694 - src.test.Dummy - INFO - Valueable info in dummy
+2024-12-07 09:32:17,694 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-12-07 09:32:17,694 - src.ReactGraph - DEBUG - Langgraph CTOR 1!
+2024-12-07 09:43:39,147 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-12-07 09:43:39,147 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-12-07 09:43:39,147 - src.test.Dummy - INFO - Valueable info in dummy
+2024-12-07 09:43:39,147 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-12-07 09:43:39,147 - src.ReactGraph - DEBUG - Langgraph CTOR 1!
+2024-12-07 09:48:42,518 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-12-07 09:48:42,518 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-12-07 09:48:42,518 - src.test.Dummy - INFO - Valueable info in dummy
+2024-12-07 09:48:42,518 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-12-07 09:48:42,518 - src.ReactGraph - DEBUG - Langgraph CTOR 1!
+2024-12-07 09:49:05,371 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-12-07 09:49:05,371 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-12-07 09:49:05,371 - src.test.Dummy - INFO - Valueable info in dummy
+2024-12-07 09:49:05,371 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-12-07 09:49:05,372 - src.ReactGraph - DEBUG - Langgraph CTOR 1!
+2024-12-07 09:50:22,327 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-12-07 09:50:22,327 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-12-07 09:50:22,327 - src.test.Dummy - INFO - Valueable info in dummy
+2024-12-07 09:50:22,327 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-12-07 09:50:22,327 - src.ReactGraph - DEBUG - Langgraph CTOR 1!
+2024-12-07 09:52:35,597 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-12-07 09:52:35,597 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-12-07 09:52:35,597 - src.test.Dummy - INFO - Valueable info in dummy
+2024-12-07 09:52:35,597 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-12-07 09:52:35,597 - src.ReactGraph - DEBUG - Langgraph CTOR 1!
+2024-12-07 09:56:20,860 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-12-07 09:56:20,860 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-12-07 09:56:20,860 - src.test.Dummy - INFO - Valueable info in dummy
+2024-12-07 09:56:20,860 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-12-07 09:56:20,860 - src.ReactGraph - DEBUG - Langgraph CTOR 1!
+2024-12-07 09:59:21,109 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-12-07 09:59:21,109 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-12-07 09:59:21,109 - src.test.Dummy - INFO - Valueable info in dummy
+2024-12-07 09:59:21,110 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-12-07 09:59:21,110 - src.ReactGraph - DEBUG - Langgraph CTOR 1!
+2024-12-07 10:14:00,066 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-12-07 10:14:00,066 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-12-07 10:14:00,066 - src.test.Dummy - INFO - Valueable info in dummy
+2024-12-07 10:14:00,066 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-12-07 10:14:00,066 - src.ReactGraph - DEBUG - Langgraph CTOR 1!
+2024-12-07 10:33:36,836 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
+2024-12-07 10:33:36,836 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
+2024-12-07 10:33:36,836 - src.test.Dummy - INFO - Valueable info in dummy
+2024-12-07 10:33:36,836 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
+2024-12-07 10:33:36,837 - src.ReactGraph - DEBUG - Langgraph CTOR 1!

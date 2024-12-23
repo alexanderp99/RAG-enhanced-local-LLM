@@ -2,6 +2,12 @@
 
 ## Pre installation
 
+### Decezmber 1, 2024 installation
+
+- Python 3.12.7
+- Pip 24.2
+- Install Microsoft Build Tools for C++
+
 ### Python 3.12.7 - Oct. 1, 2024 installation
 
 Due to the removal of the long-deprecated pkgutil.ImpImporter class, the pip command may not work for Python 3.12 out of
@@ -90,7 +96,8 @@ Scriptpath: <python.exe>
 Script parameters: -m streamlit.web.cli run
 
 Streamlit Debuggen IDE:
-Scriptpath(streamlit!): C:/Users/alexp/PycharmProjects/RAG-enhanceollama stopd-local-LLM/.venv/Lib/site-packages/streamlit
+Scriptpath(streamlit!): C:/Users/alexp/PycharmProjects/RAG-enhanceollama
+stopd-local-LLM/.venv/Lib/site-packages/streamlit
 Script parameters: run ./src/simple_streamlit.py
 Working directory: C:\Users\alexp\PycharmProjects\RAG-enhanced-local-LLM
 

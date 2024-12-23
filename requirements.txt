@@ -2,7 +2,7 @@
 
 streamlit==1.39 #the UI framework | Latest versions have a bug: https://github.com/streamlit/streamlit/issues/7949
 duckduckgo_search #to make search engine requests
-ollama #to run the actual llm
+ollama==0.4.2 #to run the actual llm #https://github.com/ollama/ollama-python/issues/366
 chromadb #used for storage embeddings
 langchain-community
 unstructured==0.7.12 #https://github.com/langchain-ai/langchain/issues/8714
@@ -29,3 +29,4 @@ langchain_ollama
 langchain_experimental
 flashrank
 langchain-huggingface #HuggingFaceEmbeddings
+langchain_community
