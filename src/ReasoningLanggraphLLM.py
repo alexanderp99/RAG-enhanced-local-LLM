@@ -23,6 +23,7 @@ from langgraph.prebuilt import ToolNode
 from pydantic import BaseModel, Field
 from transformers import pipeline
 
+from modelTypes import Modeltype
 from src.VectorDatabase import DocumentVectorStorage
 from util.AgentState import AgentState
 from util.SearchResult import SearchResult as WebSearchResult, SearchResult
@@ -192,7 +193,7 @@ class GraphState(TypedDict):
 class ReasoningLanggraphLLM:
 
     def __init__(self):
-        self.model: ChatOllama = LatestChatOllama(model='llama3:instruct', temperature=0)
+        self.model: ChatOllama = LatestChatOllama(model=Modeltype.LLAMA3_1_8B.value, temperature=0)
         self.profanity_check_model = LatestChatOllama(model='llama3.1:latest', temperature=0)
         self.translation_model = LatestChatOllama(model="aya", temperature=0)
         self.workflow: StateGraph = StateGraph(AgentState)
@@ -226,7 +227,9 @@ class ReasoningLanggraphLLM:
         self.workflow.add_node("IntermediateNode1", self.intermediate_node1)
         # new
 
-        llm_with_tools = self.model
+        doctool = SearchInDocumentTool(self.vectordb)
+        tools = [add, multiply, divide, doctool]
+        self.llm_with_tools = self.model.bind_tools(tools)
 
         sys_message = SystemMessage(
             """You are a helpful assistant with access to tools. You can search for relevant information using the provided tools and perform arithmetic calculations. 
@@ -242,12 +245,10 @@ class ReasoningLanggraphLLM:
             message = state["question"]
             if no_human_message_added:
                 messages.append(message)
-            result = [llm_with_tools.invoke([sys_msg] + messages)]
+            result = [self.llm_with_tools.invoke([sys_msg] + messages)]
             return {"messages": result}
 
         self.workflow.add_node("reasoner", reasoner)
-        doctool = SearchInDocumentTool(self.vectordb)
-        tools = [add, multiply, divide, doctool]
         self.workflow.add_node("tools", ToolNode(tools))
 
         self.workflow.set_entry_point("StartNode")
