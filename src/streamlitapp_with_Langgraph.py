@@ -9,6 +9,7 @@ from streamlit.runtime.uploaded_file_manager import UploadedFile
 
 from src.LanggraphLLM import Langgraph
 from src.VectorDatabase import DocumentVectorStorage
+from src.ReasoningLanggraphLLM import ReasoningLanggraphLLM
 
 st.set_page_config(layout="wide")
 session_key: str = "langchain_messages"
@@ -16,7 +17,7 @@ msgs: StreamlitChatMessageHistory = StreamlitChatMessageHistory(key=session_key)
 last_response_stream: Any = None
 
 # Initialize Langgraph class only once
-agent: Langgraph = Langgraph.get_langgraph_instance()
+agent: Langgraph = ReasoningLanggraphLLM.get_langgraph_instance()
 document_vector_storage: DocumentVectorStorage = agent.vectordb
 
 st.title("Bachelor RAG local LLM")
@@ -86,15 +87,16 @@ if selected_tab == "Default":
             llm_response = respond_with_llm()
             assitant_message.write(llm_response)
 
-            rag_context_state = agent.graph.get_state({"configurable": {"thread_id": "1"}}).values["rag_context"]
+            """rag_context_state = agent.graph.get_state({"configurable": {"thread_id": "1"}}).values["rag_context"]
             if len(rag_context_state) > 0:
                 rag_context_str = ''.join([item.page_content for item in rag_context_state])
                 markdown_message = "\n\n:blue[Source]"
                 assitant_message.markdown(markdown_message, help=rag_context_str)
 
                 full_message = llm_response + markdown_message
-            else:
-                full_message = llm_response
+            else:"""
+
+            full_message = llm_response
 
             msgs.add_ai_message(full_message)
 

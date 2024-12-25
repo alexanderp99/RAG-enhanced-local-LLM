@@ -97,6 +97,7 @@ class SearchInDocumentTool(BaseTool):
     name: str = "search_in_document"
     description: str = "Searches for content within documents."
     return_direct: bool = False
+    vectordb: Optional[Any] = None
 
     def __init__(self, database):
         super().__init__()
@@ -245,7 +246,8 @@ class ReasoningLanggraphLLM:
             return {"messages": result}
 
         self.workflow.add_node("reasoner", reasoner)
-        tools = [add, multiply, divide, SearchInDocumentTool()]
+        doctool = SearchInDocumentTool(self.vectordb)
+        tools = [add, multiply, divide, doctool]
         self.workflow.add_node("tools", ToolNode(tools))
 
         self.workflow.set_entry_point("StartNode")
