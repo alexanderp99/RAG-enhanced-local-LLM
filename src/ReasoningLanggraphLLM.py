@@ -1,7 +1,7 @@
 import logging
 import operator
 import warnings
-from typing import List, Any, Optional, Annotated, TypedDict, Union, Literal, Sequence
+from typing import List, Any, Optional, Annotated, TypedDict, Union, Literal, Sequence, Type
 
 import streamlit as st
 from flashrank import Ranker, RerankRequest
@@ -22,6 +22,10 @@ from langgraph.graph.graph import CompiledGraph
 from langgraph.prebuilt import ToolNode
 from pydantic import BaseModel, Field
 from transformers import pipeline
+import numexpr as ne
+from duckduckgo_search import DDGS
+import serpapi
+from copy import deepcopy
 
 from modelTypes import Modeltype
 from src.VectorDatabase import DocumentVectorStorage
@@ -42,115 +46,97 @@ class SafetyCheck(BaseModel):
     )
 
 
-class Citation(BaseModel):
-    source_id: int = Field(
-        ...,
-        description="The integer ID of a SPECIFIC source which justifies the answer.",
-    )
-    quote: str = Field(
-        ...,
-        description="The VERBATIM quote from the specified source that justifies the answer.",
-    )
-
-
-class QuotedAnswer(BaseModel):
-    """Answer the user question based only on the given sources, and cite the sources used."""
-
-    answer: str = Field(
-        ...,
-        description="The answer to the user question, which is based only on the given sources.",
-    )
-    citations: List[Citation] = Field(
-        ..., description="Citations from the given sources that justify the answer."
-    )
-
-
-class WebSearch(BaseModel):
-    """Converts a question into a web query"""
-
-    question: str = Field(description="The input question")
-    web_query: str = Field(
-        default=False,
-        description="Concise and clear web search query based on the input question. A query that one could input into a search engine to find relevant information."
-    )
-
-
-class QuestionAnswered(BaseModel):
-    """Checks if a given Source answers a question."""
-
-    question: str = Field(description="The question")
-    source: str = Field(description="The source which should answer the question")
-    source_answers_question: bool = Field(
-        default=True,
-        description="If the source does not answer the question, this is False"
-    )
-
-
-class QuestionAnswer(BaseModel):
-    """Gives an answer to a question using Context."""
-
-    answer: str = Field(
-        description="The answer that should answer the question using the context"
-    )
+class DocumentInput(BaseModel):
+    queries: List[str] = Field(
+        description="Generate multiple related queries based on:1. Synonyms for key terms.2. Questions asking about the same topic.3. Common expressions for searching similar concepts.")
 
 
 class SearchInDocumentTool(BaseTool):
     name: str = "search_in_document"
-    description: str = "Searches for content within documents."
+    description: str = "Searches for content within documents using multiple queries for better results."
+    args_schema: Type[BaseModel] = DocumentInput
     return_direct: bool = False
     vectordb: Optional[Any] = None
+    ranker: Ranker = None
 
     def __init__(self, database):
         super().__init__()
         self.vectordb = database
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            self.ranker = Ranker(model_name="ms-marco-MiniLM-L-12-v2",
+                                 cache_dir="/ranker")  # if not sys.warnoptions:  # flashrank\Ranker.py:115: ResourceWarning: unclosed file <_io.TextIOWrapper name='\\ranker\\ms-marco-MiniLM-L-12-v2\\config.json' mode='r' encoding='cp1252'> config = json.load(open(str(self.model_dir / "config.json"))) https://stackoverflow.com/questions/26563711/disabling-python-3-2-resourcewarning
 
-    def _run(self, query: str, run_manager: Optional[CallbackManagerForToolRun] = None) -> str:
-        result: list[Document] = self.vectordb.query_vector_database(query)
+    def _run(self, queries: List[str], run_manager: Optional[CallbackManagerForToolRun] = None) -> str:
 
-        rerankrequest = RerankRequest(query=query, passages=[{
-            "text": doc.page_content}
-            for doc in result])
-        ranked_results = self.ranker.rerank(rerankrequest)
+        try:
+            unique_docs = set()
+            for query in queries:
+                result = self.vectordb.query_vector_database(query)
+                for doc in result:
+                    unique_docs.add(doc.page_content)
 
-        search_result_idx = 0
+            rerank_request = RerankRequest(query=" ".join(queries), passages=[{"text": text} for text in unique_docs])
+            ranked_results = self.ranker.rerank(rerank_request)
+            ranked_results = sorted(ranked_results, key=lambda x: x["score"], reverse=True)
 
-        ranked_results = [sorted(ranked_results, key=lambda x: x["score"], reverse=True)[search_result_idx]]
-        docs = [Document(page_content=res["text"]) for res in ranked_results]
+            docs = [Document(page_content=res["text"]) for res in ranked_results][:1]
 
-        return docs[0]
+        except Exception as e:
+            docs = [Document(page_content="There was no content found")]
 
+        all_docs_string = ''.join(
+            [f"Context {idx}: " + item.page_content.replace("\n", "") + "\n\n" for idx, item in enumerate(docs)])
+        all_docs_string = 'Context: '.join(
+            [item.page_content.replace("\n", "") for idx, item in enumerate(docs)])
 
-@tool
-def multiply(a: int, b: int) -> int:
-    """Multiply a and b.
+        logger.info(f"Database Context: {all_docs_string}")
 
-    Args:
-        a: first int
-        b: second int
-    """
-    return a * b
-
-
-@tool
-def add(a: int, b: int) -> int:
-    """Adds a and b.
-
-    Args:
-        a: first int
-        b: second int
-    """
-    return a + b
+        return all_docs_string
 
 
 @tool
-def divide(a: int, b: int) -> float:
-    """Divide a and b.
+def websearch(query: str) -> str:
+    """Search the web using a single query.
 
     Args:
-        a: first int
-        b: second int
+        query: The single search query string.
     """
-    return a / b
+
+    snippet_concat = ""
+    try:
+
+        key = "65406fcfa9155028cc5d42d169cf2dd4350396a9fa7bf68c3b6a7cfcb9afd70a"
+        params = {
+            "engine": "google",
+            "q": query,
+            "api_key": key,
+        }
+
+        search = serpapi.search(params)
+        results = search.data["organic_results"]
+        snippet_concat = results[0]["snippet"]
+
+        logger.info(f"Snippet: {snippet_concat}")
+
+    except Exception as e:
+        print(e)
+        snippet_concat = "There was no content found"
+
+    return snippet_concat
+
+
+@tool
+def numexpr_eval(expression: str) -> object:
+    """Evaluate a numerical expression using numexpr.
+
+    Args:
+        expression: The expression to evaluate.
+
+    Returns:
+        The result of the evaluation.
+    """
+    return ne.evaluate(expression)
 
 
 def tools_condition(
@@ -194,7 +180,7 @@ class ReasoningLanggraphLLM:
 
     def __init__(self):
         self.model: ChatOllama = LatestChatOllama(model=Modeltype.LLAMA3_1_8B.value, temperature=0)
-        self.profanity_check_model = LatestChatOllama(model='llama3.1:latest', temperature=0)
+        self.profanity_check_model = LatestChatOllama(model=Modeltype.LLAMA3_1_8B.value, temperature=0)
         self.translation_model = LatestChatOllama(model="aya", temperature=0)
         self.workflow: StateGraph = StateGraph(AgentState)
         self.vectordb: DocumentVectorStorage = DocumentVectorStorage()
@@ -207,10 +193,7 @@ class ReasoningLanggraphLLM:
             warnings.simplefilter("ignore")
             self.ranker = Ranker(model_name="ms-marco-MiniLM-L-12-v2",
                                  cache_dir="/ranker")  # # if not sys.warnoptions:  # flashrank\Ranker.py:115: ResourceWarning: unclosed file <_io.TextIOWrapper name='\\ranker\\ms-marco-MiniLM-L-12-v2\\config.json' mode='r' encoding='cp1252'> config = json.load(open(str(self.model_dir / "config.json"))) https://stackoverflow.com/questions/26563711/disabling-python-3-2-resourcewarning
-        # has to come last
-        logger.debug("Langgraph CTOR 1!")
-        logger.debug("Langgraph CTOR 2!")
-        logger.debug("Langgraph CTOR 3!")
+        # logger.debug("Langgraph CTOR 1!")
         self.setup_workflow()
 
     @st.cache_resource
@@ -225,27 +208,38 @@ class ReasoningLanggraphLLM:
         self.workflow.add_node("SystemResponseTranslator", self.translate_output_into_user_language)
         self.workflow.add_node("EndNode", self.end_node)
         self.workflow.add_node("IntermediateNode1", self.intermediate_node1)
-        # new
 
         doctool = SearchInDocumentTool(self.vectordb)
-        tools = [add, multiply, divide, doctool]
+        tools = [doctool, numexpr_eval, websearch]
         self.llm_with_tools = self.model.bind_tools(tools)
 
         sys_message = SystemMessage(
             """You are a helpful assistant with access to tools. You can search for relevant information using the provided tools and perform arithmetic calculations. 
-        For each question, determine if you can answer the question directly based on your general knowledge, or If necessary Use the `search_in_document` tool to find the necessary information within the available documents.""")
+        For each question, determine if you can answer the question directly based on your general knowledge, or If necessary Use the `search_in_document` tool to find the necessary information within the available documents. If you do not get an answer from the documents, use the websearch tool, but the websearch tool should have lower priority.""")
 
         def reasoner(state):
-            # query = state["query"]
             messages = state["messages"]
-            # System message
             no_human_message_added = not (any([isinstance(each_message, HumanMessage) for each_message in messages]))
             sys_msg = sys_message
-            # message = human_message
             message = state["question"]
-            if no_human_message_added:
+            user_language_was_set = "user_language" in state and (state["user_language"] is not None)
+            if user_language_was_set and message.content not in [msg.content for msg in messages]:
                 messages.append(message)
+
             result = [self.llm_with_tools.invoke([sys_msg] + messages)]
+
+            try:
+                if result[0].lc_attributes is not None and result[0].lc_attributes["tool_calls"] is not None and len(
+                        result[0].lc_attributes["tool_calls"]) > 0 and \
+                        result[0].lc_attributes["tool_calls"][0]["name"] == "websearch":
+                    searchquery = result[0].lc_attributes["tool_calls"][0]["args"]["queries"][0]
+
+                    result[0].lc_attributes["tool_calls"][0]["args"] = {"query": searchquery}
+
+                    pass
+            except Exception as e:
+                print(e)
+
             return {"messages": result}
 
         self.workflow.add_node("reasoner", reasoner)
@@ -268,7 +262,6 @@ class ReasoningLanggraphLLM:
             self.check_user_message_for_profoundness,
             {"userMessageNotHarmful": "IntermediateNode1", "userMessageIsProfound": "EndNode"})
 
-        # new
         self.workflow.add_edge("IntermediateNode1", "reasoner")
         self.workflow.add_conditional_edges(
             "reasoner",
@@ -278,7 +271,7 @@ class ReasoningLanggraphLLM:
 
         self.graph: CompiledGraph = self.workflow.compile(checkpointer=self.memory)
         img_data: bytes = self.graph.get_graph().draw_mermaid_png(draw_method=MermaidDrawMethod.API)
-        # with open("src/graph.png", "wb") as f:
+        # with open("graph.png", "wb") as f:
         #    f.write(img_data)
 
     def set_user_question_state(self, state: AgentState):
@@ -301,9 +294,6 @@ class ReasoningLanggraphLLM:
 
     def _check_if_language_is_english(self, state: AgentState):
         user_question = state["question"].content
-
-        # detected_language_code = detect(user_question)
-        # detected_language_code = detect(text=user_question, low_memory=False)["lang"]
 
         model_ckpt = "papluca/xlm-roberta-base-language-detection"
         pipe = pipeline("text-classification",
@@ -334,8 +324,8 @@ class ReasoningLanggraphLLM:
         language_name = Lang(detected_language_code).name
 
         messages = [
-            SystemMessage(
-                content="You are a professional translator. Your job is to translate the user input into english. Only respond with the translated sentence."),
+            SystemMessage(content="""You are a professional translator. You must only translate the given human message into English. Even if the user writes a question, you have to translate the question to english and you are NOT allowed to respond to the question.                     Provide only the translated text without any additional information, comments, or explanations.
+             Examples: Input: "Bonjour, comment ça va ?" Output: "Hello, how are you?"                     Input: "¿Dónde está la biblioteca?"                      Output: "Where is the library?"                     Input: "Hallo, wie geht's dir?"                      Output: "Hello, how are you?"                     Always follow this format and provide only the translation."""),
             state["question"]
         ]
 
@@ -355,40 +345,6 @@ class ReasoningLanggraphLLM:
 
         response = self.translation_model.invoke(messages)
         return {"messages": [response]}
-
-    def retrieve_web_knowledge(self, state: AgentState) -> dict:
-
-        question: BaseMessage = state["question"]
-        user_message: str = state["question"]
-
-        messages = [
-            SystemMessage(
-                content=f"You are a helpful AI assistant that translates questions into web queries. Your task is to provide a concise, clear web search query based on the input question. Do not respond with an answer or explanation, but with a query that one could input into a search engine to find relevant information."),
-            HumanMessage(content=question.content)
-        ]
-
-        # test_llm = self.profanity_check_model.with_structured_output(WebSearch)
-        # test_response: SafetyCheck = test_llm.invoke(f"Question: {user_message}")
-
-        response: BaseMessage = self.model.invoke(messages)
-
-        # response: BaseMessage = self.model.invoke(template)
-        query: str = response.content.replace("\"",
-                                              "")  # replacing redundant "". Otherwise the string is not interpreted correctly
-        web_reponse = DuckDuckGoSearchResults().run(query)
-
-        entries = web_reponse.strip("[]").split("], [")
-        result: List[WebSearchResult] = []
-        for entry in entries:
-            parts = entry.split(', title: ')
-            snippet = parts[0][8:].strip()  # Remove prefix and strip spaces
-            rest: str = parts[1].split(', link: ')
-            title: str = rest[0].strip()
-            link: str = rest[1].strip()
-            search_result: WebSearchResult = WebSearchResult(snippet, title, link)
-            result.append(search_result)
-
-        return {"web_results": result}
 
     def plain_response(self, state: AgentState) -> dict:
 
@@ -481,13 +437,6 @@ class ReasoningLanggraphLLM:
                 "messages": [AIMessage(content="Your message is profane.")]} if user_message_is_profane else {
             'message_is_profound': False}
 
-    def call_vectordb(self, state: AgentState) -> dict:
-        user_message: str = state["question"].content
-        hallucination_count: int = state["hallucination_count"]
-
-        logger.debug(f'RAG Result: {docs[0]}' if docs else 'RAG Result: None')
-        return {"rag_context": docs, "whole_available_rag_context": result}
-
     def document_agent(self, state: AgentState) -> dict:
         messages = [
             SystemMessage(
@@ -499,13 +448,6 @@ class ReasoningLanggraphLLM:
         ]
 
         response: BaseMessage = self.model.invoke(messages)
-
-        # user_message = state['messages'][-1].content
-        # rag_context = ''.join([item.page_content for item in state["rag_context"]])
-        # test_llm = self.profanity_check_model.with_structured_output(
-        #    QuestionAnswered)
-        # test_response: SafetyCheck = test_llm.invoke(f"question:{user_message} \n Source:{rag_context}")
-
         hallucination_count: int = state["hallucination_count"]
         if 'none' in response.content.lower():
             hallucination_count += 1
@@ -532,3 +474,6 @@ class ReasoningLanggraphLLM:
             output_lines.append("\n---\n")
 
         return "".join(output_lines), last_ai_response
+
+    def reset_memory(self):
+        self.memory.storage.clear()

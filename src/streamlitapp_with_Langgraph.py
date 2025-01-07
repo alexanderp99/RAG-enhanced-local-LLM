@@ -17,15 +17,19 @@ msgs: StreamlitChatMessageHistory = StreamlitChatMessageHistory(key=session_key)
 last_response_stream: Any = None
 
 # Initialize Langgraph class only once
-agent: Langgraph = ReasoningLanggraphLLM.get_langgraph_instance()
+agent: ReasoningLanggraphLLM = ReasoningLanggraphLLM.get_langgraph_instance()
 document_vector_storage: DocumentVectorStorage = agent.vectordb
-
-st.title("Bachelor RAG local LLM")
 
 selected_tab: str | None = st.sidebar.selectbox("Select Tab", ["Default", "vectordb"])
 
-if "enable_document_search_button" not in st.session_state:
-    st.session_state.enable_document_search_button = True
+
+def clear_langgraph_conversation():
+    agent.reset_memory()
+    st.session_state.reset_langgraph_cache_button = False
+
+
+if "reset_langgraph_cache_button" not in st.session_state:
+    st.session_state.reset_langgraph_cache_button = False
 if "enable_profanity_check_button" not in st.session_state:
     st.session_state.enable_profanity_check_button = False
 if "enable_hallucination_check_button" not in st.session_state:
@@ -34,10 +38,8 @@ if "enable_hallucination_check_button" not in st.session_state:
 if selected_tab == "Default":
     uploaded_document_names: list[str] = []
 
-    st.session_state.enable_document_search_button = st.toggle(
-        "Enable Document Search", value=st.session_state.enable_document_search_button)
+    st.button("Reset Conversation Memory", on_click=clear_langgraph_conversation)
 
-    agent.allow_document_search = st.session_state.enable_document_search_button
     agent.allow_profanity_check = st.session_state.enable_profanity_check_button
     agent.allow_hallucination_check = st.session_state.enable_hallucination_check_button
 
@@ -86,15 +88,6 @@ if selected_tab == "Default":
             msgs.add_user_message(user_prompt)
             llm_response = respond_with_llm()
             assitant_message.write(llm_response)
-
-            """rag_context_state = agent.graph.get_state({"configurable": {"thread_id": "1"}}).values["rag_context"]
-            if len(rag_context_state) > 0:
-                rag_context_str = ''.join([item.page_content for item in rag_context_state])
-                markdown_message = "\n\n:blue[Source]"
-                assitant_message.markdown(markdown_message, help=rag_context_str)
-
-                full_message = llm_response + markdown_message
-            else:"""
 
             full_message = llm_response
 

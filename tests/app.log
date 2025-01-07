@@ -1,672 +1,108 @@
-2024-10-19 11:56:52,061 - datasets - INFO - PyTorch version 2.2.2 available.
-2024-10-19 11:56:52,505 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
-2024-10-19 12:05:41,578 - datasets - INFO - PyTorch version 2.2.2 available.
-2024-10-19 12:05:41,897 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
-2024-10-19 12:05:51,531 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 12:06:05,560 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 12:06:10,068 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 12:06:12,283 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 12:06:15,776 - rquest.connect - DEBUG - starting new connection: https://duckduckgo.com/
-2024-10-19 12:06:16,194 - primp - INFO - response: https://duckduckgo.com/ 202 14134
-2024-10-19 12:06:16,195 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 14134
-2024-10-19 12:06:17,689 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 12:06:18,576 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 12:06:21,198 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 12:06:23,935 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 12:06:26,860 - rquest.connect - DEBUG - starting new connection: https://duckduckgo.com/
-2024-10-19 12:06:27,194 - primp - INFO - response: https://duckduckgo.com/ 202 13571
-2024-10-19 12:06:27,194 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 13571
-2024-10-19 12:07:56,832 - datasets - INFO - PyTorch version 2.2.2 available.
-2024-10-19 12:07:56,971 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
-2024-10-19 12:08:14,777 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 14134
-2024-10-19 12:08:25,845 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 13575
-2024-10-19 12:10:35,455 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 14134
-2024-10-19 12:10:46,384 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 13581
-2024-10-19 19:22:00,849 - datasets - INFO - PyTorch version 2.2.2 available.
-2024-10-19 19:22:01,235 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
-2024-10-19 19:22:03,258 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
-2024-10-19 19:22:03,457 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
-2024-10-19 19:22:07,603 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 19:22:30,276 - datasets - INFO - PyTorch version 2.2.2 available.
-2024-10-19 19:22:30,426 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
-2024-10-19 19:22:32,275 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
-2024-10-19 19:22:32,395 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
-2024-10-19 19:22:36,266 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 19:22:40,354 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 19:22:44,883 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 19:22:47,083 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 19:22:50,588 - rquest.connect - DEBUG - starting new connection: https://duckduckgo.com/
-2024-10-19 19:22:50,977 - primp - INFO - response: https://duckduckgo.com/ 202 14136
-2024-10-19 19:22:50,977 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 14136
-2024-10-19 19:22:52,376 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 19:22:53,271 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 19:22:55,860 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 19:22:58,602 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 19:23:01,538 - rquest.connect - DEBUG - starting new connection: https://duckduckgo.com/
-2024-10-19 19:23:01,802 - primp - INFO - response: https://duckduckgo.com/ 202 13572
-2024-10-19 19:23:01,802 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 13572
-2024-10-19 19:35:00,430 - datasets - INFO - PyTorch version 2.2.2 available.
-2024-10-19 19:35:00,584 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
-2024-10-19 19:35:03,015 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
-2024-10-19 19:35:03,133 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
-2024-10-19 19:35:07,176 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 19:35:11,005 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 19:35:15,589 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 19:35:17,773 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 19:35:21,012 - rquest.connect - DEBUG - starting new connection: https://duckduckgo.com/
-2024-10-19 19:35:21,419 - primp - INFO - response: https://duckduckgo.com/ 202 14139
-2024-10-19 19:35:21,419 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 14139
-2024-10-19 19:35:22,815 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 19:35:23,695 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 19:35:26,284 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 19:35:29,017 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 19:35:31,921 - rquest.connect - DEBUG - starting new connection: https://duckduckgo.com/
-2024-10-19 19:35:32,350 - primp - INFO - response: https://duckduckgo.com/ 202 13571
-2024-10-19 19:35:32,351 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 13571
-2024-10-19 19:57:44,546 - datasets - INFO - PyTorch version 2.2.2 available.
-2024-10-19 19:57:44,694 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
-2024-10-19 19:57:46,960 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
-2024-10-19 19:57:47,076 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
-2024-10-19 20:04:14,822 - datasets - INFO - PyTorch version 2.2.2 available.
-2024-10-19 20:04:14,964 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
-2024-10-19 20:04:16,869 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
-2024-10-19 20:04:16,986 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
-2024-10-19 20:04:21,097 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 20:04:21,578 - src.LanggraphLLM - DEBUG - RAG Result: page_content='0043 (0) 6462 2213 An on-call chemist is available outside of business hours please refer to the following link or inquire on the reception. http://www.apothekenindex.at
-
-Cleaning during your stay If you would like your chalet cleaned during your stay, please come to our reception to arrange times (vacuuming, cleaning the bathroom, towel change …..) Charges will be applied depending on cleaning duration
-
-Climbing for Kids High Rope Climing Garden at the middle station of the Dorfbahn Cable Car
-
-Dinner Delivery service from Restaurant Chili,
-
-Monday and Tuesday -  FONDUE Thursday and Friday – “Ripperl” Spare Ribs Please note your order must be placed online by 11am or ask at the reception for further information. You may pay in cash directly upon delivery. Dentist
-
-Pfarrwerfen:
-
-Dr.med.univ. Othmar Frühmann, Ph. 0043 (0) 6468 7577 Monday to Thursday 10am – 2pm and 2.30pm – 5pm
-
-Werfen:
-
-Dr.med.univ. Manfred Geringer, Ph. 0043 (0) 6468 8283 0 Monday 8am – 11am Tuesday to Thursday 8am – 11am and 1pm – 4pm or Wednesday 1pm – 4pm
-
-Doctor’s Surgery Pfarrwerfen: Dr. Christoph Fürthauer, Ph. 0043 (0) 6468 5402 0
-
-Hours:
-
-Mon, Tue, Wed and Fri 7.30 – 11am Mon and Wed 5 – 6pm Please call for an appointment. (You will require your passport or E-Card)
-
-Werfen: Dr. Kay Drabeck
-
-Ph. 0043 (0) 6468/5264
-
-Markt 23 (1st floor)
-
-Ordination:
-
-Mo 07.00
-
-
-
-12.00
-
-Tue15.00
-
-
-
-19.00
-
-Me 09.30
-
-
-
-12.00
-
-Th 15.00
-
-
-
-19.00
-
-Fr 07.30
-
-
-
-12.00
-
-Dogs We kindly request that dogs do not enter bedrooms and are not allowed on furniture. Just near the reception your will find a dog station providing plastic bags for your dogs’ waste. Please respect other guests by keeping your dog on a lead at all times and keeping barking to a minimum. Dog wastes can contaminate our cow grazing areas so please pick up after your pet. We wish to remind you that dogs must be kept on a lead within the village of Werfenweng at all time´s. For the final cleaning we charge € 35,- per dog and stay on your bill. Farmers Market Werfenweng Specialties from regional farmers, Ph.'
-2024-10-19 20:04:25,007 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 20:04:25,420 - src.LanggraphLLM - DEBUG - RAG Result: page_content='0043 (0) 6466 789
-
-Open from 9am – 6pm. Closed Thursday and Sunday Situated behind the Travel Charm Berg Resort Hotel in the centre of the village. Fire Extinguisher There is a fire extinguisher located in the entry foyer of every chalet. Fire Place To allow a flow of air into the fireplace please ensure the lever is positioned to the +. Once the flame has died, you may move the lever to the - to ensure the heat is stored within the fire place. Never remove ash yourself. If you feel there is too much ash, please inform us in the reception. Ash can usually be collected for up to a week depending on the amount of fire wood used. Fire Wood Please help yourself to the firewood we have provided around the chalets. Fondue Every Monday and Tuesday you have the option to order Fondue to be delivered to your chalet. Please use the yellow bucket under the sink for old oil. Your order may be placed in woodridge.myoha.at
-
-Golf As a Guest of Wood Ridge you are entitled to cheaper green fees at the Open Golf course. St Johann located just 15minutes away. Please ask on the reception for your discount voucher. Hair Dresser Mobile hair dresser Sonja comes directly to your chalet. Appointments are necessary. Ph. 0043 (0) 664 1702066
-
-Hiking Guided hiking tours, Ph. 0043 (0) 6466 420 Inquire and register in the tourist info! For High Alpine Tours please contact the Sport Store “Alpin” Ph. 0043 (0) 6466 391570
-
-Horse and Carriage Rides Steiger Simon, Ph. 0043 (0) 6466 682 or 0043 (0) 664 5852319 Carriage rides, horseback riding, trail rides, Please call to arrange riding times
-
-Internet Free Wifi is provided in each chalet. Password: Woodridge
-
-For unwanted Electric Smog, feel free to unplug the router. Lost and Found Council chambers in Werfenweng, Ph. 0043 (0) 6466 414
-
-Massages Massages are conducted directly in your chalet. Order a time slot online in myoha. The type of massage may be disscussed with the therapist directly. Moutain Huts Alpengasthof Bischlinghöhe, Ph. 0043 (0) 664 5123785
-
-Anton-Proksch-Haus, Ph. 0043 (0) 6466 673
-
-Auszeit, Ph. 0043 (0) 650 2200480
-
-Bischlingalm, Ph. 0043 (0) 650 7506311
-
-Dr.-Heinrich-Hackel-Hütte, Ph. 0043 (0) 664 3429 114
-
-Elmaualm, Ph. 0043 (0) 664 9169900
-
-Frommeralm, Ph. 0043 (0) 664 2336819
-
-Gamsblickalm, Ph. 0043 (0) 6466 489
-
-Mahdeggalm, Ph. 0043 (0) 6468 7110
-
-Mayrhofalm, Ph. 0043 (0) 664 4515757
-
-Moosalm am Ladenberg, Ph. 0043 (0) 664 1500439
-
-Paragliding in Werfenweng Tandem flights / Flight school:
-
-Sepp & Stefan Rebernig, Ph. 0043 (0) 664 4420 002 or  0043 (0) 664 3562 468 Fly Tandem, Ph. 0043 (0) 650 8263361 Payment options in Wood Ridge We accept: Master Card, Visa, Diners,Maestro and Cash
-
-Petrol Station (6km)
-
-Pfarrwerfen:
-
-BP Imlau, Ph. 0043 (0 )6468 5327 Monday to Saturday 6am – 10pm Sunday and Friday 8am – 8pm
-
-IQ Tankstelle, Johann Buchsteiner, Ph. 0043 (0) 6468 5416 Monday to Friday 7am – 7pm Saturday 7am – 5pm Closed on Sundays and Public Holidays Post Office Within the supermarket Nah & Frisch Werfenweng – Nah & Frisch: Ph. 0043 (0) 6466 409
-
-Reception Opening hours: daily 8am to midday and 3pm to 5pm Call any time between 8am and 9pm Reception, Ph. 0043 (0) 664 123 30 87
-
-For emergencies after 9pm,
-
-Ph. 0043 (0) 6645570737
-
-Restaurants Almstüberl zan Hascht, Ph. 0043 (0) 6466 20090 (closed We and Thu) Auszeit top station of the Rosnerköpfl, Ph. 0043 (0) 650 2200480 Chili im Wenghof, Ph. 0043 (0) 6466 20051 Gasthof Barbarahof, Ph. 0043 (0) 6466 402 Gasthof Schöntal, Ph. 0043 (0) 6466 447 Gasthof Strassreith, Ph. 0043 (0) 6466 408 Gasthof Tennenblick, Ph. 0043 (0) 6466 451 Restaurant Alpenzeit (Gaultmillau), Ph. 0043 (0) 6466 391504 (closed Sun and Mo) Restaurant Eulersberg, Ph. 0043 (0) 664 2225151 (closed Mo) Seealmstüberl (next to the lake), Ph. 0043 (0) 6466 20031 Stoa Alm (Burger and Snack and Bar), Ph. 0043 (0) 650 2200480 Stroblhaus, Ph. 0043 (0 )6466 391533 (closed Tue) Strussingalm on the mountain, Ph. 0043 (0) 6466 449 or 473 Wenger Alpenhof, Ph. 0043 (0) 660 7816609 Werfenwenger Bauernladen, Ph. 0043 (0) 6466 789 (closed Thu and Sun) Zistelberghof, Ph. 0043 (0) 6466 443 Road Side Assistance St. Johann/Pg. : ÖAMTC SAMTC, Ph.'
-2024-10-19 20:04:29,595 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 20:04:29,976 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Important Information from A
-
-
-
-Z Summer 2022
-
-Emergency Call 112 International Emergency Call (without SIM-Card possible) 122 Fire Service 133 Police 140 Alpine-Emergency Call 141 Doctor-Emergency Service 144 Ambulance
-
-Archery Range Peter Ampferer (Pfarrwerfen), Ph. 0043 (0) 664 1422533 With 3D animal targets.'
-2024-10-19 20:04:31,873 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 20:04:32,297 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Please call to arrange opening times. Banks Raiffeisenkassen: Werfenweng, Ph. 0043 (0) 6466 440 (ATM) International
-
-Pfarrwerfen, Ph. 0043 (0) 6468 5486 (ATM) International
-
-Werfen, Ph. 0043 (0) 6468 5254 (ATM) International
-
-Bars Stoa Alm, Ph. 0043 (0) 650 2200480 Stroblhaus, Ph. 0043 (0) 6466 3910
-
-Bike Rental Sport Alpin, Ph. 0043 (0) 20221 or 0043 (0) 391570 next to the cable car station Rosnerköpfl in the village Bikes, mountainbikes, e-bikes and more…. For WERFENWENG-CARD holders the rental is free
-
-Bowling Experience the Austrian form of bowling in restaurant Schwungradl in Pfarrwerfen, Ph. 0043 (0) 64687979
-
-Breakfast Your BIO-breakfast basket will be delivered to your door at approximately 8 am the morning after your arrival.'
-2024-10-19 20:04:35,205 - rquest.connect - DEBUG - starting new connection: https://duckduckgo.com/
-2024-10-19 20:04:35,618 - primp - INFO - response: https://duckduckgo.com/ 202 14136
-2024-10-19 20:04:35,618 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 14136
-2024-10-19 20:04:37,095 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 20:04:37,328 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Ph. 0043 (0) 6466 789
-
-Cable Car Werfenweng Werfenweng, Tel. 0043 (0) 6466 614 daily operation hours from 09 to 12 am and 1 to 4.45 pm
-
-In case of bad weather (raining in the morning) the cable car will not operate
-
-Pre-season: 08.12.2022 - 11.12.2022
-
-Season start: 17.12.2022
-
-High season: 17.12.2022 - 08.01.2023 & 28.01.2023 - 05.03.2023
-
-Mid season: 09.01.2023 - 27.01.2023
-
-Post-season: 06.03.2023 - 10.04.2023
-
-possible changes due to current snow conditions and official regulations. Car Rental
-
-Tourist INFO Werfenweng,
-
-Ph. 0043 (0) 06466 42040
-
-“Grashoppers” (Bio-Gas-Car 0,1cent /km) or Smile-E (Electric-Car) BMWs
-
-For WERFENWENG-CARD holders is the rental for free
-
-Check in/Check out times In order to make your stay at Wood Ridge comfortable we value high standards of cleanliness and for this reason the cleaning takes a considerable amount of time. With this in mind, we kindly request that you abide by our check in & check out times.'
-2024-10-19 20:04:38,030 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 20:04:38,237 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Please call to arrange opening times. Banks Raiffeisenkassen: Werfenweng, Ph. 0043 (0) 6466 440 (ATM) International
-
-Pfarrwerfen, Ph. 0043 (0) 6468 5486 (ATM) International
-
-Werfen, Ph. 0043 (0) 6468 5254 (ATM) International
-
-Bars Stoa Alm, Ph. 0043 (0) 650 2200480 Stroblhaus, Ph. 0043 (0) 6466 3910
-
-Bike Rental Sport Alpin, Ph. 0043 (0) 20221 or 0043 (0) 391570 next to the cable car station Rosnerköpfl in the village Bikes, mountainbikes, e-bikes and more…. For WERFENWENG-CARD holders the rental is free
-
-Bowling Experience the Austrian form of bowling in restaurant Schwungradl in Pfarrwerfen, Ph. 0043 (0) 64687979
-
-Breakfast Your BIO-breakfast basket will be delivered to your door at approximately 8 am the morning after your arrival.'
-2024-10-19 20:04:40,706 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 20:04:40,893 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Important Information from A
-
-
-
-Z Summer 2022
-
-Emergency Call 112 International Emergency Call (without SIM-Card possible) 122 Fire Service 133 Police 140 Alpine-Emergency Call 141 Doctor-Emergency Service 144 Ambulance
-
-Archery Range Peter Ampferer (Pfarrwerfen), Ph. 0043 (0) 664 1422533 With 3D animal targets.'
-2024-10-19 20:04:43,535 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 20:04:43,722 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Check in 3 – 5pm Check out 8 - 10am Chemist Werfen: Sonnenapotheke, Ph. 0043 (0) 6468 5282
-
-Bischofshofen: Löwenapotheke, Ph. 0043 (0) 6462 2772
-
-Bischofshofen: Marienapotheke, Ph.'
-2024-10-19 20:04:53,820 - datasets - INFO - PyTorch version 2.2.2 available.
-2024-10-19 20:04:53,967 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
-2024-10-19 20:04:55,970 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
-2024-10-19 20:04:56,092 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
-2024-10-19 20:05:00,033 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 20:05:00,453 - src.LanggraphLLM - DEBUG - RAG Result: page_content='0043 (0) 6462 2213 An on-call chemist is available outside of business hours please refer to the following link or inquire on the reception. http://www.apothekenindex.at
-
-Cleaning during your stay If you would like your chalet cleaned during your stay, please come to our reception to arrange times (vacuuming, cleaning the bathroom, towel change …..) Charges will be applied depending on cleaning duration
-
-Climbing for Kids High Rope Climing Garden at the middle station of the Dorfbahn Cable Car
-
-Dinner Delivery service from Restaurant Chili,
-
-Monday and Tuesday -  FONDUE Thursday and Friday – “Ripperl” Spare Ribs Please note your order must be placed online by 11am or ask at the reception for further information. You may pay in cash directly upon delivery. Dentist
-
-Pfarrwerfen:
-
-Dr.med.univ. Othmar Frühmann, Ph. 0043 (0) 6468 7577 Monday to Thursday 10am – 2pm and 2.30pm – 5pm
-
-Werfen:
-
-Dr.med.univ. Manfred Geringer, Ph. 0043 (0) 6468 8283 0 Monday 8am – 11am Tuesday to Thursday 8am – 11am and 1pm – 4pm or Wednesday 1pm – 4pm
-
-Doctor’s Surgery Pfarrwerfen: Dr. Christoph Fürthauer, Ph. 0043 (0) 6468 5402 0
-
-Hours:
-
-Mon, Tue, Wed and Fri 7.30 – 11am Mon and Wed 5 – 6pm Please call for an appointment. (You will require your passport or E-Card)
-
-Werfen: Dr. Kay Drabeck
-
-Ph. 0043 (0) 6468/5264
-
-Markt 23 (1st floor)
-
-Ordination:
-
-Mo 07.00
-
-
-
-12.00
-
-Tue15.00
-
-
-
-19.00
-
-Me 09.30
-
-
-
-12.00
-
-Th 15.00
-
-
-
-19.00
-
-Fr 07.30
-
-
-
-12.00
-
-Dogs We kindly request that dogs do not enter bedrooms and are not allowed on furniture. Just near the reception your will find a dog station providing plastic bags for your dogs’ waste. Please respect other guests by keeping your dog on a lead at all times and keeping barking to a minimum. Dog wastes can contaminate our cow grazing areas so please pick up after your pet. We wish to remind you that dogs must be kept on a lead within the village of Werfenweng at all time´s. For the final cleaning we charge € 35,- per dog and stay on your bill. Farmers Market Werfenweng Specialties from regional farmers, Ph.'
-2024-10-19 20:05:01,756 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 20:05:02,145 - src.LanggraphLLM - DEBUG - RAG Result: page_content='0043 (0) 6466 789
-
-Open from 9am – 6pm. Closed Thursday and Sunday Situated behind the Travel Charm Berg Resort Hotel in the centre of the village. Fire Extinguisher There is a fire extinguisher located in the entry foyer of every chalet. Fire Place To allow a flow of air into the fireplace please ensure the lever is positioned to the +. Once the flame has died, you may move the lever to the - to ensure the heat is stored within the fire place. Never remove ash yourself. If you feel there is too much ash, please inform us in the reception. Ash can usually be collected for up to a week depending on the amount of fire wood used. Fire Wood Please help yourself to the firewood we have provided around the chalets. Fondue Every Monday and Tuesday you have the option to order Fondue to be delivered to your chalet. Please use the yellow bucket under the sink for old oil. Your order may be placed in woodridge.myoha.at
-
-Golf As a Guest of Wood Ridge you are entitled to cheaper green fees at the Open Golf course. St Johann located just 15minutes away. Please ask on the reception for your discount voucher. Hair Dresser Mobile hair dresser Sonja comes directly to your chalet. Appointments are necessary. Ph. 0043 (0) 664 1702066
-
-Hiking Guided hiking tours, Ph. 0043 (0) 6466 420 Inquire and register in the tourist info! For High Alpine Tours please contact the Sport Store “Alpin” Ph. 0043 (0) 6466 391570
-
-Horse and Carriage Rides Steiger Simon, Ph. 0043 (0) 6466 682 or 0043 (0) 664 5852319 Carriage rides, horseback riding, trail rides, Please call to arrange riding times
-
-Internet Free Wifi is provided in each chalet. Password: Woodridge
-
-For unwanted Electric Smog, feel free to unplug the router. Lost and Found Council chambers in Werfenweng, Ph. 0043 (0) 6466 414
-
-Massages Massages are conducted directly in your chalet. Order a time slot online in myoha. The type of massage may be disscussed with the therapist directly. Moutain Huts Alpengasthof Bischlinghöhe, Ph. 0043 (0) 664 5123785
-
-Anton-Proksch-Haus, Ph. 0043 (0) 6466 673
-
-Auszeit, Ph. 0043 (0) 650 2200480
-
-Bischlingalm, Ph. 0043 (0) 650 7506311
-
-Dr.-Heinrich-Hackel-Hütte, Ph. 0043 (0) 664 3429 114
-
-Elmaualm, Ph. 0043 (0) 664 9169900
-
-Frommeralm, Ph. 0043 (0) 664 2336819
-
-Gamsblickalm, Ph. 0043 (0) 6466 489
-
-Mahdeggalm, Ph. 0043 (0) 6468 7110
-
-Mayrhofalm, Ph. 0043 (0) 664 4515757
-
-Moosalm am Ladenberg, Ph. 0043 (0) 664 1500439
-
-Paragliding in Werfenweng Tandem flights / Flight school:
-
-Sepp & Stefan Rebernig, Ph. 0043 (0) 664 4420 002 or  0043 (0) 664 3562 468 Fly Tandem, Ph. 0043 (0) 650 8263361 Payment options in Wood Ridge We accept: Master Card, Visa, Diners,Maestro and Cash
-
-Petrol Station (6km)
-
-Pfarrwerfen:
-
-BP Imlau, Ph. 0043 (0 )6468 5327 Monday to Saturday 6am – 10pm Sunday and Friday 8am – 8pm
-
-IQ Tankstelle, Johann Buchsteiner, Ph. 0043 (0) 6468 5416 Monday to Friday 7am – 7pm Saturday 7am – 5pm Closed on Sundays and Public Holidays Post Office Within the supermarket Nah & Frisch Werfenweng – Nah & Frisch: Ph. 0043 (0) 6466 409
-
-Reception Opening hours: daily 8am to midday and 3pm to 5pm Call any time between 8am and 9pm Reception, Ph. 0043 (0) 664 123 30 87
-
-For emergencies after 9pm,
-
-Ph. 0043 (0) 6645570737
-
-Restaurants Almstüberl zan Hascht, Ph. 0043 (0) 6466 20090 (closed We and Thu) Auszeit top station of the Rosnerköpfl, Ph. 0043 (0) 650 2200480 Chili im Wenghof, Ph. 0043 (0) 6466 20051 Gasthof Barbarahof, Ph. 0043 (0) 6466 402 Gasthof Schöntal, Ph. 0043 (0) 6466 447 Gasthof Strassreith, Ph. 0043 (0) 6466 408 Gasthof Tennenblick, Ph. 0043 (0) 6466 451 Restaurant Alpenzeit (Gaultmillau), Ph. 0043 (0) 6466 391504 (closed Sun and Mo) Restaurant Eulersberg, Ph. 0043 (0) 664 2225151 (closed Mo) Seealmstüberl (next to the lake), Ph. 0043 (0) 6466 20031 Stoa Alm (Burger and Snack and Bar), Ph. 0043 (0) 650 2200480 Stroblhaus, Ph. 0043 (0 )6466 391533 (closed Tue) Strussingalm on the mountain, Ph. 0043 (0) 6466 449 or 473 Wenger Alpenhof, Ph. 0043 (0) 660 7816609 Werfenwenger Bauernladen, Ph. 0043 (0) 6466 789 (closed Thu and Sun) Zistelberghof, Ph. 0043 (0) 6466 443 Road Side Assistance St. Johann/Pg. : ÖAMTC SAMTC, Ph.'
-2024-10-19 20:05:06,389 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 20:05:06,812 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Important Information from A
-
-
-
-Z Summer 2022
-
-Emergency Call 112 International Emergency Call (without SIM-Card possible) 122 Fire Service 133 Police 140 Alpine-Emergency Call 141 Doctor-Emergency Service 144 Ambulance
-
-Archery Range Peter Ampferer (Pfarrwerfen), Ph. 0043 (0) 664 1422533 With 3D animal targets.'
-2024-10-19 20:05:08,632 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 20:05:09,009 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Please call to arrange opening times. Banks Raiffeisenkassen: Werfenweng, Ph. 0043 (0) 6466 440 (ATM) International
-
-Pfarrwerfen, Ph. 0043 (0) 6468 5486 (ATM) International
-
-Werfen, Ph. 0043 (0) 6468 5254 (ATM) International
-
-Bars Stoa Alm, Ph. 0043 (0) 650 2200480 Stroblhaus, Ph. 0043 (0) 6466 3910
-
-Bike Rental Sport Alpin, Ph. 0043 (0) 20221 or 0043 (0) 391570 next to the cable car station Rosnerköpfl in the village Bikes, mountainbikes, e-bikes and more…. For WERFENWENG-CARD holders the rental is free
-
-Bowling Experience the Austrian form of bowling in restaurant Schwungradl in Pfarrwerfen, Ph. 0043 (0) 64687979
-
-Breakfast Your BIO-breakfast basket will be delivered to your door at approximately 8 am the morning after your arrival.'
-2024-10-19 20:05:11,867 - rquest.connect - DEBUG - starting new connection: https://duckduckgo.com/
-2024-10-19 20:05:12,200 - primp - INFO - response: https://duckduckgo.com/ 202 14138
-2024-10-19 20:05:12,201 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 14138
-2024-10-19 20:05:13,773 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 20:05:13,953 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Ph. 0043 (0) 6466 789
-
-Cable Car Werfenweng Werfenweng, Tel. 0043 (0) 6466 614 daily operation hours from 09 to 12 am and 1 to 4.45 pm
-
-In case of bad weather (raining in the morning) the cable car will not operate
-
-Pre-season: 08.12.2022 - 11.12.2022
-
-Season start: 17.12.2022
-
-High season: 17.12.2022 - 08.01.2023 & 28.01.2023 - 05.03.2023
-
-Mid season: 09.01.2023 - 27.01.2023
-
-Post-season: 06.03.2023 - 10.04.2023
-
-possible changes due to current snow conditions and official regulations. Car Rental
-
-Tourist INFO Werfenweng,
-
-Ph. 0043 (0) 06466 42040
-
-“Grashoppers” (Bio-Gas-Car 0,1cent /km) or Smile-E (Electric-Car) BMWs
-
-For WERFENWENG-CARD holders is the rental for free
-
-Check in/Check out times In order to make your stay at Wood Ridge comfortable we value high standards of cleanliness and for this reason the cleaning takes a considerable amount of time. With this in mind, we kindly request that you abide by our check in & check out times.'
-2024-10-19 20:05:14,678 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 20:05:14,858 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Please call to arrange opening times. Banks Raiffeisenkassen: Werfenweng, Ph. 0043 (0) 6466 440 (ATM) International
-
-Pfarrwerfen, Ph. 0043 (0) 6468 5486 (ATM) International
-
-Werfen, Ph. 0043 (0) 6468 5254 (ATM) International
-
-Bars Stoa Alm, Ph. 0043 (0) 650 2200480 Stroblhaus, Ph. 0043 (0) 6466 3910
-
-Bike Rental Sport Alpin, Ph. 0043 (0) 20221 or 0043 (0) 391570 next to the cable car station Rosnerköpfl in the village Bikes, mountainbikes, e-bikes and more…. For WERFENWENG-CARD holders the rental is free
-
-Bowling Experience the Austrian form of bowling in restaurant Schwungradl in Pfarrwerfen, Ph. 0043 (0) 64687979
-
-Breakfast Your BIO-breakfast basket will be delivered to your door at approximately 8 am the morning after your arrival.'
-2024-10-19 20:05:17,293 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 20:05:17,477 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Important Information from A
-
-
-
-Z Summer 2022
-
-Emergency Call 112 International Emergency Call (without SIM-Card possible) 122 Fire Service 133 Police 140 Alpine-Emergency Call 141 Doctor-Emergency Service 144 Ambulance
-
-Archery Range Peter Ampferer (Pfarrwerfen), Ph. 0043 (0) 664 1422533 With 3D animal targets.'
-2024-10-19 20:05:20,037 - flashrank.Ranker - DEBUG - Running pairwise ranking..
-2024-10-19 20:05:20,219 - src.LanggraphLLM - DEBUG - RAG Result: page_content='Check in 3 – 5pm Check out 8 - 10am Chemist Werfen: Sonnenapotheke, Ph. 0043 (0) 6468 5282
-
-Bischofshofen: Löwenapotheke, Ph. 0043 (0) 6462 2772
-
-Bischofshofen: Marienapotheke, Ph.'
-2024-10-19 20:05:23,013 - rquest.connect - DEBUG - starting new connection: https://duckduckgo.com/
-2024-10-19 20:05:23,343 - primp - INFO - response: https://duckduckgo.com/ 202 13574
-2024-10-19 20:05:23,344 - duckduckgo_search.DDGS - DEBUG - _get_url() https://duckduckgo.com/ 202 13574
-2024-10-19 20:06:11,931 - datasets - INFO - PyTorch version 2.2.2 available.
-2024-10-19 20:06:12,078 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
-2024-10-19 20:06:14,221 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
-2024-10-19 20:06:14,336 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
-2024-10-19 20:07:14,161 - datasets - INFO - PyTorch version 2.2.2 available.
-2024-10-19 20:07:14,514 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
-2024-10-19 20:07:16,981 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
-2024-10-19 20:07:17,412 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
-2024-10-19 20:10:04,815 - datasets - INFO - PyTorch version 2.2.2 available.
-2024-10-19 20:10:05,066 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
-2024-10-19 20:10:09,679 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
-2024-10-19 20:10:10,087 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
-2024-10-19 20:40:47,246 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
-2024-10-19 20:40:49,677 - datasets - INFO - PyTorch version 2.2.2 available.
-2024-10-19 20:40:49,823 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
-2024-10-19 20:40:51,781 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
-2024-10-19 20:40:51,890 - chromadb.config - DEBUG - Starting component System
-2024-10-19 20:40:51,890 - chromadb.config - DEBUG - Starting component Posthog
-2024-10-19 20:40:51,890 - chromadb.config - DEBUG - Starting component OpenTelemetryClient
-2024-10-19 20:40:51,890 - chromadb.config - DEBUG - Starting component SqliteDB
-2024-10-19 20:40:51,893 - chromadb.config - DEBUG - Starting component QuotaEnforcer
-2024-10-19 20:40:51,894 - chromadb.config - DEBUG - Starting component LocalSegmentManager
-2024-10-19 20:40:51,894 - chromadb.config - DEBUG - Starting component SegmentAPI
-2024-10-19 20:40:51,897 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
-2024-10-19 20:40:51,907 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-10-19 20:40:51,907 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-10-19 20:40:51,907 - src.test.Dummy - INFO - Valueable info in dummy
-2024-10-19 20:40:51,907 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-10-19 20:40:52,254 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
-2024-10-19 20:40:52,254 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
-2024-10-19 20:40:52,254 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
-2024-10-19 20:42:58,658 - numexpr.utils - INFO - NumExpr defaulting to 12 threads.
-2024-10-19 20:43:01,100 - datasets - INFO - PyTorch version 2.2.2 available.
-2024-10-19 20:43:01,247 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
-2024-10-19 20:43:04,079 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
-2024-10-19 20:43:04,188 - chromadb.config - DEBUG - Starting component System
-2024-10-19 20:43:04,188 - chromadb.config - DEBUG - Starting component Posthog
-2024-10-19 20:43:04,188 - chromadb.config - DEBUG - Starting component OpenTelemetryClient
-2024-10-19 20:43:04,188 - chromadb.config - DEBUG - Starting component SqliteDB
-2024-10-19 20:43:04,191 - chromadb.config - DEBUG - Starting component QuotaEnforcer
-2024-10-19 20:43:04,191 - chromadb.config - DEBUG - Starting component LocalSegmentManager
-2024-10-19 20:43:04,191 - chromadb.config - DEBUG - Starting component SegmentAPI
-2024-10-19 20:43:04,195 - chromadb.api.segment - DEBUG - Collection langchain already exists, returning existing collection.
-2024-10-19 20:43:04,205 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-10-19 20:43:04,205 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-10-19 20:43:04,205 - src.test.Dummy - INFO - Valueable info in dummy
-2024-10-19 20:43:04,205 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-10-19 20:43:04,571 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
-2024-10-19 20:43:04,571 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
-2024-10-19 20:43:04,571 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
-2024-10-19 20:48:46,788 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-10-19 20:48:46,788 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-10-19 20:48:46,788 - src.test.Dummy - INFO - Valueable info in dummy
-2024-10-19 20:48:46,788 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-10-19 20:48:47,133 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
-2024-10-19 20:48:47,133 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
-2024-10-19 20:48:47,133 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
-2024-10-19 20:49:06,908 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-10-19 20:49:06,908 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-10-19 20:49:06,908 - src.test.Dummy - INFO - Valueable info in dummy
-2024-10-19 20:49:06,908 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-10-19 20:49:07,255 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
-2024-10-19 20:49:07,255 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
-2024-10-19 20:49:07,255 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
-2024-10-19 20:50:28,742 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-10-19 20:50:28,742 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-10-19 20:50:28,742 - src.test.Dummy - INFO - Valueable info in dummy
-2024-10-19 20:50:28,742 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-10-19 20:50:29,091 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
-2024-10-19 20:50:29,091 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
-2024-10-19 20:50:29,091 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
-2024-10-19 21:09:02,906 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-10-19 21:09:02,906 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-10-19 21:09:02,906 - src.test.Dummy - INFO - Valueable info in dummy
-2024-10-19 21:09:02,907 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-10-19 21:09:03,251 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
-2024-10-19 21:09:03,251 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
-2024-10-19 21:09:03,251 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
-2024-10-19 21:09:42,078 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-10-19 21:09:42,078 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-10-19 21:09:42,078 - src.test.Dummy - INFO - Valueable info in dummy
-2024-10-19 21:09:42,078 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-10-19 21:09:42,426 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
-2024-10-19 21:09:42,426 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
-2024-10-19 21:09:42,426 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
-2024-10-19 21:10:13,652 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-10-19 21:10:13,652 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-10-19 21:10:13,652 - src.test.Dummy - INFO - Valueable info in dummy
-2024-10-19 21:10:13,652 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-10-19 21:10:14,012 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
-2024-10-19 21:10:14,012 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
-2024-10-19 21:10:14,012 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
-2024-10-19 21:12:13,352 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-10-19 21:12:13,352 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-10-19 21:12:13,353 - src.test.Dummy - INFO - Valueable info in dummy
-2024-10-19 21:12:13,353 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-10-19 21:12:13,722 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
-2024-10-19 21:12:13,722 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
-2024-10-19 21:12:13,722 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
-2024-10-19 21:17:44,776 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-10-19 21:17:44,776 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-10-19 21:17:44,778 - src.test.Dummy - INFO - Valueable info in dummy
-2024-10-19 21:17:44,778 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-10-19 21:17:45,144 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
-2024-10-19 21:17:45,144 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
-2024-10-19 21:17:45,144 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
-2024-10-19 21:19:42,969 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-10-19 21:19:42,969 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-10-19 21:19:42,969 - src.test.Dummy - INFO - Valueable info in dummy
-2024-10-19 21:19:42,969 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-10-19 21:19:43,409 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
-2024-10-19 21:19:43,409 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
-2024-10-19 21:19:43,409 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
-2024-10-19 21:21:01,536 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-10-19 21:21:01,536 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-10-19 21:21:01,536 - src.test.Dummy - INFO - Valueable info in dummy
-2024-10-19 21:21:01,537 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-10-19 21:22:37,646 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-10-19 21:22:37,646 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-10-19 21:22:37,646 - src.test.Dummy - INFO - Valueable info in dummy
-2024-10-19 21:22:37,646 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-10-19 21:23:14,351 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-10-19 21:23:14,351 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-10-19 21:23:14,351 - src.test.Dummy - INFO - Valueable info in dummy
-2024-10-19 21:23:14,351 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-10-19 21:23:41,303 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-10-19 21:23:41,303 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-10-19 21:23:41,303 - src.test.Dummy - INFO - Valueable info in dummy
-2024-10-19 21:23:41,304 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-10-19 21:23:41,656 - src.LanggraphLLM - DEBUG - Langgraph CTOR 1!
-2024-10-19 21:23:41,656 - src.LanggraphLLM - DEBUG - Langgraph CTOR 2!
-2024-10-19 21:23:41,656 - src.LanggraphLLM - DEBUG - Langgraph CTOR 3!
-2024-12-07 09:32:17,694 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-12-07 09:32:17,694 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-12-07 09:32:17,694 - src.test.Dummy - INFO - Valueable info in dummy
-2024-12-07 09:32:17,694 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-12-07 09:32:17,694 - src.ReactGraph - DEBUG - Langgraph CTOR 1!
-2024-12-07 09:43:39,147 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-12-07 09:43:39,147 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-12-07 09:43:39,147 - src.test.Dummy - INFO - Valueable info in dummy
-2024-12-07 09:43:39,147 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-12-07 09:43:39,147 - src.ReactGraph - DEBUG - Langgraph CTOR 1!
-2024-12-07 09:48:42,518 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-12-07 09:48:42,518 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-12-07 09:48:42,518 - src.test.Dummy - INFO - Valueable info in dummy
-2024-12-07 09:48:42,518 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-12-07 09:48:42,518 - src.ReactGraph - DEBUG - Langgraph CTOR 1!
-2024-12-07 09:49:05,371 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-12-07 09:49:05,371 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-12-07 09:49:05,371 - src.test.Dummy - INFO - Valueable info in dummy
-2024-12-07 09:49:05,371 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-12-07 09:49:05,372 - src.ReactGraph - DEBUG - Langgraph CTOR 1!
-2024-12-07 09:50:22,327 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-12-07 09:50:22,327 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-12-07 09:50:22,327 - src.test.Dummy - INFO - Valueable info in dummy
-2024-12-07 09:50:22,327 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-12-07 09:50:22,327 - src.ReactGraph - DEBUG - Langgraph CTOR 1!
-2024-12-07 09:52:35,597 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-12-07 09:52:35,597 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-12-07 09:52:35,597 - src.test.Dummy - INFO - Valueable info in dummy
-2024-12-07 09:52:35,597 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-12-07 09:52:35,597 - src.ReactGraph - DEBUG - Langgraph CTOR 1!
-2024-12-07 09:56:20,860 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-12-07 09:56:20,860 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-12-07 09:56:20,860 - src.test.Dummy - INFO - Valueable info in dummy
-2024-12-07 09:56:20,860 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-12-07 09:56:20,860 - src.ReactGraph - DEBUG - Langgraph CTOR 1!
-2024-12-07 09:59:21,109 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-12-07 09:59:21,109 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-12-07 09:59:21,109 - src.test.Dummy - INFO - Valueable info in dummy
-2024-12-07 09:59:21,110 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-12-07 09:59:21,110 - src.ReactGraph - DEBUG - Langgraph CTOR 1!
-2024-12-07 10:14:00,066 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-12-07 10:14:00,066 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-12-07 10:14:00,066 - src.test.Dummy - INFO - Valueable info in dummy
-2024-12-07 10:14:00,066 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-12-07 10:14:00,066 - src.ReactGraph - DEBUG - Langgraph CTOR 1!
-2024-12-07 10:33:36,836 - src.VectorDatabase - DEBUG - VectorDB CTOR 1!
-2024-12-07 10:33:36,836 - src.VectorDatabase - DEBUG - VectorDB CTOR 2!
-2024-12-07 10:33:36,836 - src.test.Dummy - INFO - Valueable info in dummy
-2024-12-07 10:33:36,836 - src.VectorDatabase - DEBUG - VectorDB CTOR 3!
-2024-12-07 10:33:36,837 - src.ReactGraph - DEBUG - Langgraph CTOR 1!
+2025-01-07 11:14:59,330 - src.ReasoningLanggraphLLM - INFO - Database Context: Ph. 0043 (0) 6466 789Cable Car Werfenweng Werfenweng, Tel. 0043 (0) 6466 614 daily operation hours from 09 to 12 am and 1 to 4.45 pmIn case of bad weather (raining in the morning) the cable car will not operatePre-season: 08.12.2022 - 11.12.2022Season start: 17.12.2022High season: 17.12.2022 - 08.01.2023 & 28.01.2023 - 05.03.2023Mid season: 09.01.2023 - 27.01.2023Post-season: 06.03.2023 - 10.04.2023possible changes due to current snow conditions and official regulations. Car RentalTourist INFO Werfenweng,Ph. 0043 (0) 06466 42040“Grashoppers” (Bio-Gas-Car 0,1cent /km) or Smile-E (Electric-Car) BMWsFor WERFENWENG-CARD holders is the rental for freeCheck in/Check out times In order to make your stay at Wood Ridge comfortable we value high standards of cleanliness and for this reason the cleaning takes a considerable amount of time. With this in mind, we kindly request that you abide by our check in & check out times.
+2025-01-07 11:15:05,237 - tests - INFO - Question: Is there a car rental?
+2025-01-07 11:15:05,237 - tests - INFO - Fact: There is a car rental.
+2025-01-07 11:15:05,237 - tests - INFO - Answer: Based on the search results, there are car rental options available in Werfenweng, Austria. The "Grashoppers" (Bio-Gas-Car) and Smile-E (Electric-Car) BMWs can be rented for free for WERFENWENG-CARD holders. However, it's not clear if this is a general car rental service or just for specific vehicles. If you're looking for more information on car rentals in Werfenweng, I would recommend using the websearch tool to find more details.
+2025-01-07 11:15:05,237 - tests - INFO - Verdict: TRUE
+2025-01-07 11:15:08,479 - src.ReasoningLanggraphLLM - INFO - Database Context: Important Information from AZ Summer 2022Emergency Call 112 International Emergency Call (without SIM-Card possible) 122 Fire Service 133 Police 140 Alpine-Emergency Call 141 Doctor-Emergency Service 144 AmbulanceArchery Range Peter Ampferer (Pfarrwerfen), Ph. 0043 (0) 664 1422533 With 3D animal targets.
+2025-01-07 11:15:13,604 - tests - INFO - Question: Which numbers can i call in case of an emergency?
+2025-01-07 11:15:13,604 - tests - INFO - Fact: You can call: 112 International Emergency Call, 122 Fire Service, 133 Police, 140 Alpine-Emergency Call, 141 Doctor-Emergency Service, 144 Ambulance
+2025-01-07 11:15:13,604 - tests - INFO - Answer: In case of an emergency, you can call the following numbers:
+
+*   112: International Emergency Call
+*   122: Fire Service
+*   133: Police
+*   140: Alpine-Emergency Call
+*   141: Doctor-Emergency Service
+*   144: Ambulance
+
+Please note that these numbers may vary depending on your location. It's always a good idea to familiarize yourself with the emergency contact numbers in your area.
+2025-01-07 11:15:13,604 - tests - INFO - Verdict: TRUE
+2025-01-07 11:15:16,807 - src.ReasoningLanggraphLLM - INFO - Database Context: 120 Bischofshofen: ARBÖ-Pannenhilfe, Ph. 123 Sleeping comfort In each chalet we have provided two different types of pillows. If you are unhappy with the pillows please come to our reception. As an alternative we have feather pillows or pine filled pillows for your comfort. If the mattress is too hard for you, please come to the reception, we will provide you with an alternative. Sauna Pre Heating Time: approximately 1 hourYour sauna is fitted with a RED EMERGENCY STOP button. If this is pressed, Carolyne and Alois are immediately alerted and are, by law, required to enter into your chalet in case of an emergency. This emergency button can be deactivated within 10 seconds of being activated by slightly turning and pulling the button. The Sauna Alarm will be monitored between 8am and 9pm. Use of the sauna outside of these time s is at your own risk. Aroma Oils for the sauna are available on the reception. Smoking Strictly NO SMOKING within the chalets! You may smoke outside on the deck. Please use the ash trays provided to keep our lawns and paths litter free – THANK YOU! Supermarket Nah & Frisch Gschwendtner Werfenweng Monday to Friday 7.45 am – 12 noon and 3 – 6 pm, Closed Tuesday afternoons Saturday 7.45am to 12 noon preseason open time changes – look at the posting by the store (approx. 1.5km) MPreis - Supermarket Pfarrwerfen, Dorfwerfen 177, 5452 Monday to Friday 7.30 am – 7 pm Saturday 7:30 am – 6 pm (approx. 6 km) Merkur (large variety of fresh produce) 5500 Bischofshofen, Molkereistrasse 32, Monday to Thursday: 7.30am – 7.30pm Friday 7 am – 8 pm Saturday 7 am – 6 pm (approx. 15km) T Tourist INFO Werfenweng www.werfenweng.eu Ph. 0043 (0) 6466 4200, Monday to Friday 9 am – 12 am and 2pm – 5pm Saturday 4pm – 6pm (peak season) Sunday 10 am – 12 noonTaxi ELOIS (village taxi within Werfenweng) Werfenweng, Ph. 0043 (0) 664 88466 948 Taxi Hippolt, Ph. 0043 (0) 6462 20 333 Taxi Schmid, Ph. 0043 (0) 6462 2200 Train Station Werfen, Ph. 0043 (0) 6468 5204 Bischofshofen, Ph. 0043 (0) 6462 93000 3185 Pfarrwerfen Railway Information, Ph. 0043 (0) 51717Ticket SalesTouristInfo Werfenweng,Ph. 0043 (0) 51717Veterinarian Werfen: Mag. Gabriele Fidler, Ph. 0043 (0) 6468 53 Monday to Friday 10 am – 12 noon and 5pm – 7pm Saturday 10am – 11 am (appointment necessary)Waste Disposal Your waste will be collected daily between 11 and 12am Please be sure to separate your rubbish as follows:1 bin – cans, aluminum, foil & plastic 1 bin – compost/food scraps 1 bin – general waste Paper and glass are collected separately, place in basket at the front door. Due to wild animals please refrain from leaving waste outside overnight. Werfenweng Card The key to many benefits that make your holiday even more special. In addition to the mobility offers, with the Werfenweng Card you can enjoy wonderful guided hikes, free entry to the Wengsee leisure park and much more. Advantages of the WERFENWENG-CARD ( Basic and Plus version available)WERFENWENG-SHUTTLE Transfer to and from the railway station, free of charge for rail travellers ELOIS free taxi within Werfenweng daily 07:30 to 20:00 Sat/Sun 09:00 to 20:00 hrs free of charge NIGHTMOBIL Taxi Sunday to Thursday 20:00 to 22:00 hrs Saturday 20:00 to 04:00 free of charge CAR RENTAL Werfenwenger "Grasshopper" 0,10 Cent/km E-cars and "Smile-E free of charge FUN BIKES Tandem bikes, Gaudiradl free of charge BIKE RENTAL Mountain bikes, bicycles, children's bikes, e-bikes, e-mountain bikes free of charge FUN-E-VEHICLES Arrow, Biga, Alpine Flyer, Segway, E-Scooter, Twizzy. free of charge GUIDED ALPINE HIKE 2 x per week free of charge Whirlpool The golden key on your key chain activates the water fill function of the Whirlpool It will take approximately 20 minutes to fill. After 1 hour, the water drains away automatically.
+2025-01-07 11:15:21,026 - src.ReasoningLanggraphLLM - INFO - Database Context: Your basket includes cereals, fresh juice, fresh farm eggs, cold meat, fruit of the season, cheese, butter, milk, herbal tea, drinking chocolate & homemade jam. Order your bread and refillss for the following day before 11am online  in my.oha.at Most of the products are from the local farmer´s market. Please be sure to visit so you can take some of their fresh products home with you.
+2025-01-07 11:15:25,357 - tests - INFO - Question: How does the breakfast work?
+2025-01-07 11:15:25,357 - tests - INFO - Fact: The BIO-breakfast basket will be delivered to the door at approximately 8 am the morning after your arrival. 
+2025-01-07 11:15:25,357 - tests - INFO - Answer: The breakfast options include cereals, fresh juice, fresh farm eggs, cold meat, fruit of the season, cheese, butter, milk, herbal tea, drinking chocolate & homemade jam. You can order your bread and refills for the following day online before 11am. Most of the products are from the local farmer's market.
+2025-01-07 11:15:25,357 - tests - INFO - Verdict: TRUE
+2025-01-07 11:15:29,590 - src.ReasoningLanggraphLLM - INFO - Database Context: Please call to arrange opening times. Banks Raiffeisenkassen: Werfenweng, Ph. 0043 (0) 6466 440 (ATM) InternationalPfarrwerfen, Ph. 0043 (0) 6468 5486 (ATM) InternationalWerfen, Ph. 0043 (0) 6468 5254 (ATM) InternationalBars Stoa Alm, Ph. 0043 (0) 650 2200480 Stroblhaus, Ph. 0043 (0) 6466 3910Bike Rental Sport Alpin, Ph. 0043 (0) 20221 or 0043 (0) 391570 next to the cable car station Rosnerköpfl in the village Bikes, mountainbikes, e-bikes and more…. For WERFENWENG-CARD holders the rental is freeBowling Experience the Austrian form of bowling in restaurant Schwungradl in Pfarrwerfen, Ph. 0043 (0) 64687979Breakfast Your BIO-breakfast basket will be delivered to your door at approximately 8 am the morning after your arrival.
+2025-01-07 11:15:37,800 - tests - INFO - Question: How does the breakfast service work? Is it for free?
+2025-01-07 11:15:37,800 - tests - INFO - Fact: Your BIO-breakfast basket will be delivered to your door at approximately 8 am the morning after your arrival. Your basket includes cereals, fresh juice, fresh farm eggs, cold meat, fruit of the season, cheese, butter, milk, herbal tea, drinking chocolate & homemade jam. Order your bread and refillss for the following day before 11am online  in my.oha.at. Most of the products are from the local farmer´s market. Please be sure to visit so you can take some of their fresh products home with you. The breakfast is NOT free.
+2025-01-07 11:15:37,800 - tests - INFO - Answer: Based on the provided document, it appears that the breakfast service is included as part of a package or promotion, but it's not explicitly stated if it's free for all guests. However, it does mention that "WERFENWENG-CARD holders" get their rental bikes for free, which suggests that there may be some perks or discounts available to certain guests.
+
+To confirm the details of the breakfast service and whether it's included in the cost or not, I would recommend contacting the establishment directly using one of the phone numbers provided. They should be able to provide more information on their policies and any additional fees associated with the breakfast service.
+2025-01-07 11:15:37,800 - tests - INFO - Verdict: FALSE 
+
+The answer does not directly address the question of whether the breakfast service is free or not. It provides some general advice but does not use the given fact to confirm if the breakfast service is included in the cost or not.
+2025-01-07 11:15:41,081 - src.ReasoningLanggraphLLM - INFO - Database Context: 0043 (0) 6466 789Open from 9am – 6pm. Closed Thursday and Sunday Situated behind the Travel Charm Berg Resort Hotel in the centre of the village. Fire Extinguisher There is a fire extinguisher located in the entry foyer of every chalet. Fire Place To allow a flow of air into the fireplace please ensure the lever is positioned to the +. Once the flame has died, you may move the lever to the - to ensure the heat is stored within the fire place. Never remove ash yourself. If you feel there is too much ash, please inform us in the reception. Ash can usually be collected for up to a week depending on the amount of fire wood used. Fire Wood Please help yourself to the firewood we have provided around the chalets. Fondue Every Monday and Tuesday you have the option to order Fondue to be delivered to your chalet. Please use the yellow bucket under the sink for old oil. Your order may be placed in woodridge.myoha.atGolf As a Guest of Wood Ridge you are entitled to cheaper green fees at the Open Golf course. St Johann located just 15minutes away. Please ask on the reception for your discount voucher. Hair Dresser Mobile hair dresser Sonja comes directly to your chalet. Appointments are necessary. Ph. 0043 (0) 664 1702066Hiking Guided hiking tours, Ph. 0043 (0) 6466 420 Inquire and register in the tourist info! For High Alpine Tours please contact the Sport Store “Alpin” Ph. 0043 (0) 6466 391570Horse and Carriage Rides Steiger Simon, Ph. 0043 (0) 6466 682 or 0043 (0) 664 5852319 Carriage rides, horseback riding, trail rides, Please call to arrange riding timesInternet Free Wifi is provided in each chalet. Password: WoodridgeFor unwanted Electric Smog, feel free to unplug the router. Lost and Found Council chambers in Werfenweng, Ph. 0043 (0) 6466 414Massages Massages are conducted directly in your chalet. Order a time slot online in myoha. The type of massage may be disscussed with the therapist directly. Moutain Huts Alpengasthof Bischlinghöhe, Ph. 0043 (0) 664 5123785Anton-Proksch-Haus, Ph. 0043 (0) 6466 673Auszeit, Ph. 0043 (0) 650 2200480Bischlingalm, Ph. 0043 (0) 650 7506311Dr.-Heinrich-Hackel-Hütte, Ph. 0043 (0) 664 3429 114Elmaualm, Ph. 0043 (0) 664 9169900Frommeralm, Ph. 0043 (0) 664 2336819Gamsblickalm, Ph. 0043 (0) 6466 489Mahdeggalm, Ph. 0043 (0) 6468 7110Mayrhofalm, Ph. 0043 (0) 664 4515757Moosalm am Ladenberg, Ph. 0043 (0) 664 1500439Paragliding in Werfenweng Tandem flights / Flight school:Sepp & Stefan Rebernig, Ph. 0043 (0) 664 4420 002 or  0043 (0) 664 3562 468 Fly Tandem, Ph. 0043 (0) 650 8263361 Payment options in Wood Ridge We accept: Master Card, Visa, Diners,Maestro and CashPetrol Station (6km)Pfarrwerfen:BP Imlau, Ph. 0043 (0 )6468 5327 Monday to Saturday 6am – 10pm Sunday and Friday 8am – 8pmIQ Tankstelle, Johann Buchsteiner, Ph. 0043 (0) 6468 5416 Monday to Friday 7am – 7pm Saturday 7am – 5pm Closed on Sundays and Public Holidays Post Office Within the supermarket Nah & Frisch Werfenweng – Nah & Frisch: Ph. 0043 (0) 6466 409Reception Opening hours: daily 8am to midday and 3pm to 5pm Call any time between 8am and 9pm Reception, Ph. 0043 (0) 664 123 30 87For emergencies after 9pm,Ph. 0043 (0) 6645570737Restaurants Almstüberl zan Hascht, Ph. 0043 (0) 6466 20090 (closed We and Thu) Auszeit top station of the Rosnerköpfl, Ph. 0043 (0) 650 2200480 Chili im Wenghof, Ph. 0043 (0) 6466 20051 Gasthof Barbarahof, Ph. 0043 (0) 6466 402 Gasthof Schöntal, Ph. 0043 (0) 6466 447 Gasthof Strassreith, Ph. 0043 (0) 6466 408 Gasthof Tennenblick, Ph. 0043 (0) 6466 451 Restaurant Alpenzeit (Gaultmillau), Ph. 0043 (0) 6466 391504 (closed Sun and Mo) Restaurant Eulersberg, Ph. 0043 (0) 664 2225151 (closed Mo) Seealmstüberl (next to the lake), Ph. 0043 (0) 6466 20031 Stoa Alm (Burger and Snack and Bar), Ph. 0043 (0) 650 2200480 Stroblhaus, Ph. 0043 (0 )6466 391533 (closed Tue) Strussingalm on the mountain, Ph. 0043 (0) 6466 449 or 473 Wenger Alpenhof, Ph. 0043 (0) 660 7816609 Werfenwenger Bauernladen, Ph. 0043 (0) 6466 789 (closed Thu and Sun) Zistelberghof, Ph. 0043 (0) 6466 443 Road Side Assistance St. Johann/Pg. : ÖAMTC SAMTC, Ph.
+2025-01-07 11:15:47,780 - tests - INFO - Question: What are the opening hours of the reception?
+2025-01-07 11:15:47,780 - tests - INFO - Fact: Opening hours: daily 8am to midday and 3pm to 5pm. Call any time between 8am and 9pm Reception
+2025-01-07 11:15:47,780 - tests - INFO - Answer: The opening hours of the reception are daily from 8am to midday and 3pm to 5pm. You can call them at any time between 8am and 9pm for assistance. For emergencies after 9pm, you can contact them at Ph. 0043 (0) 6645570737.
+2025-01-07 11:15:47,780 - tests - INFO - Verdict: TRUE
+2025-01-07 11:15:57,672 - src.ReasoningLanggraphLLM - INFO - Database Context: 0043 (0) 6462 2213 An on-call chemist is available outside of business hours please refer to the following link or inquire on the reception. http://www.apothekenindex.atCleaning during your stay If you would like your chalet cleaned during your stay, please come to our reception to arrange times (vacuuming, cleaning the bathroom, towel change …..) Charges will be applied depending on cleaning durationClimbing for Kids High Rope Climing Garden at the middle station of the Dorfbahn Cable CarDinner Delivery service from Restaurant Chili,Monday and Tuesday -  FONDUE Thursday and Friday – “Ripperl” Spare Ribs Please note your order must be placed online by 11am or ask at the reception for further information. You may pay in cash directly upon delivery. DentistPfarrwerfen:Dr.med.univ. Othmar Frühmann, Ph. 0043 (0) 6468 7577 Monday to Thursday 10am – 2pm and 2.30pm – 5pmWerfen:Dr.med.univ. Manfred Geringer, Ph. 0043 (0) 6468 8283 0 Monday 8am – 11am Tuesday to Thursday 8am – 11am and 1pm – 4pm or Wednesday 1pm – 4pmDoctor’s Surgery Pfarrwerfen: Dr. Christoph Fürthauer, Ph. 0043 (0) 6468 5402 0Hours:Mon, Tue, Wed and Fri 7.30 – 11am Mon and Wed 5 – 6pm Please call for an appointment. (You will require your passport or E-Card)Werfen: Dr. Kay DrabeckPh. 0043 (0) 6468/5264Markt 23 (1st floor)Ordination:Mo 07.0012.00Tue15.0019.00Me 09.3012.00Th 15.0019.00Fr 07.3012.00Dogs We kindly request that dogs do not enter bedrooms and are not allowed on furniture. Just near the reception your will find a dog station providing plastic bags for your dogs’ waste. Please respect other guests by keeping your dog on a lead at all times and keeping barking to a minimum. Dog wastes can contaminate our cow grazing areas so please pick up after your pet. We wish to remind you that dogs must be kept on a lead within the village of Werfenweng at all time´s. For the final cleaning we charge € 35,- per dog and stay on your bill. Farmers Market Werfenweng Specialties from regional farmers, Ph.
+2025-01-07 11:16:05,041 - tests - INFO - Question: Search if dogs are allowed and if yes, what are the costs and multiply them by 6.
+2025-01-07 11:16:05,041 - tests - INFO - Fact: Dogs are allowed. For the final cleaning 35 is charged. 35 times 6 is 210
+2025-01-07 11:16:05,041 - tests - INFO - Answer: Dogs are allowed in the chalets, but they must be kept on a lead at all times and not enter bedrooms or furniture. The cost for final cleaning with a dog is €210.
+2025-01-07 11:16:05,041 - tests - INFO - Verdict: TRUE
+2025-01-07 11:16:08,276 - src.ReasoningLanggraphLLM - INFO - Database Context: Check in 3 – 5pm Check out 8 - 10am Chemist Werfen: Sonnenapotheke, Ph. 0043 (0) 6468 5282Bischofshofen: Löwenapotheke, Ph. 0043 (0) 6462 2772Bischofshofen: Marienapotheke, Ph.
+2025-01-07 11:16:10,927 - tests - INFO - Question: What are the checkin and checkout times according to the document?
+2025-01-07 11:16:10,927 - tests - INFO - Fact: Check is from 3 to 5pm and checkout from 8 to 10 am
+2025-01-07 11:16:10,927 - tests - INFO - Answer: Based on the document, the check-in time is between 3-5 pm and the checkout time is between 8-10 am.
+2025-01-07 11:16:10,927 - tests - INFO - Verdict: TRUE
+2025-01-07 11:16:14,306 - src.ReasoningLanggraphLLM - INFO - Database Context: Please call to arrange opening times. Banks Raiffeisenkassen: Werfenweng, Ph. 0043 (0) 6466 440 (ATM) InternationalPfarrwerfen, Ph. 0043 (0) 6468 5486 (ATM) InternationalWerfen, Ph. 0043 (0) 6468 5254 (ATM) InternationalBars Stoa Alm, Ph. 0043 (0) 650 2200480 Stroblhaus, Ph. 0043 (0) 6466 3910Bike Rental Sport Alpin, Ph. 0043 (0) 20221 or 0043 (0) 391570 next to the cable car station Rosnerköpfl in the village Bikes, mountainbikes, e-bikes and more…. For WERFENWENG-CARD holders the rental is freeBowling Experience the Austrian form of bowling in restaurant Schwungradl in Pfarrwerfen, Ph. 0043 (0) 64687979Breakfast Your BIO-breakfast basket will be delivered to your door at approximately 8 am the morning after your arrival.
+2025-01-07 11:16:18,958 - tests - INFO - Question: Where can i go bowling? Search in the documents
+2025-01-07 11:16:18,958 - tests - INFO - Fact: One can go bowling in restaurant Schwungradl in Pfarrwerfen
+2025-01-07 11:16:18,958 - tests - INFO - Answer: Based on the search results, it appears that there is a bowling alley called "Schwungradl" in Pfarrwerfen where you can go bowling. The phone number for Schwungradl is 0043 (0) 64687979. Please note that this information may be subject to change and it's always best to call ahead to confirm opening times and availability.
+2025-01-07 11:16:18,959 - tests - INFO - Verdict: TRUE
+2025-01-07 11:16:22,555 - src.ReasoningLanggraphLLM - INFO - Database Context: 0043 (0) 6462 2213 An on-call chemist is available outside of business hours please refer to the following link or inquire on the reception. http://www.apothekenindex.atCleaning during your stay If you would like your chalet cleaned during your stay, please come to our reception to arrange times (vacuuming, cleaning the bathroom, towel change …..) Charges will be applied depending on cleaning durationClimbing for Kids High Rope Climing Garden at the middle station of the Dorfbahn Cable CarDinner Delivery service from Restaurant Chili,Monday and Tuesday -  FONDUE Thursday and Friday – “Ripperl” Spare Ribs Please note your order must be placed online by 11am or ask at the reception for further information. You may pay in cash directly upon delivery. DentistPfarrwerfen:Dr.med.univ. Othmar Frühmann, Ph. 0043 (0) 6468 7577 Monday to Thursday 10am – 2pm and 2.30pm – 5pmWerfen:Dr.med.univ. Manfred Geringer, Ph. 0043 (0) 6468 8283 0 Monday 8am – 11am Tuesday to Thursday 8am – 11am and 1pm – 4pm or Wednesday 1pm – 4pmDoctor’s Surgery Pfarrwerfen: Dr. Christoph Fürthauer, Ph. 0043 (0) 6468 5402 0Hours:Mon, Tue, Wed and Fri 7.30 – 11am Mon and Wed 5 – 6pm Please call for an appointment. (You will require your passport or E-Card)Werfen: Dr. Kay DrabeckPh. 0043 (0) 6468/5264Markt 23 (1st floor)Ordination:Mo 07.0012.00Tue15.0019.00Me 09.3012.00Th 15.0019.00Fr 07.3012.00Dogs We kindly request that dogs do not enter bedrooms and are not allowed on furniture. Just near the reception your will find a dog station providing plastic bags for your dogs’ waste. Please respect other guests by keeping your dog on a lead at all times and keeping barking to a minimum. Dog wastes can contaminate our cow grazing areas so please pick up after your pet. We wish to remind you that dogs must be kept on a lead within the village of Werfenweng at all time´s. For the final cleaning we charge € 35,- per dog and stay on your bill. Farmers Market Werfenweng Specialties from regional farmers, Ph.
+2025-01-07 11:16:26,468 - tests - INFO - Question: Which doctor is reachable on Wednesday?
+2025-01-07 11:16:26,468 - tests - INFO - Fact: Dr.med.univ. Manfred Geringer or  Dr. Christoph Fürthauer or Dr.med.univ. Othmar Frühmann or Dr. Kay Drabeck is reachable on wednesday
+2025-01-07 11:16:26,468 - tests - INFO - Answer: Based on the provided document, Dr. Kay Drabeck is reachable on Wednesday from 15:00 to 19:00 at Markt 23 (1st floor) in Werfen.
+2025-01-07 11:16:26,468 - tests - INFO - Verdict: TRUE
+2025-01-07 11:16:29,685 - src.ReasoningLanggraphLLM - INFO - Database Context: 0043 (0) 6462 2213 An on-call chemist is available outside of business hours please refer to the following link or inquire on the reception. http://www.apothekenindex.atCleaning during your stay If you would like your chalet cleaned during your stay, please come to our reception to arrange times (vacuuming, cleaning the bathroom, towel change …..) Charges will be applied depending on cleaning durationClimbing for Kids High Rope Climing Garden at the middle station of the Dorfbahn Cable CarDinner Delivery service from Restaurant Chili,Monday and Tuesday -  FONDUE Thursday and Friday – “Ripperl” Spare Ribs Please note your order must be placed online by 11am or ask at the reception for further information. You may pay in cash directly upon delivery. DentistPfarrwerfen:Dr.med.univ. Othmar Frühmann, Ph. 0043 (0) 6468 7577 Monday to Thursday 10am – 2pm and 2.30pm – 5pmWerfen:Dr.med.univ. Manfred Geringer, Ph. 0043 (0) 6468 8283 0 Monday 8am – 11am Tuesday to Thursday 8am – 11am and 1pm – 4pm or Wednesday 1pm – 4pmDoctor’s Surgery Pfarrwerfen: Dr. Christoph Fürthauer, Ph. 0043 (0) 6468 5402 0Hours:Mon, Tue, Wed and Fri 7.30 – 11am Mon and Wed 5 – 6pm Please call for an appointment. (You will require your passport or E-Card)Werfen: Dr. Kay DrabeckPh. 0043 (0) 6468/5264Markt 23 (1st floor)Ordination:Mo 07.0012.00Tue15.0019.00Me 09.3012.00Th 15.0019.00Fr 07.3012.00Dogs We kindly request that dogs do not enter bedrooms and are not allowed on furniture. Just near the reception your will find a dog station providing plastic bags for your dogs’ waste. Please respect other guests by keeping your dog on a lead at all times and keeping barking to a minimum. Dog wastes can contaminate our cow grazing areas so please pick up after your pet. We wish to remind you that dogs must be kept on a lead within the village of Werfenweng at all time´s. For the final cleaning we charge € 35,- per dog and stay on your bill. Farmers Market Werfenweng Specialties from regional farmers, Ph.
+2025-01-07 11:16:37,818 - tests - INFO - Question: Recommend me some things to do, in my documents
+2025-01-07 11:16:37,818 - tests - INFO - Fact: One could go into a sauna, eat dinner from Restaurant Chili, visit High Rope Climing Garden, go bowling, visit the Farmers Market, go to the gold course, visit a hairdresser, go hiking, go paragliding, get a massage, visit the Moutain Huts, visit Restaurants.
+            
+2025-01-07 11:16:37,818 - tests - INFO - Answer: Based on the information in your documents, here are some things to do:
+
+1. Climbing for Kids High Rope Climing Garden at the middle station of the Dorfbahn Cable Car
+2. Dinner Delivery service from Restaurant Chili (FONDUE on Thursday and Friday)
+3. Visit the Farmers Market Werfenweng for regional specialties
+4. Go hiking or explore the surrounding area
+5. Take a trip to Pfarrwerfen or Werfen for shopping, dining, or sightseeing
+
+Please note that some activities may require prior arrangements or reservations, such as dinner delivery or dog care. It's always a good idea to check with the reception or local authorities for more information and to plan your activities accordingly.
+2025-01-07 11:16:37,818 - tests - INFO - Verdict: TRUE
+2025-01-07 11:16:41,454 - src.ReasoningLanggraphLLM - INFO - Database Context: Check in 3 – 5pm Check out 8 - 10am Chemist Werfen: Sonnenapotheke, Ph. 0043 (0) 6468 5282Bischofshofen: Löwenapotheke, Ph. 0043 (0) 6462 2772Bischofshofen: Marienapotheke, Ph.
+2025-01-07 11:16:47,522 - tests - INFO - Question: I want to go on a date night. Any recommendations? Search in the documents
+2025-01-07 11:16:47,522 - tests - INFO - Fact: There is no swimming pool.
+2025-01-07 11:16:47,522 - tests - INFO - Answer: Based on the search results, I couldn't find any specific recommendations for date night ideas. However, I can suggest some general ideas that might be helpful:
+
+*   Go to a nice restaurant or try a new cuisine
+*   Take a walk in a park or go for a hike
+*   Visit a museum or art gallery
+*   See a movie or play
+*   Try a cooking class or wine tasting
+
+These are just a few ideas, and there are many other possibilities depending on your interests and preferences.
+
+If you're looking for more specific recommendations, I can try searching the web.
+2025-01-07 11:16:47,522 - tests - INFO - Verdict: TRUE
+2025-01-07 11:16:51,167 - src.ReasoningLanggraphLLM - INFO - Database Context: 0043 (0) 6462 2213 An on-call chemist is available outside of business hours please refer to the following link or inquire on the reception. http://www.apothekenindex.atCleaning during your stay If you would like your chalet cleaned during your stay, please come to our reception to arrange times (vacuuming, cleaning the bathroom, towel change …..) Charges will be applied depending on cleaning durationClimbing for Kids High Rope Climing Garden at the middle station of the Dorfbahn Cable CarDinner Delivery service from Restaurant Chili,Monday and Tuesday -  FONDUE Thursday and Friday – “Ripperl” Spare Ribs Please note your order must be placed online by 11am or ask at the reception for further information. You may pay in cash directly upon delivery. DentistPfarrwerfen:Dr.med.univ. Othmar Frühmann, Ph. 0043 (0) 6468 7577 Monday to Thursday 10am – 2pm and 2.30pm – 5pmWerfen:Dr.med.univ. Manfred Geringer, Ph. 0043 (0) 6468 8283 0 Monday 8am – 11am Tuesday to Thursday 8am – 11am and 1pm – 4pm or Wednesday 1pm – 4pmDoctor’s Surgery Pfarrwerfen: Dr. Christoph Fürthauer, Ph. 0043 (0) 6468 5402 0Hours:Mon, Tue, Wed and Fri 7.30 – 11am Mon and Wed 5 – 6pm Please call for an appointment. (You will require your passport or E-Card)Werfen: Dr. Kay DrabeckPh. 0043 (0) 6468/5264Markt 23 (1st floor)Ordination:Mo 07.0012.00Tue15.0019.00Me 09.3012.00Th 15.0019.00Fr 07.3012.00Dogs We kindly request that dogs do not enter bedrooms and are not allowed on furniture. Just near the reception your will find a dog station providing plastic bags for your dogs’ waste. Please respect other guests by keeping your dog on a lead at all times and keeping barking to a minimum. Dog wastes can contaminate our cow grazing areas so please pick up after your pet. We wish to remind you that dogs must be kept on a lead within the village of Werfenweng at all time´s. For the final cleaning we charge € 35,- per dog and stay on your bill. Farmers Market Werfenweng Specialties from regional farmers, Ph.
+2025-01-07 11:16:59,986 - tests - INFO - Question: Which doctor is also available on Wednesday if Dr. Christoph Fürthauer has closed?
+2025-01-07 11:16:59,986 - tests - INFO - Fact: Dr.med.univ. Manfred Geringer or Dr.med.univ. Othmar Frühmann or Dr. Kay Drabeck is also available on Wendesday
+2025-01-07 11:16:59,986 - tests - INFO - Answer: Based on the provided document, if Dr. Christoph Fürthauer is closed, you can visit Dr. Kay Drabeck in Werfen:
+
+* Phone: 0043 (0) 6468/5264
+* Address: Markt 23 (1st floor)
+* Hours:
+	+ Monday: 7:00-12:00 and 15:00-19:00
+	+ Tuesday: 9:30-12:00 and 15:00-19:00
+	+ Thursday: 15:00-19:00
+	+ Friday: 7:00-12:00
+
+Please note that you can also visit Dr. Manfred Geringer in Werfen on Wednesday from 1:00-4:00 PM, but only if Dr. Christoph Fürthauer is closed.
+2025-01-07 11:16:59,986 - tests - INFO - Verdict: TRUE
+2025-01-07 11:17:06,153 - src.ReasoningLanggraphLLM - INFO - Database Context: 0043 (0) 6462 2213 An on-call chemist is available outside of business hours please refer to the following link or inquire on the reception. http://www.apothekenindex.atCleaning during your stay If you would like your chalet cleaned during your stay, please come to our reception to arrange times (vacuuming, cleaning the bathroom, towel change …..) Charges will be applied depending on cleaning durationClimbing for Kids High Rope Climing Garden at the middle station of the Dorfbahn Cable CarDinner Delivery service from Restaurant Chili,Monday and Tuesday -  FONDUE Thursday and Friday – “Ripperl” Spare Ribs Please note your order must be placed online by 11am or ask at the reception for further information. You may pay in cash directly upon delivery. DentistPfarrwerfen:Dr.med.univ. Othmar Frühmann, Ph. 0043 (0) 6468 7577 Monday to Thursday 10am – 2pm and 2.30pm – 5pmWerfen:Dr.med.univ. Manfred Geringer, Ph. 0043 (0) 6468 8283 0 Monday 8am – 11am Tuesday to Thursday 8am – 11am and 1pm – 4pm or Wednesday 1pm – 4pmDoctor’s Surgery Pfarrwerfen: Dr. Christoph Fürthauer, Ph. 0043 (0) 6468 5402 0Hours:Mon, Tue, Wed and Fri 7.30 – 11am Mon and Wed 5 – 6pm Please call for an appointment. (You will require your passport or E-Card)Werfen: Dr. Kay DrabeckPh. 0043 (0) 6468/5264Markt 23 (1st floor)Ordination:Mo 07.0012.00Tue15.0019.00Me 09.3012.00Th 15.0019.00Fr 07.3012.00Dogs We kindly request that dogs do not enter bedrooms and are not allowed on furniture. Just near the reception your will find a dog station providing plastic bags for your dogs’ waste. Please respect other guests by keeping your dog on a lead at all times and keeping barking to a minimum. Dog wastes can contaminate our cow grazing areas so please pick up after your pet. We wish to remind you that dogs must be kept on a lead within the village of Werfenweng at all time´s. For the final cleaning we charge € 35,- per dog and stay on your bill. Farmers Market Werfenweng Specialties from regional farmers, Ph.
+2025-01-07 11:17:09,659 - tests - INFO - Question: What is the phone number of Dr. Manfred Geringer in Werfen?
+2025-01-07 11:17:09,659 - tests - INFO - Fact: Phone number is 0043 (0) 6468 8283 0
+2025-01-07 11:17:09,659 - tests - INFO - Answer: The phone number of Dr. Manfred Geringer in Werfen is 0043 (0) 6468 8283.
+2025-01-07 11:17:09,659 - tests - INFO - Verdict: TRUE
