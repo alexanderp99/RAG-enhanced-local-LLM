@@ -7,6 +7,7 @@ from langchain_ollama import ChatOllama
 from langchain_ollama import ChatOllama as LatestChatOllama
 from pydantic import BaseModel, Field
 
+from modelTypes import Modeltype
 from src.ReasoningLanggraphLLM import ReasoningLanggraphLLM
 from src.VectorDatabase import DocumentVectorStorage
 from tests import logger
@@ -33,8 +34,8 @@ class TestVectorDatabase(unittest.TestCase):
         self.agent: ReasoningLanggraphLLM = ReasoningLanggraphLLM()
         self.agent.allow_profanity_check = False
         self.agent.allow_hallucination_check = False
-        self.chatmodel: ChatOllama = LatestChatOllama(model='llama3.1:8b', temperature=0)
-        self.translation_model = LatestChatOllama(model="aya", temperature=0)
+        self.chatmodel: ChatOllama = LatestChatOllama(model=Modeltype.LLAMA3_1_8B.value, temperature=0)
+        self.translation_model = LatestChatOllama(model=Modeltype.AYA.value, temperature=0)
 
     def _clear_agent_memory(self):
         self.agent.reset_memory()

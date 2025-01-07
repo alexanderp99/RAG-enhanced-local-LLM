@@ -1,15 +1,21 @@
 from enum import Enum
-
-# Source: https://ollama.com/library/gemma:latest
-"gemma:7b"
-"gemma:2b"
-# "gemma-instruct"  # 9B
-"gemma"  # 9b
-"llama2:13b"
+import subprocess
 
 
 class Modeltype(Enum):
     LLAMA3_1_8B = "llama3.1:8b"
-    LLAMA3_2_3B = "llama3.2:3b"
-    LLAMA3_2_1B = "llama3.2:1b"
     MISTRAL_7B = "mistral:7b"
+    AYA = "aya:latest"
+
+
+def install_models():
+    for model in Modeltype:
+        try:
+            subprocess.run(["ollama", "pull", model.value], check=True)
+            print(f"installed {model.value}")
+        except subprocess.CalledProcessError as e:
+            print(f"error with {model.value}: {e}")
+
+
+if __name__ == "__main__":
+    install_models()

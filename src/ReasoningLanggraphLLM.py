@@ -30,7 +30,6 @@ from copy import deepcopy
 from modelTypes import Modeltype
 from src.VectorDatabase import DocumentVectorStorage
 from util.AgentState import AgentState
-from util.SearchResult import SearchResult as WebSearchResult, SearchResult
 from langchain_core.tools import tool, BaseTool
 
 logger = logging.getLogger(__name__)
@@ -169,7 +168,6 @@ class GraphState(TypedDict):
     question: HumanMessage
     message_is_profound: bool
     webquery: str
-    web_results: List[SearchResult]
     user_language: str
     hallucination_occured: bool
     hallucination_count: int
@@ -181,7 +179,7 @@ class ReasoningLanggraphLLM:
     def __init__(self):
         self.model: ChatOllama = LatestChatOllama(model=Modeltype.LLAMA3_1_8B.value, temperature=0)
         self.profanity_check_model = LatestChatOllama(model=Modeltype.LLAMA3_1_8B.value, temperature=0)
-        self.translation_model = LatestChatOllama(model="aya", temperature=0)
+        self.translation_model = LatestChatOllama(model=Modeltype.AYA.value, temperature=0)
         self.workflow: StateGraph = StateGraph(AgentState)
         self.vectordb: DocumentVectorStorage = DocumentVectorStorage()
         self.allow_document_search = True
@@ -344,25 +342,6 @@ class ReasoningLanggraphLLM:
         ]
 
         response = self.translation_model.invoke(messages)
-        return {"messages": [response]}
-
-    def plain_response(self, state: AgentState) -> dict:
-
-        web_results: List[WebSearchResult] = state["web_results"]
-        human_message: HumanMessage = next(
-            filter(lambda x: type(x) is type(HumanMessage("")), list(reversed(state['messages']))))
-
-        messages = [
-            SystemMessage(
-                content=f"""You are a helpful AI assistant for answering questions using DOCUMENT text. Keep your answer grounded in the facts of the DOCUMENT. If the DOCUMENT does not contain the facts to answer the QUESTION return 'NONE'. If you use the document text, mention the link from the source.
-
-                DOCUMENT:
-                {str(web_results)}"""),
-            HumanMessage(content=human_message.content)
-        ]
-
-        response: BaseMessage = self.model.invoke(messages)
-
         return {"messages": [response]}
 
     def check_user_message_for_profoundness(self, state: AgentState) -> str:

@@ -2,43 +2,27 @@
 
 ## Pre installation
 
-### Decezmber 1, 2024 installation
+### Decezmber 1, 2024 installation requirements
 
-- Python 3.12.7
-- Pip 24.2
-- Install Microsoft Build Tools for C++
-
-### Python 3.12.7 - Oct. 1, 2024 installation
+- Python 3.12.7 required (https://www.python.org/downloads/release/python-3127/)
+- Pip 24.2 required
+- Install Microsoft Build Tools for C++ (required for compilation)
 
 Due to the removal of the long-deprecated pkgutil.ImpImporter class, the pip command may not work for Python 3.12 out of
 the box
 > python -m ensurepip --upgrade
 > python -m pip install --upgrade setuptools
 
-###
-
-Big Pc setup
-Pip: 24.2
-Python: 3.11.8
-Ollama: 0.3.11
-
-### Ubuntu
+### Ubuntu install
 
 On ubuntu you need to install python venv
-> sudo apt install python3.11-venv
+> sudo apt install python3.12-venv
 
 Create a virtual env
 > python3 -m venv .venv
 
 Activate it
 > source .venv/bin/activate
-
-I am assuming
-
-- python is already installed.
-- CUDA is already installed and working
-
-Recommended python Version: 3.11.10
 
 First we have to install all the requirements:
 > pip install -r requirements.txt
@@ -52,9 +36,8 @@ or update if we did not use the project for a longer time :
 We can install the software ollama on linux like this
 > curl -fsSL https://ollama.com/install.sh | sh
 
-Then we fetch the LLM from ollama
-
-> ollama pull 'llama3:instruct'
+We install all ollama requirements with:
+> python src/ModelTypes/modelTypes.py
 
 # Usage
 
@@ -64,11 +47,6 @@ We start the application with:
 > python -m streamlit run ./src/streamlitapp_with_Langgraph.py
 
 # Features
-
-- Normale Reponse
-- User Input Profoundness Check
-- Give answer using Document retrieval
-- Hallucination Check
 
 ## Vector Database
 
