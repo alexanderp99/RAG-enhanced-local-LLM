@@ -46,6 +46,8 @@ Current directory: Project directory
 We start the application with:
 > python -m streamlit run ./src/streamlitapp_with_Langgraph.py
 
+The files which can be uploaded are located in the "files_to_upload" folder
+
 # Features
 
 ## Vector Database
