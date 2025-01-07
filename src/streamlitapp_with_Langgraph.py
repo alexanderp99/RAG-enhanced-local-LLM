@@ -25,6 +25,7 @@ selected_tab: str | None = st.sidebar.selectbox("Select Tab", ["Default", "vecto
 
 def clear_langgraph_conversation():
     agent.reset_memory()
+    msgs.clear()
     st.session_state.reset_langgraph_cache_button = False
 
 
