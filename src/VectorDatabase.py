@@ -43,9 +43,6 @@ class DocumentVectorStorage:
         unindexed_files = self.extract_unindexed_files(indexed_filenames)
         self.index_new_files(unindexed_files)
 
-        # logger.debug("VectorDB CTOR 1!")
-        # logger.debug("VectorDB CTOR 2!")
-
         Dummy.run_script()
 
         # logger.debug("VectorDB CTOR 3!")
