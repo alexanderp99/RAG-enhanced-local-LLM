@@ -16,7 +16,10 @@ from langchain_core.documents.base import Document
 from langchain_core.tools import tool
 from langchain_experimental.text_splitter import SemanticChunker
 from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_unstructured import UnstructuredLoader
+from langchain_community.document_loaders import UnstructuredPDFLoader
 
+import nltk
 from .test import Dummy
 
 logger = logging.getLogger(__name__)
@@ -25,6 +28,11 @@ logger = logging.getLogger(__name__)
 class DocumentVectorStorage:
 
     def __init__(self):
+
+        nltk.download('punkt')
+        nltk.download('punkt_tab')
+        nltk.download('averaged_perceptron_tagger_eng')
+
         self.PROJECT_ROOT = Path(__file__).resolve().parent.parent
         self.INDEXED_FILES_PATH = self.PROJECT_ROOT / 'indexedFiles'
         self.DATABASE_PATH: WindowsPath = str(self.PROJECT_ROOT / 'chroma_db')
@@ -49,10 +57,21 @@ class DocumentVectorStorage:
 
     def index_new_files(self, unindexed_filenames: List[str]) -> None:
         for each_filename in unindexed_filenames:
-            filetype: str = os.path.splitext(each_filename)[1].lower()
-            doc: List[Document] = self.load_file(each_filename, filetype)
-            splitted_docs: List[Document] = self.semantic_chunker.split_documents(doc)
-            self.db.add_documents(splitted_docs)
+            try:
+                filetype: str = os.path.splitext(each_filename)[1].lower()
+                doc: List[Document] = self.load_file(each_filename, filetype)
+                splitted_docs: List[Document] = self.semantic_chunker.split_documents(doc)
+
+                self.add_documents_chunked(splitted_docs)
+
+            except Exception as e:
+                print(e)
+
+    def add_documents_chunked(self, splitted_docs):
+        chunk_size = 10
+        for i in range(0, len(splitted_docs), chunk_size):
+            chunk = splitted_docs[i:i + chunk_size]
+            self.db.add_documents(chunk)
 
     def extract_unindexed_files(self, indexed_filenames: List[str]) -> List[str]:
         unindexed_files: List[str] = []
@@ -64,12 +83,17 @@ class DocumentVectorStorage:
 
     def load_file(self, filename: str, filetype: str) -> List[Document]:
         doc: List[Document] = []
-        if '.json' in filetype:
-            with open(filename) as f:
+        file_path: str = os.path.join(os.getcwd(), self.INDEXED_FILES_PATH, filename)
+
+        if 'json' in filetype:
+            with open(file_path) as f:
                 json_str: str = json.dumps(json.load(f))
             doc = [Document(page_content=json_str, metadata={"source": filename})]
+        elif 'pdf' in filetype:
+            loader = UnstructuredPDFLoader(file_path)
+            doc = loader.load()
+            doc[0].metadata["source"] = filename
         else:
-            file_path: str = os.path.join(os.getcwd(), self.INDEXED_FILES_PATH, filename)
             loader = UnstructuredFileLoader(file_path)
             doc = loader.load()
             doc[0].metadata["source"] = filename
@@ -85,7 +109,7 @@ class DocumentVectorStorage:
         loader = PyPDFLoader(filepath)
         docs: list[Document] = loader.load()
         splitted_docs: list[Document] = self.semantic_chunker.split_documents(docs)
-        self.db.add_documents(splitted_docs)
+        self.add_documents_chunked(splitted_docs)
 
     def get_indexed_filenames(self) -> List[str]:
         """
@@ -140,7 +164,10 @@ class DocumentVectorStorage:
 
         splitted_docs: list[Document] = self.semantic_chunker.split_documents(doc)
 
-        self.db.add_documents(splitted_docs)
+        try:
+            self.add_documents_chunked(splitted_docs)
+        except Exception as e:
+            print(e)
 
     @tool
     def get_local_knowledge(self, query: str) -> List[Document]:
@@ -150,3 +177,17 @@ class DocumentVectorStorage:
         :return: A list of entries of additional Information. Can be empty.
         """
         return self.db.as_retriever(query)
+
+    def remove_all_documents(self):
+
+        self.db.reset_collection()
+
+        indexed_files_path = os.path.join(os.getcwd(), self.INDEXED_FILES_PATH)
+
+        try:
+            for filename in os.listdir(indexed_files_path):
+                file_path = os.path.join(indexed_files_path, filename)
+                if os.path.isfile(file_path):
+                    os.remove(file_path)
+        except Exception as e:
+            print(f"Error: {e}")

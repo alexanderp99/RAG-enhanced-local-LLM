@@ -6,8 +6,6 @@ from langchain_core.documents.base import Document
 from langchain_core.messages import BaseMessage
 from langchain_core.messages import HumanMessage
 
-from .SearchResult import SearchResult
-
 
 class AgentState(TypedDict):
     """
@@ -28,7 +26,6 @@ class AgentState(TypedDict):
     question: HumanMessage
     message_is_profound: bool
     webquery: str
-    web_results: List[SearchResult]
     user_language: str
     hallucination_occured: bool
     hallucination_count: int

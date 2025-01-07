@@ -30,22 +30,15 @@ def clear_langgraph_conversation():
 
 if "reset_langgraph_cache_button" not in st.session_state:
     st.session_state.reset_langgraph_cache_button = False
-if "enable_profanity_check_button" not in st.session_state:
-    st.session_state.enable_profanity_check_button = False
-if "enable_hallucination_check_button" not in st.session_state:
-    st.session_state.enable_hallucination_check_button = False
 
 if selected_tab == "Default":
     uploaded_document_names: list[str] = []
 
     st.button("Reset Conversation Memory", on_click=clear_langgraph_conversation)
 
-    agent.allow_profanity_check = st.session_state.enable_profanity_check_button
-    agent.allow_hallucination_check = st.session_state.enable_hallucination_check_button
-
     uploaded_file: list[UploadedFile] | None | UploadedFile = st.file_uploader(
         "A file here is added to the vector database and used for text retrieval",
-        type=['txt', 'pdf', 'json', 'html',
+        type=['txt', 'pdf', 'json',
               "md"],
         accept_multiple_files=False)
 
@@ -98,14 +91,8 @@ if selected_tab == "Default":
         st.text(last_response_stream)
 
 elif selected_tab == "vectordb":
-
-    st.session_state.enable_profanity_check_button = st.toggle(
-        "Enable Profanity Check", value=st.session_state.enable_profanity_check_button)
-    st.session_state.enable_hallucination_check_button = st.toggle(
-        "Enable Hallucination Check", value=st.session_state.enable_hallucination_check_button)
-
     if st.button("Empty Vector Database", type="primary"):
-        document_vector_storage.db.delete_collection()
+        document_vector_storage.remove_all_documents()
 
     st.write("Filenames and Chunks in Vectordb:")
 
