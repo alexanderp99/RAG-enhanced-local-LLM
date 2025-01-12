@@ -8,18 +8,15 @@ import os
 from pathlib import Path, WindowsPath
 from typing import List, Tuple, Dict
 
-# from langchain_community.vectorstores import Chroma
 from langchain_chroma import Chroma
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.document_loaders import UnstructuredFileLoader
+from langchain_community.document_loaders import UnstructuredPDFLoader
 from langchain_core.documents.base import Document
 from langchain_core.tools import tool
 from langchain_experimental.text_splitter import SemanticChunker
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_unstructured import UnstructuredLoader
-from langchain_community.document_loaders import UnstructuredPDFLoader
 
-import nltk
 from .test import Dummy
 
 logger = logging.getLogger(__name__)
@@ -29,9 +26,9 @@ class DocumentVectorStorage:
 
     def __init__(self):
 
-        nltk.download('punkt')
-        nltk.download('punkt_tab')
-        nltk.download('averaged_perceptron_tagger_eng')
+        # nltk.download('punkt')
+        # nltk.download('punkt_tab')
+        # nltk.download('averaged_perceptron_tagger_eng')
 
         self.PROJECT_ROOT = Path(__file__).resolve().parent.parent
         self.INDEXED_FILES_PATH = self.PROJECT_ROOT / 'indexedFiles'

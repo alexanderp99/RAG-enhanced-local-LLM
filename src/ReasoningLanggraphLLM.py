@@ -3,18 +3,18 @@ import operator
 import warnings
 from typing import List, Any, Optional, Annotated, TypedDict, Union, Literal, Sequence, Type
 
+import numexpr as ne
+import serpapi
+from iso639 import Lang
 import streamlit as st
 from flashrank import Ranker, RerankRequest
-# from ftlangdetect import detect
-from iso639 import Lang
 from langchain_community.chat_models import ChatOllama
-from langchain_community.tools import DuckDuckGoSearchResults
 from langchain_core.callbacks import CallbackManagerForToolRun
 from langchain_core.documents.base import Document
 from langchain_core.messages import BaseMessage, AIMessage, AnyMessage
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.runnables.graph import MermaidDrawMethod
-from langchain_core.tools import BaseTool
+from langchain_core.tools import tool, BaseTool
 from langchain_ollama import ChatOllama as LatestChatOllama
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import StateGraph, END
@@ -22,15 +22,10 @@ from langgraph.graph.graph import CompiledGraph
 from langgraph.prebuilt import ToolNode
 from pydantic import BaseModel, Field
 from transformers import pipeline
-import numexpr as ne
-from duckduckgo_search import DDGS
-import serpapi
-from copy import deepcopy
 
-from modelTypes import Modeltype
+from src.ModelTypes.modelTypes import Modeltype
 from src.VectorDatabase import DocumentVectorStorage
-from util.AgentState import AgentState
-from langchain_core.tools import tool, BaseTool
+from src.util.AgentState import AgentState
 
 logger = logging.getLogger(__name__)
 
@@ -102,8 +97,9 @@ def websearch(query: str) -> str:
         query: The single search query string.
     """
 
-    snippet_concat = ""
-    try:
+    snippet_concat = "There was no content found"
+
+    """try:
 
         key = "65406fcfa9155028cc5d42d169cf2dd4350396a9fa7bf68c3b6a7cfcb9afd70a"
         params = {
@@ -115,12 +111,15 @@ def websearch(query: str) -> str:
         search = serpapi.search(params)
         results = search.data["organic_results"]
         snippet_concat = results[0]["snippet"]
+        
 
         logger.info(f"Snippet: {snippet_concat}")
 
     except Exception as e:
         print(e)
         snippet_concat = "There was no content found"
+       
+    """
 
     return snippet_concat
 

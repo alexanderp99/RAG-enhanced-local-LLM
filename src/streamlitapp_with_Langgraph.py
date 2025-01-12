@@ -20,6 +20,7 @@ agent: ReasoningLanggraphLLM = ReasoningLanggraphLLM.get_langgraph_instance()
 document_vector_storage: DocumentVectorStorage = agent.vectordb
 
 selected_tab: str | None = st.sidebar.selectbox("Select Tab", ["Default", "vectordb"])
+greeting_message: str = "How can I help you?"
 
 
 def clear_langgraph_conversation():
@@ -56,11 +57,12 @@ if selected_tab == "Default":
             st.write(document_name)
 
     if len(msgs.messages) == 0:
-        msgs.add_ai_message("How can I help you?")
+        msgs.add_ai_message(greeting_message)
 
 
     def respond_with_llm():
-        response_stream, final_response = agent.run_stream({"messages": msgs.messages})
+        messages_without_greeting = [message for message in msgs.messages if message.content != greeting_message]
+        response_stream, final_response = agent.run_stream({"messages": messages_without_greeting})
 
         global last_response_stream
         last_response_stream = response_stream
