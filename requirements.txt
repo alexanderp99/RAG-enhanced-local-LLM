@@ -1,9 +1,7 @@
 langchain-core
 streamlit
-langchain
 langchain-community
 numexpr
-serpapi
 pydantic
 transformers
 pandas
@@ -13,5 +11,8 @@ langchain_huggingface
 flashrank
 langchain_ollama
 langgraph
-iso639-lang
-profanity_check
+python-iso639
+duckduckgo-search
+sentencepiece
+unstructured
+langchain-unstructured

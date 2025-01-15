@@ -1,176 +1,30 @@
 import logging
-import operator
 import warnings
-from typing import List, Any, Optional, Annotated, TypedDict, Union, Literal, Sequence, Type
+from typing import List, Any
 
-import numexpr as ne
-import serpapi
-from iso639 import Lang
+import iso639
 import streamlit as st
-from flashrank import Ranker, RerankRequest
+from flashrank import Ranker
 from langchain_community.chat_models import ChatOllama
-from langchain_core.callbacks import CallbackManagerForToolRun
-from langchain_core.documents.base import Document
-from langchain_core.messages import BaseMessage, AIMessage, AnyMessage
+from langchain_core.messages import BaseMessage, AIMessage
 from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_core.runnables.graph import MermaidDrawMethod
-from langchain_core.tools import tool, BaseTool
 from langchain_ollama import ChatOllama as LatestChatOllama
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import StateGraph, END
 from langgraph.graph.graph import CompiledGraph
 from langgraph.prebuilt import ToolNode
-from pydantic import BaseModel, Field
 from transformers import pipeline
 
 from src.ModelTypes.modelTypes import Modeltype
 from src.VectorDatabase import DocumentVectorStorage
 from src.util.AgentState import AgentState
+from src.util.Mathtool import MathTool
+from src.util.Reasoning import tools_condition, reasoner
+from src.util.SafetyCheck import SafetyCheck
+from src.util.SearchInDocumentTool import SearchInDocumentTool
+from src.util.WebsearchTool import WebsearchTool
 
 logger = logging.getLogger(__name__)
-
-
-class SafetyCheck(BaseModel):
-    """Checks if a given input contains inhumane, illegal, or unethical content."""
-
-    input: str = Field(description="The phrase, question, or demand to be classified.")
-    is_unethical: bool = Field(
-        default=False,
-        description="True if the input contains unethical content. Unethical content includes, but is not limited to, mentions of violence, self-harm, illegal activity, lawbreaking, harm or danger to others, terrorism, or anything intended to cause injury or suffering."
-    )
-
-
-class DocumentInput(BaseModel):
-    queries: List[str] = Field(
-        description="Generate multiple related queries based on:1. Synonyms for key terms.2. Questions asking about the same topic.3. Common expressions for searching similar concepts.")
-
-
-class SearchInDocumentTool(BaseTool):
-    name: str = "search_in_document"
-    description: str = "Searches for content within documents using multiple queries for better results."
-    args_schema: Type[BaseModel] = DocumentInput
-    return_direct: bool = False
-    vectordb: Optional[Any] = None
-    ranker: Ranker = None
-
-    def __init__(self, database):
-        super().__init__()
-        self.vectordb = database
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
-            self.ranker = Ranker(model_name="ms-marco-MiniLM-L-12-v2",
-                                 cache_dir="/ranker")  # if not sys.warnoptions:  # flashrank\Ranker.py:115: ResourceWarning: unclosed file <_io.TextIOWrapper name='\\ranker\\ms-marco-MiniLM-L-12-v2\\config.json' mode='r' encoding='cp1252'> config = json.load(open(str(self.model_dir / "config.json"))) https://stackoverflow.com/questions/26563711/disabling-python-3-2-resourcewarning
-
-    def _run(self, queries: List[str], run_manager: Optional[CallbackManagerForToolRun] = None) -> str:
-
-        try:
-            unique_docs = set()
-            for query in queries:
-                result = self.vectordb.query_vector_database(query)
-                for doc in result:
-                    unique_docs.add(doc.page_content)
-
-            rerank_request = RerankRequest(query=" ".join(queries), passages=[{"text": text} for text in unique_docs])
-            ranked_results = self.ranker.rerank(rerank_request)
-            ranked_results = sorted(ranked_results, key=lambda x: x["score"], reverse=True)
-
-            docs = [Document(page_content=res["text"]) for res in ranked_results][:1]
-
-        except Exception as e:
-            docs = [Document(page_content="There was no content found")]
-
-        all_docs_string = ''.join(
-            [f"Context {idx}: " + item.page_content.replace("\n", "") + "\n\n" for idx, item in enumerate(docs)])
-        all_docs_string = 'Context: '.join(
-            [item.page_content.replace("\n", "") for idx, item in enumerate(docs)])
-
-        logger.info(f"Database Context: {all_docs_string}")
-
-        return all_docs_string
-
-
-@tool
-def websearch(query: str) -> str:
-    """Search the web using a single query.
-
-    Args:
-        query: The single search query string.
-    """
-
-    snippet_concat = "There was no content found"
-
-    """try:
-
-        key = "65406fcfa9155028cc5d42d169cf2dd4350396a9fa7bf68c3b6a7cfcb9afd70a"
-        params = {
-            "engine": "google",
-            "q": query,
-            "api_key": key,
-        }
-
-        search = serpapi.search(params)
-        results = search.data["organic_results"]
-        snippet_concat = results[0]["snippet"]
-        
-
-        logger.info(f"Snippet: {snippet_concat}")
-
-    except Exception as e:
-        print(e)
-        snippet_concat = "There was no content found"
-       
-    """
-
-    return snippet_concat
-
-
-@tool
-def numexpr_eval(expression: str) -> object:
-    """Evaluate a numerical expression using numexpr.
-
-    Args:
-        expression: The expression to evaluate.
-
-    Returns:
-        The result of the evaluation.
-    """
-    return ne.evaluate(expression)
-
-
-def tools_condition(
-        state: Union[list[AnyMessage], dict[str, Any], BaseModel],
-        messages_key: str = "messages",
-) -> Literal["tools", "EndNode"]:
-    """Use in the conditional_edge to route to the ToolNode if the last message"""
-    if isinstance(state, list):
-        ai_message = state[-1]
-    elif isinstance(state, dict) and (messages := state.get(messages_key, [])):
-        ai_message = messages[-1]
-    elif messages := getattr(state, messages_key, []):
-        ai_message = messages[-1]
-    else:
-        raise ValueError(f"No messages found in input state to tool_edge: {state}")
-    if hasattr(ai_message, "tool_calls") and len(ai_message.tool_calls) > 0:
-        return "tools"
-    return "EndNode"
-
-
-class GraphState(TypedDict):
-    """State of the graph."""
-    query: str
-    finance: str
-    final_answer: str
-    # intermediate_steps: Annotated[list[tuple[AgentAction, str]], operator.add]
-    messages: Annotated[list[AnyMessage], operator.add]
-
-    rag_context: Sequence[Document]
-    question: HumanMessage
-    message_is_profound: bool
-    webquery: str
-    user_language: str
-    hallucination_occured: bool
-    hallucination_count: int
-    whole_available_rag_context: Sequence[Document]
 
 
 class ReasoningLanggraphLLM:
@@ -179,6 +33,8 @@ class ReasoningLanggraphLLM:
         self.model: ChatOllama = LatestChatOllama(model=Modeltype.LLAMA3_1_8B.value, temperature=0)
         self.profanity_check_model = LatestChatOllama(model=Modeltype.LLAMA3_1_8B.value, temperature=0)
         self.translation_model = LatestChatOllama(model=Modeltype.AYA.value, temperature=0)
+        self.language_pipeline = pipeline("text-classification",
+                                          model="papluca/xlm-roberta-base-language-detection")  # no cache_dir param available
         self.workflow: StateGraph = StateGraph(AgentState)
         self.vectordb: DocumentVectorStorage = DocumentVectorStorage()
         self.allow_document_search = True
@@ -186,11 +42,19 @@ class ReasoningLanggraphLLM:
         self.allow_hallucination_check = True
         self.config = {"configurable": {"thread_id": "1"}}
         self.memory = MemorySaver()
+        self.doctool: SearchInDocumentTool = None
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             self.ranker = Ranker(model_name="ms-marco-MiniLM-L-12-v2",
                                  cache_dir="/ranker")  # # if not sys.warnoptions:  # flashrank\Ranker.py:115: ResourceWarning: unclosed file <_io.TextIOWrapper name='\\ranker\\ms-marco-MiniLM-L-12-v2\\config.json' mode='r' encoding='cp1252'> config = json.load(open(str(self.model_dir / "config.json"))) https://stackoverflow.com/questions/26563711/disabling-python-3-2-resourcewarning
-        # logger.debug("Langgraph CTOR 1!")
+        self.reasoning_sys_message = SystemMessage(
+            """You are a helpful assistant with access to tools. You can search for relevant information using the provided tools and perform arithmetic calculations. 
+        For each question, determine if you can answer the question directly based on your general knowledge, or If necessary Use the `search_in_document` tool to find the necessary information within the available documents. If you do not get an answer from the 'search_in_document' tool Message or get an error, use the websearch tool, but the websearch tool should have lower priority.""")
+        self.doctool = SearchInDocumentTool(self.vectordb, self.ranker)
+        self.websearchtool = WebsearchTool(self.ranker)
+        self.mathtool = MathTool()
+        self.tools = [self.doctool, self.mathtool, self.websearchtool]
+        self.llm_with_tools = self.model.bind_tools(self.tools)
         self.setup_workflow()
 
     @st.cache_resource
@@ -205,42 +69,8 @@ class ReasoningLanggraphLLM:
         self.workflow.add_node("SystemResponseTranslator", self.translate_output_into_user_language)
         self.workflow.add_node("EndNode", self.end_node)
         self.workflow.add_node("IntermediateNode1", self.intermediate_node1)
-
-        doctool = SearchInDocumentTool(self.vectordb)
-        tools = [doctool, numexpr_eval, websearch]
-        self.llm_with_tools = self.model.bind_tools(tools)
-
-        sys_message = SystemMessage(
-            """You are a helpful assistant with access to tools. You can search for relevant information using the provided tools and perform arithmetic calculations. 
-        For each question, determine if you can answer the question directly based on your general knowledge, or If necessary Use the `search_in_document` tool to find the necessary information within the available documents. If you do not get an answer from the documents, use the websearch tool, but the websearch tool should have lower priority.""")
-
-        def reasoner(state):
-            messages = state["messages"]
-            no_human_message_added = not (any([isinstance(each_message, HumanMessage) for each_message in messages]))
-            sys_msg = sys_message
-            message = state["question"]
-            user_language_was_set = "user_language" in state and (state["user_language"] is not None)
-            if user_language_was_set and message.content not in [msg.content for msg in messages]:
-                messages.append(message)
-
-            result = [self.llm_with_tools.invoke([sys_msg] + messages)]
-
-            try:
-                if result[0].lc_attributes is not None and result[0].lc_attributes["tool_calls"] is not None and len(
-                        result[0].lc_attributes["tool_calls"]) > 0 and \
-                        result[0].lc_attributes["tool_calls"][0]["name"] == "websearch":
-                    searchquery = result[0].lc_attributes["tool_calls"][0]["args"]["queries"][0]
-
-                    result[0].lc_attributes["tool_calls"][0]["args"] = {"query": searchquery}
-
-                    pass
-            except Exception as e:
-                print(e)
-
-            return {"messages": result}
-
-        self.workflow.add_node("reasoner", reasoner)
-        self.workflow.add_node("tools", ToolNode(tools))
+        self.workflow.add_node("reasoner", self.reasoning)
+        self.workflow.add_node("tools", ToolNode(self.tools))
 
         self.workflow.set_entry_point("StartNode")
 
@@ -267,14 +97,19 @@ class ReasoningLanggraphLLM:
         self.workflow.add_edge("tools", "reasoner")
 
         self.graph: CompiledGraph = self.workflow.compile(checkpointer=self.memory)
-        img_data: bytes = self.graph.get_graph().draw_mermaid_png(draw_method=MermaidDrawMethod.API)
+        # img_data: bytes = self.graph.get_graph().draw_mermaid_png(draw_method=MermaidDrawMethod.API)
         # with open("graph.png", "wb") as f:
-        #    f.write(img_data)
+        #   f.write(img_data)
+
+    def reasoning(self, state: AgentState):
+        return reasoner(state, self.llm_with_tools, self.reasoning_sys_message)
 
     def set_user_question_state(self, state: AgentState):
         """
         Adds the user question/message variable to the agent state
         """
+        self.doctool.set_user_question(state["messages"][-1].content)
+
         return {"question": state["messages"][-1], "hallucination_count": 0, "hallucination_occured": False}
 
     def end_node(self, state: AgentState):
@@ -283,19 +118,10 @@ class ReasoningLanggraphLLM:
     def intermediate_node1(self, state: AgentState):
         return
 
-    def check_if_document_search_enabled(self, state: AgentState):
-        return "DocumentSearchEnabled" if self.allow_document_search else "DocumentSearchDisabled"
-
-    def check_if_vector_storage_fetcher_returned_result(self, state: AgentState):
-        return "no_result" if state["rag_context"] is None else "multiple_results"
-
     def _check_if_language_is_english(self, state: AgentState):
         user_question = state["question"].content
 
-        model_ckpt = "papluca/xlm-roberta-base-language-detection"
-        pipe = pipeline("text-classification",
-                        model=model_ckpt)  # no , cache_dir="text_language_classification/ available
-        res = pipe(user_question, top_k=1, truncation=True)
+        res = self.language_pipeline(user_question, top_k=1, truncation=True)
         detected_language_code = sorted(res, key=lambda x: x['score'], reverse=True)[0]['label']
 
         detected_language_is_english = (detected_language_code == 'en')
@@ -313,13 +139,9 @@ class ReasoningLanggraphLLM:
     def translate_user_message_into_english(self, state: AgentState):
         user_question = state["question"].content
 
-        model_ckpt = "papluca/xlm-roberta-base-language-detection"
-        pipe = pipeline("text-classification",
-                        model=model_ckpt)  # no , cache_dir="text_language_classification/ available
-        res = pipe(user_question, top_k=1, truncation=True)
+        res = self.language_pipeline(user_question, top_k=1, truncation=True)
         detected_language_code = sorted(res, key=lambda x: x['score'], reverse=True)[0]['label']
-        language_name = Lang(detected_language_code).name
-
+        language_name = iso639.Language.from_part1(detected_language_code).name
         messages = [
             SystemMessage(content="""You are a professional translator. You must only translate the given human message into English. Even if the user writes a question, you have to translate the question to english and you are NOT allowed to respond to the question.                     Provide only the translated text without any additional information, comments, or explanations.
              Examples: Input: "Bonjour, comment ça va ?" Output: "Hello, how are you?"                     Input: "¿Dónde está la biblioteca?"                      Output: "Where is the library?"                     Input: "Hallo, wie geht's dir?"                      Output: "Hello, how are you?"                     Always follow this format and provide only the translation."""),
@@ -348,89 +170,19 @@ class ReasoningLanggraphLLM:
 
         return "userMessageIsProfound" if is_profound else "userMessageNotHarmful"
 
-    def check_for_hallucination(self, state: AgentState) -> None:
-
-        hallicination_occured: bool = None
-        hallucination_count: int = state["hallucination_count"] if state["hallucination_count"] is not None else 0
-
-        if self.allow_hallucination_check:
-            messages = [
-                SystemMessage(
-                    content=f"""You are a helpful AI assistant assigned to check if a given response, answers a question. Keep your answer grounded to the input given. If the answer does not answer the question return 'NONE'
-
-                            Response:
-                            {state["question"].content}"""),
-                HumanMessage(content=state["messages"][-1].content)
-            ]
-            response: BaseMessage = self.model.invoke(messages)
-
-            if 'none' in response.content.lower():
-                hallucination_count += 1
-                hallicination_occured = True
-            else:
-                hallicination_occured = False
-        else:
-            hallicination_occured = False
-
-        return {"hallicination_occured": hallicination_occured, "hallucination_count": hallucination_count}
-
-    def hallucination_check(self, state: AgentState) -> str:
-
-        if self.allow_hallucination_check:
-            hallicination_occured: bool = state["hallucination_occured"]
-        else:
-            hallicination_occured = False
-
-        return "hallucination" if hallicination_occured else "no hallucination"
-
-    def check_RAG_response(self, state: AgentState) -> str:
-        last_message: BaseMessage = state['messages'][-1]
-        rag_context_size = len(state["whole_available_rag_context"])
-
-        document_search_no_more_possible = 'none' in last_message.content.lower() and (
-                rag_context_size == state["hallucination_count"])
-        answer_not_possible_but_more_context_available = 'none' in last_message.content.lower() and (
-                rag_context_size > state["hallucination_count"])
-
-        if document_search_no_more_possible:
-            return "DocumentSearchNoMorePossible"
-        elif answer_not_possible_but_more_context_available:
-            return "RetryRagGeneration"
-        else:
-            return "RagCheckSuccessful"
-
     def profanity_check(self, state: AgentState) -> dict:
         user_message: str = state["question"].content
 
-        user_message_is_profane: bool = None
+        user_message_is_profane: bool = False
 
         if self.allow_profanity_check:
             test_llm = self.profanity_check_model.with_structured_output(SafetyCheck)
             test_response: SafetyCheck = test_llm.invoke(user_message)  # profane!!
             user_message_is_profane = test_response is None or test_response.is_unethical
-        else:
-            user_message_is_profane = False
 
         return {'message_is_profound': True,
-                "messages": [AIMessage(content="Your message is profane.")]} if user_message_is_profane else {
+                "messages": [AIMessage(content="Your message is impolite.")]} if user_message_is_profane else {
             'message_is_profound': False}
-
-    def document_agent(self, state: AgentState) -> dict:
-        messages = [
-            SystemMessage(
-                content=f"""You are a helpful AI assistant for answering questions using DOCUMENT text. Keep your answer grounded in the facts of the DOCUMENT. If the DOCUMENT does not contain the facts to answer the QUESTION return 'NONE'
-        
-        DOCUMENT:
-        {''.join([item.page_content for item in state["rag_context"]])}"""),
-            HumanMessage(content=state['messages'][-1].content)
-        ]
-
-        response: BaseMessage = self.model.invoke(messages)
-        hallucination_count: int = state["hallucination_count"]
-        if 'none' in response.content.lower():
-            hallucination_count += 1
-
-        return {"messages": [response], "hallucination_count": hallucination_count}
 
     def run(self, inputs: dict) -> BaseMessage:
         resulted_agent_state: dict[str, Any] | Any = self.graph.invoke(inputs, self.config)

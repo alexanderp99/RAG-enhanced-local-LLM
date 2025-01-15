@@ -2,22 +2,16 @@ import io
 import json
 import logging
 import os
-# setup_logging()
-# logger = get_logger(__name__)
-# logger = logging.getLogger(__name__)
 from pathlib import Path, WindowsPath
 from typing import List, Tuple, Dict
 
 from langchain_chroma import Chroma
 from langchain_community.document_loaders import PyPDFLoader
-from langchain_community.document_loaders import UnstructuredFileLoader
-from langchain_community.document_loaders import UnstructuredPDFLoader
 from langchain_core.documents.base import Document
 from langchain_core.tools import tool
 from langchain_experimental.text_splitter import SemanticChunker
 from langchain_huggingface import HuggingFaceEmbeddings
-
-from .test import Dummy
+from langchain_unstructured import UnstructuredLoader
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +19,6 @@ logger = logging.getLogger(__name__)
 class DocumentVectorStorage:
 
     def __init__(self):
-
         # nltk.download('punkt')
         # nltk.download('punkt_tab')
         # nltk.download('averaged_perceptron_tagger_eng')
@@ -39,7 +32,8 @@ class DocumentVectorStorage:
                                                                    cache_folder=str(self.EMBEDDING_CACHE),
                                                                    model_kwargs={'device': 'cpu'})
 
-        self.semantic_chunker: SemanticChunker = SemanticChunker(embed_model, breakpoint_threshold_type="percentile")
+        self.semantic_chunker: SemanticChunker = SemanticChunker(embed_model, breakpoint_threshold_type="percentile",
+                                                                 breakpoint_threshold_amount=95.0)
 
         self.db: Chroma = Chroma(persist_directory=str(self.DATABASE_PATH), embedding_function=embed_model)
 
@@ -47,10 +41,6 @@ class DocumentVectorStorage:
 
         unindexed_files = self.extract_unindexed_files(indexed_filenames)
         self.index_new_files(unindexed_files)
-
-        Dummy.run_script()
-
-        # logger.debug("VectorDB CTOR 3!")
 
     def index_new_files(self, unindexed_filenames: List[str]) -> None:
         for each_filename in unindexed_filenames:
@@ -87,13 +77,22 @@ class DocumentVectorStorage:
                 json_str: str = json.dumps(json.load(f))
             doc = [Document(page_content=json_str, metadata={"source": filename})]
         elif 'pdf' in filetype:
-            loader = UnstructuredPDFLoader(file_path)
+            loader = PyPDFLoader(file_path=file_path)
             doc = loader.load()
             doc[0].metadata["source"] = filename
         else:
-            loader = UnstructuredFileLoader(file_path)
-            doc = loader.load()
-            doc[0].metadata["source"] = filename
+            doc: List[Document]
+            try:
+                loader = UnstructuredLoader(file_path)
+                loaded_doc = loader.load()
+
+                whole_content = "\n".join(text.page_content for text in loaded_doc)
+
+                merged_doc: Document = Document(page_content=whole_content, metadata={"source": filename})
+                doc.append(merged_doc)
+
+            except Exception as e:
+                print(e)
         return doc
 
     def query_vector_database(self, query: str) -> List[Document]:
