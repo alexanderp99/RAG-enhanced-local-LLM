@@ -1,6 +1,8 @@
 import logging
 from typing import Optional, Any, Type
 
+from duckduckgo_search import DDGS
+from flashrank import Ranker, RerankRequest
 from langchain_core.callbacks import CallbackManagerForToolRun
 from langchain_core.tools import BaseTool
 from pydantic import BaseModel
@@ -26,11 +28,8 @@ class WebsearchTool(BaseTool):
         self.ranker = ranker
 
     def _run(self, query: str, run_manager: Optional[CallbackManagerForToolRun] = None) -> str:
-        snippet_concat = "There was no content found"
         logger.info(f"Searchquery: {query}")
-        # snippet_concat = "The coalition agreements failed between SPÖ and ÖVP and NEOS. now övp and fpö are discussing terms"
 
-        """
         results = DDGS().text(query, max_results=5)
 
         ranker = Ranker(model_name="ms-marco-MiniLM-L-12-v2",
@@ -39,7 +38,9 @@ class WebsearchTool(BaseTool):
         ranked_results = ranker.rerank(rerank_request)
         ranked_results_sorted = sorted(ranked_results, key=lambda x: x["score"], reverse=True)
 
+        logger.info(f"Searchquery response: {ranked_results_sorted[0]["text"]}")
+
         return ranked_results_sorted[0]["text"]
         """
         logger.info(f"Searchquery response: {snippet_concat}")
-        return snippet_concat
+        return snippet_concat"""
