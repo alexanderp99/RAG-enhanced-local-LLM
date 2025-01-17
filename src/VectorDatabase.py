@@ -12,6 +12,7 @@ from langchain_core.tools import tool
 from langchain_experimental.text_splitter import SemanticChunker
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_unstructured import UnstructuredLoader
+import nltk
 
 logger = logging.getLogger(__name__)
 
@@ -19,9 +20,9 @@ logger = logging.getLogger(__name__)
 class DocumentVectorStorage:
 
     def __init__(self):
-        # nltk.download('punkt')
-        # nltk.download('punkt_tab')
-        # nltk.download('averaged_perceptron_tagger_eng')
+        nltk.download('punkt')
+        nltk.download('punkt_tab')
+        nltk.download('averaged_perceptron_tagger_eng')
 
         self.PROJECT_ROOT = Path(__file__).resolve().parent.parent
         self.INDEXED_FILES_PATH = self.PROJECT_ROOT / 'indexedFiles'

@@ -16,3 +16,4 @@ duckduckgo-search
 sentencepiece
 unstructured
 langchain-unstructured
+nltk

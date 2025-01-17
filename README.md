@@ -4,7 +4,7 @@
 
 ### Decezmber 1, 2024 installation requirements
 
-- Python 3.12.7 required (https://www.python.org/downloads/release/python-3127/)
+- Python 3.12.7 required (Windows) (https://www.python.org/downloads/release/python-3127/)
 - Pip 24.2 required
 - Install Microsoft Build Tools for C++ (required for compilation)
 
@@ -15,17 +15,26 @@ the box
 
 ### Ubuntu install
 
+#### Ollama install
+
+We can install the software ollama on linux like this
+> curl -fsSL https://ollama.com/install.sh | sh
+
+Start a new shell and run ollama in the background with
+> ollama start
+
+We install all ollama requirements with:
+> python src/ModelTypes/modelTypes.py
+
+#### python venv install
+
 On ubuntu you need to install python venv
 > sudo apt install python3.12-venv
 
 Create a virtual env
 > python3 -m venv .venv
 
-Activate it
-> source .venv/bin/activate
-
-First we have to install all the requirements:
-> pip install -r requirements.txt
+#### Pip update(optional)
 
 upgrade pip
 > python -m pip install --upgrade pip
@@ -33,13 +42,15 @@ upgrade pip
 or update if we did not use the project for a longer time :
 > pip install -r requirements.txt --upgrade
 
-We can install the software ollama on linux like this
-> curl -fsSL https://ollama.com/install.sh | sh
+#### Prepare for running the App
 
-We install all ollama requirements with:
-> python src/ModelTypes/modelTypes.py
+Activate the venv
+> source .venv/bin/activate
 
-# Usage
+Then install all the requirements:
+> pip install -r requirements.txt
+
+# Usage/Running
 
 Current directory: Project directory
 
