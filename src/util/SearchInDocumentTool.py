@@ -26,8 +26,8 @@ class SearchInDocumentTool(BaseTool):
     vectordb: Optional[Any] = None
     ranker: Optional[Any] = None
     user_question: str = " "
-    tokenizer = None
-    model = None
+    tokenizer: Optional[Any] = None
+    model: Optional[Any] = None
 
     def set_user_question(self, question):
         self.user_question = question
