@@ -38,9 +38,6 @@ class ReasoningLanggraphLLM:
                                           model="papluca/xlm-roberta-base-language-detection")  # no cache_dir param available
         self.workflow: StateGraph = StateGraph(AgentState)
         self.vectordb: DocumentVectorStorage = DocumentVectorStorage()
-        self.allow_document_search = True
-        self.allow_profanity_check = True
-        self.allow_hallucination_check = True
         self.config = {"configurable": {"thread_id": "1"}}
         self.memory = MemorySaver()
         self.doctool: SearchInDocumentTool = None
@@ -56,6 +53,7 @@ class ReasoningLanggraphLLM:
         self.tools = [self.doctool, self.mathtool, self.websearchtool]
         self.llm_with_tools = self.model.bind_tools(self.tools)
         self.setup_workflow()
+        self.profanity_check_enabled = False
 
     def change_selected_model(self, selected_model: str):
         self.model: ChatOllama = LatestChatOllama(model=selected_model, temperature=0)
@@ -180,13 +178,13 @@ class ReasoningLanggraphLLM:
 
         user_message_is_profane: bool = False
 
-        if self.allow_profanity_check:
+        if self.profanity_check_enabled:
             test_llm = self.profanity_check_model.with_structured_output(SafetyCheck)
             test_response: SafetyCheck = test_llm.invoke(user_message)  # profane!!
             user_message_is_profane = test_response is None or test_response.is_unethical
 
         return {'message_is_profound': True,
-                "messages": [AIMessage(content="Your message is impolite.")]} if user_message_is_profane else {
+                "messages": [AIMessage(content="Your message is against policy.")]} if user_message_is_profane else {
             'message_is_profound': False}
 
     def run(self, inputs: dict) -> BaseMessage:
@@ -212,3 +210,6 @@ class ReasoningLanggraphLLM:
 
     def reset_memory(self):
         self.memory.storage.clear()
+
+    def change_profanity_check(self, enable_profanity_check):
+        self.profanity_check_enabled = enable_profanity_check

@@ -29,6 +29,11 @@ def on_model_change():
     agent.change_selected_model(selected_value)
 
 
+def on_profanity_button_change():
+    enable_profanity_check: bool = st.session_state["profanity_button_selection"]
+    agent.change_profanity_check(enable_profanity_check)
+
+
 def clear_langgraph_conversation():
     agent.reset_memory()
     msgs.clear()
@@ -37,6 +42,9 @@ def clear_langgraph_conversation():
 
 if "reset_langgraph_cache_button" not in st.session_state:
     st.session_state.reset_langgraph_cache_button = False
+
+if "allow_profanity_check" not in st.session_state:
+    st.session_state.allow_profanity_check = False
 
 if selected_tab == "Default":
     uploaded_document_names: list[str] = []
@@ -125,3 +133,6 @@ elif selected_tab == "settings":
         "Which LLM should be used for function calling/ profanity check",
         options=get_function_calling_modelfiles(), index=1, on_change=on_model_change, key="model_selection",
     )
+    st.session_state.allow_profanity_check = st.toggle(
+        "Enable Profanity Check", value=st.session_state.allow_profanity_check, on_change=on_profanity_button_change,
+        key="profanity_button_selection", )
