@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 from typing import List, Optional, Any, Type
 
 from flashrank import RerankRequest
@@ -33,6 +34,11 @@ class SearchInDocumentTool(BaseTool):
         super().__init__()
         self.vectordb = database
         self.ranker = ranker
+        model_name = "google/flan-t5-small"
+        PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+        self.tokenizer = T5Tokenizer.from_pretrained(model_name, cache_dir=f"{str(self.PROJECT_ROOT)}/encoderdecoder")
+        self.model = T5ForConditionalGeneration.from_pretrained(model_name)
 
     def _run(self, queries: List[str], run_manager: Optional[CallbackManagerForToolRun] = None) -> str:
 
@@ -67,16 +73,12 @@ class SearchInDocumentTool(BaseTool):
         summary = ""
 
         try:
-            model_name = "google/flan-t5-large"
-            tokenizer = T5Tokenizer.from_pretrained(model_name)
-            model = T5ForConditionalGeneration.from_pretrained(model_name)
-
             input_text = f"Please answer the question with the context. Question: {self.user_question} \n. Context: {all_docs_t5}"
-            inputs = tokenizer(input_text, return_tensors="pt", truncation=True)
+            inputs = self.tokenizer(input_text, return_tensors="pt", truncation=True)
 
-            summary_ids = model.generate(inputs["input_ids"], max_length=128, num_beams=4, length_penalty=1.8,
-                                         early_stopping=False, repetition_penalty=1.5, do_sample=False)
-            summary = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+            summary_ids = self.model.generate(inputs["input_ids"], max_length=128, num_beams=4, length_penalty=1.8,
+                                              early_stopping=False, repetition_penalty=1.5, do_sample=False)
+            summary = self.tokenizer.decode(summary_ids[0], skip_special_tokens=True)
         except Exception as e:
             print(e)
 
