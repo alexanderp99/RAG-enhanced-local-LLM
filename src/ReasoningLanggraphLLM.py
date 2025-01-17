@@ -31,8 +31,8 @@ logger = logging.getLogger(__name__)
 class ReasoningLanggraphLLM:
 
     def __init__(self):
-        self.model: ChatOllama = LatestChatOllama(model=Modeltype.LLAMA3_1_8B.value, temperature=0)
-        self.profanity_check_model = LatestChatOllama(model=Modeltype.LLAMA3_1_8B.value, temperature=0)
+        self.model: ChatOllama = LatestChatOllama(model=Modeltype.LLAMA3_2_1B.value, temperature=0)
+        self.profanity_check_model = LatestChatOllama(model=Modeltype.LLAMA3_2_1B.value, temperature=0)
         self.translation_model = LatestChatOllama(model=Modeltype.AYA.value, temperature=0)
         self.language_pipeline = pipeline("text-classification",
                                           model="papluca/xlm-roberta-base-language-detection")  # no cache_dir param available
@@ -49,13 +49,18 @@ class ReasoningLanggraphLLM:
                              cache_dir=f"{str(self.PROJECT_ROOT)}/ranker")
         self.reasoning_sys_message = SystemMessage(
             """You are a helpful assistant with access to tools. You can search for relevant information using the provided tools and perform arithmetic calculations. 
-        For each question, determine if you can answer the question directly based on your general knowledge, or If necessary Use the `search_in_document` tool to find the necessary information within the available documents. If you do not get an answer from the 'search_in_document' tool Message or get an error, use the websearch tool, but the websearch tool should have lower priority.""")
+        For each question, determine if you can answer the question directly based on your general knowledge, or If necessary Use the `Search_in_document` tool to find the necessary information within the available documents. If you do not get an answer from the 'Search_in_document' tool Message or get an error, use the websearch tool, but the websearch tool should have lower priority.""")
         self.doctool = SearchInDocumentTool(self.vectordb, self.ranker)
         self.websearchtool = WebsearchTool(self.ranker)
         self.mathtool = MathTool()
         self.tools = [self.doctool, self.mathtool, self.websearchtool]
         self.llm_with_tools = self.model.bind_tools(self.tools)
         self.setup_workflow()
+
+    def change_selected_model(self, selected_model: str):
+        self.model: ChatOllama = LatestChatOllama(model=selected_model, temperature=0)
+        self.llm_with_tools = self.model.bind_tools(self.tools)
+        self.profanity_check_model = LatestChatOllama(model=selected_model, temperature=0)
 
     @st.cache_resource
     @staticmethod

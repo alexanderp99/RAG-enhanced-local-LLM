@@ -5,6 +5,15 @@ import subprocess
 class Modeltype(Enum):
     LLAMA3_1_8B = "llama3.1:8b"
     AYA = "aya:latest"
+    LLAMA3_2_1B = "llama3.2:1b"
+
+
+def get_function_calling_modelfiles():
+    modelfiles = []
+    for model in Modeltype:
+        if model != Modeltype.AYA:
+            modelfiles.append(model.value)
+    return modelfiles
 
 
 def install_models():

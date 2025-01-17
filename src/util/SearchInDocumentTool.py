@@ -19,7 +19,7 @@ class DocumentInput(BaseModel):
 
 
 class SearchInDocumentTool(BaseTool):
-    name: str = "search_in_document"
+    name: str = "Search_in_document"
     description: str = "Searches for content within documents using multiple queries for better results."
     args_schema: Type[BaseModel] = DocumentInput
     return_direct: bool = False

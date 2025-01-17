@@ -9,6 +9,7 @@ from streamlit.runtime.uploaded_file_manager import UploadedFile
 
 from src.VectorDatabase import DocumentVectorStorage
 from src.ReasoningLanggraphLLM import ReasoningLanggraphLLM
+from src.ModelTypes.modelTypes import get_function_calling_modelfiles
 
 st.set_page_config(layout="wide")
 session_key: str = "langchain_messages"
@@ -19,8 +20,13 @@ last_response_stream: Any = None
 agent: ReasoningLanggraphLLM = ReasoningLanggraphLLM.get_langgraph_instance()
 document_vector_storage: DocumentVectorStorage = agent.vectordb
 
-selected_tab: str | None = st.sidebar.selectbox("Select Tab", ["Default", "vectordb"])
+selected_tab: str | None = st.sidebar.selectbox("Select Tab", ["Default", "vectordb", "settings"])
 greeting_message: str = "How can I help you?"
+
+
+def on_model_change():
+    selected_value = st.session_state["model_selection"]
+    agent.change_selected_model(selected_value)
 
 
 def clear_langgraph_conversation():
@@ -114,3 +120,8 @@ elif selected_tab == "vectordb":
     else:
         chunks_df = pd.DataFrame(columns=["Chunks"])
     st.dataframe(chunks_df, width=1100)
+elif selected_tab == "settings":
+    option = st.selectbox(
+        "Which LLM should be used for function calling/ profanity check",
+        options=get_function_calling_modelfiles(), index=1, on_change=on_model_change, key="model_selection",
+    )
