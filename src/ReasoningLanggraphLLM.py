@@ -31,9 +31,9 @@ logger = logging.getLogger(__name__)
 class ReasoningLanggraphLLM:
 
     def __init__(self):
-        self.model: ChatOllama = LatestChatOllama(model=Modeltype.LLAMA3_2_1B.value, temperature=0)
-        self.profanity_check_model = LatestChatOllama(model=Modeltype.LLAMA3_2_1B.value, temperature=0)
-        self.translation_model = LatestChatOllama(model=Modeltype.AYA.value, temperature=0)
+        self.model: ChatOllama = LatestChatOllama(model=Modeltype.LLAMA3_2_1B.value, temperature=0, seed=0)
+        self.profanity_check_model = LatestChatOllama(model=Modeltype.LLAMA3_2_1B.value, temperature=0, seed=0)
+        self.translation_model = LatestChatOllama(model=Modeltype.AYA.value, temperature=0, seed=0)
         self.language_pipeline = pipeline("text-classification",
                                           model="papluca/xlm-roberta-base-language-detection")  # no cache_dir param available
         self.workflow: StateGraph = StateGraph(AgentState)
@@ -56,9 +56,9 @@ class ReasoningLanggraphLLM:
         self.profanity_check_enabled = False
 
     def change_selected_model(self, selected_model: str):
-        self.model: ChatOllama = LatestChatOllama(model=selected_model, temperature=0)
+        self.model: ChatOllama = LatestChatOllama(model=selected_model, temperature=0, seed=0)
         self.llm_with_tools = self.model.bind_tools(self.tools)
-        self.profanity_check_model = LatestChatOllama(model=selected_model, temperature=0)
+        self.profanity_check_model = LatestChatOllama(model=selected_model, temperature=0, seed=0)
 
     @st.cache_resource
     @staticmethod
