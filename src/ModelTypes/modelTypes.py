@@ -4,7 +4,6 @@ import subprocess
 
 class Modeltype(Enum):
     LLAMA3_1_8B = "llama3.1:8b"
-    MISTRAL_7B = "mistral:7b"
     AYA = "aya:latest"
 
 
