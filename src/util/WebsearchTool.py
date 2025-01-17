@@ -32,10 +32,8 @@ class WebsearchTool(BaseTool):
 
         results = DDGS().text(query, max_results=5)
 
-        ranker = Ranker(model_name="ms-marco-MiniLM-L-12-v2",
-                        cache_dir="/ranker")
         rerank_request = RerankRequest(query=query, passages=[{"text": result["body"]} for result in results])
-        ranked_results = ranker.rerank(rerank_request)
+        ranked_results = self.ranker.rerank(rerank_request)
         ranked_results_sorted = sorted(ranked_results, key=lambda x: x["score"], reverse=True)
 
         logger.info(f"Searchquery response: {ranked_results_sorted[0]["text"]}")

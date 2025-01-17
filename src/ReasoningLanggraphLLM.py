@@ -1,5 +1,6 @@
 import logging
 import warnings
+from pathlib import Path
 from typing import List, Any
 
 import iso639
@@ -43,10 +44,9 @@ class ReasoningLanggraphLLM:
         self.config = {"configurable": {"thread_id": "1"}}
         self.memory = MemorySaver()
         self.doctool: SearchInDocumentTool = None
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
-            self.ranker = Ranker(model_name="ms-marco-MiniLM-L-12-v2",
-                                 cache_dir="/ranker")  # # if not sys.warnoptions:  # flashrank\Ranker.py:115: ResourceWarning: unclosed file <_io.TextIOWrapper name='\\ranker\\ms-marco-MiniLM-L-12-v2\\config.json' mode='r' encoding='cp1252'> config = json.load(open(str(self.model_dir / "config.json"))) https://stackoverflow.com/questions/26563711/disabling-python-3-2-resourcewarning
+        self.PROJECT_ROOT = Path(__file__).resolve().parent.parent
+        self.ranker = Ranker(model_name="ms-marco-MiniLM-L-12-v2",
+                             cache_dir=f"{str(self.PROJECT_ROOT)}/ranker")
         self.reasoning_sys_message = SystemMessage(
             """You are a helpful assistant with access to tools. You can search for relevant information using the provided tools and perform arithmetic calculations. 
         For each question, determine if you can answer the question directly based on your general knowledge, or If necessary Use the `search_in_document` tool to find the necessary information within the available documents. If you do not get an answer from the 'search_in_document' tool Message or get an error, use the websearch tool, but the websearch tool should have lower priority.""")
