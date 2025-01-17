@@ -37,7 +37,7 @@ class SearchInDocumentTool(BaseTool):
         self.vectordb = database
         self.ranker = ranker
         model_name = "google/flan-t5-small"
-        PROJECT_ROOT = Path(__file__).resolve().parent.parent
+        PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 
         self.tokenizer = T5Tokenizer.from_pretrained(model_name, cache_dir=f"{str(PROJECT_ROOT)}/encoderdecoder")
         self.model = T5ForConditionalGeneration.from_pretrained(model_name)
