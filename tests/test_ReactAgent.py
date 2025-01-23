@@ -33,6 +33,7 @@ class TestVectorDatabase(unittest.TestCase):
         self.agent.allow_profanity_check = False
         self.chatmodel: ChatOllama = LatestChatOllama(model=Modeltype.LLAMA3_1_8B.value, temperature=0)
         self.translation_model = LatestChatOllama(model=Modeltype.AYA.value, temperature=0)
+        self.agent.change_selected_model(Modeltype.LLAMA3_1_8B.value)
 
     def _clear_agent_memory(self):
         self.agent.reset_memory()
