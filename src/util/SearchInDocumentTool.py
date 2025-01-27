@@ -85,7 +85,7 @@ class SearchInDocumentTool(BaseTool):
             print(e)
 
         answer = "Answer: " + summary
-        response = answer + " ." + all_docs_string
+        response = "Context:" + all_docs_string
 
         logger.info(f"T5 answer: {answer}")
         logger.info(f"Database Context: {all_docs_string}")

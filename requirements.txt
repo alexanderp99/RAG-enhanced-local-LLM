@@ -17,3 +17,7 @@ sentencepiece
 unstructured
 langchain-unstructured
 nltk
+pymilvus # new
+pymilvus[model] # embeddings milvus
+protobuf #milvus dependencies
+grpcio-tools #milvus dependencies
