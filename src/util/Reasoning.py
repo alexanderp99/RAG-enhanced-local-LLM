@@ -15,6 +15,10 @@ def reasoner(state, llm_with_tools, sys_message):
 
     result = [llm_with_tools.invoke([sys_msg] + messages)]
 
+    """if len(result[0].lc_attributes["tool_calls"]) >= 2 and result[0].lc_attributes["tool_calls"][0][
+        "name"] == "Search_in_document" and result[0].lc_attributes["tool_calls"][1]["name"] == "Math Tool":
+        result[0].lc_attributes["tool_calls"].pop(1)"""
+
     return {"messages": result}
 
 

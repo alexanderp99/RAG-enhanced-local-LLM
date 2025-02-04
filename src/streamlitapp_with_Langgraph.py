@@ -113,7 +113,7 @@ elif selected_tab == "vectordb":
     st.write("Filenames and Chunks in Vectordb:")
 
     filenames = document_vector_storage.get_indexed_filenames()
-    chunks, repeated_list_filenames = document_vector_storage.get_all_chunks()
+    chunks, repeated_list_filenames, summaries = document_vector_storage.get_all_chunks()
 
     st.write("Filenames:")
     if filenames:
@@ -124,7 +124,8 @@ elif selected_tab == "vectordb":
 
     st.write("Chunks:")
     if chunks:
-        chunks_df: DataFrame = pd.DataFrame({"Chunks": chunks, "Filename": repeated_list_filenames})
+        chunks_df: DataFrame = pd.DataFrame(
+            {"Chunks": chunks, "Filename": repeated_list_filenames, "Summary": summaries})
     else:
         chunks_df = pd.DataFrame(columns=["Chunks"])
     st.dataframe(chunks_df, width=1100)

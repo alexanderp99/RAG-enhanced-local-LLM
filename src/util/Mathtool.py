@@ -13,12 +13,12 @@ logger = logging.getLogger(__name__)
 
 class MathtoolInput(BaseModel):
     expression: str = Field(
-        description="The mathematical expression to evaluate", )
+        description="The numerical expression to evaluate.")
 
 
 class MathTool(BaseTool):
     name: str = "Math Tool"
-    description: str = "Calculates a mathematical expression"
+    description: str = "Calculates a numerical expression"
     args_schema: Type[BaseModel] = MathtoolInput
     return_direct: bool = False
 

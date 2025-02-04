@@ -3,10 +3,11 @@ import json
 import logging
 import os
 from pathlib import Path, WindowsPath
-from typing import List, Tuple, Dict
+from typing import List, Tuple, Dict, Set
 
 from langchain_chroma import Chroma
 from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.embeddings import HuggingFaceBgeEmbeddings
 from langchain_core.documents.base import Document
 from langchain_core.tools import tool
 from langchain_experimental.text_splitter import SemanticChunker
@@ -14,12 +15,17 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_unstructured import UnstructuredLoader
 import nltk
 
+from DocumentSummariser import DocumentSummariser
+from DocumentWrapper import DocumentWrapper
+from FileAddedObservable import FileAddedObservable
+
 logger = logging.getLogger(__name__)
 
 
-class DocumentVectorStorage:
+class DocumentVectorStorage(FileAddedObservable):
 
     def __init__(self):
+        super().__init__()
         nltk.download('punkt')
         nltk.download('punkt_tab')
         nltk.download('averaged_perceptron_tagger_eng')
@@ -27,14 +33,28 @@ class DocumentVectorStorage:
         self.PROJECT_ROOT = Path(__file__).resolve().parent.parent
         self.INDEXED_FILES_PATH = self.PROJECT_ROOT / 'indexedFiles'
         self.DATABASE_PATH: WindowsPath = str(self.PROJECT_ROOT / 'chroma_db')
-        self.EMBEDDING_CACHE: WindowsPath = str(self.PROJECT_ROOT / 'embedding-models/all-miniLM')
+        # self.EMBEDDING_CACHE: WindowsPath = str(self.PROJECT_ROOT / 'embedding-models/all-miniLM')
+        self.EMBEDDING_CACHE: WindowsPath = str(self.PROJECT_ROOT / 'embedding-models/bge')
+        self.DocumentSummariser = DocumentSummariser()
 
-        embed_model: HuggingFaceEmbeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2",
+        model_name = "BAAI/bge-small-en-v1.5"
+        model_kwargs = {'device': 'cpu'}
+        query_instruction = "Represent this sentence for searching relevant passages:"
+        encode_kwargs = {'normalize_embeddings': True, "default_prompt_name": query_instruction}
+        embed_model = HuggingFaceEmbeddings(
+            model_name=model_name,
+            model_kwargs=model_kwargs,
+            encode_kwargs=encode_kwargs,
+            # query_instruction=query_instruction,
+            cache_folder=str(self.EMBEDDING_CACHE)
+        )
+
+        """embed_model: HuggingFaceEmbeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2",
                                                                    cache_folder=str(self.EMBEDDING_CACHE),
-                                                                   model_kwargs={'device': 'cpu'})
+                                                                   model_kwargs={'device': 'cpu'})"""
 
         self.semantic_chunker: SemanticChunker = SemanticChunker(embed_model, breakpoint_threshold_type="percentile",
-                                                                 breakpoint_threshold_amount=95.0)
+                                                                 breakpoint_threshold_amount=80.0)
 
         self.db: Chroma = Chroma(persist_directory=str(self.DATABASE_PATH), embedding_function=embed_model)
 
@@ -88,9 +108,12 @@ class DocumentVectorStorage:
                 loaded_doc = loader.load()
 
                 whole_content = "\n".join(text.page_content for text in loaded_doc)
+                doc_summary = self.DocumentSummariser.summarize_text(whole_content)
 
-                merged_doc: Document = Document(page_content=whole_content, metadata={"source": filename})
+                merged_doc: Document = Document(page_content=whole_content,
+                                                metadata={"source": filename, "docsummary": doc_summary})
                 doc.append(merged_doc)
+                self.notify_file_added()
 
             except Exception as e:
                 print(e)
@@ -98,6 +121,15 @@ class DocumentVectorStorage:
 
     def query_vector_database(self, query: str) -> List[Document]:
         return self.db.similarity_search(query)
+
+    def query_vector_database_with_keywords(self, queries: List[str]):
+        docs = set()
+        for each_query in queries:
+            results = self.db.search(query=each_query, search_type="mmr", k=15)
+            for each_doc in results:
+                converted_doc = DocumentWrapper(each_doc)
+                docs.add(converted_doc)
+        return docs
 
     def query_vector_database_with_relevance(self, query: str) -> List[Tuple[Document, float]]:
         return self.db.similarity_search_with_relevance_scores(query)
@@ -131,8 +163,13 @@ class DocumentVectorStorage:
         """
         all_chunks: List[Document] = self.db.get()["documents"]
         all_filenames: List[str] = [item["source"] for item in self.db.get()["metadatas"]]
+        summaries = [item.get("docsummary", "No summary") for item in self.db.get()["metadatas"]]
 
-        return all_chunks, all_filenames
+        return all_chunks, all_filenames, summaries
+
+    def get_document_summaries(self) -> List[str]:
+        all_summaries: List[str] = [item["docsummary"] for item in self.db.get()["metadatas"] if "docsummary" in item]
+        return list(set(all_summaries))  # unique summaries
 
     def process_and_index_file(self, uploaded_file: io.BytesIO) -> None:
         """
