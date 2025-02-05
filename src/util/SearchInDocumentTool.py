@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from pydantic import Field
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 from nltk.tokenize import sent_tokenize
-from DocumentWrapper import DocumentWrapper
+from util.DocumentWrapper import DocumentWrapper
 
 from util import logger
 
