@@ -1,13 +1,11 @@
 import io
 import json
-import logging
 import os
 from pathlib import Path, WindowsPath
-from typing import List, Tuple, Dict, Set
+from typing import List, Tuple, Dict
 
 from langchain_chroma import Chroma
 from langchain_community.document_loaders import PyPDFLoader
-from langchain_community.embeddings import HuggingFaceBgeEmbeddings
 from langchain_core.documents.base import Document
 from langchain_core.tools import tool
 from langchain_experimental.text_splitter import SemanticChunker
@@ -15,9 +13,9 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_unstructured import UnstructuredLoader
 import nltk
 
-from DocumentSummariser import DocumentSummariser
-from DocumentWrapper import DocumentWrapper
-from FileAddedObservable import FileAddedObservable
+from util.DocumentSummariser import DocumentSummariser
+from util.DocumentWrapper import DocumentWrapper
+from util.FileAddedObservable import FileAddedObservable
 
 
 class DocumentVectorStorage(FileAddedObservable):
@@ -31,7 +29,6 @@ class DocumentVectorStorage(FileAddedObservable):
         self.PROJECT_ROOT = Path(__file__).resolve().parent.parent
         self.INDEXED_FILES_PATH = self.PROJECT_ROOT / 'indexedFiles'
         self.DATABASE_PATH: WindowsPath = str(self.PROJECT_ROOT / 'chroma_db')
-        # self.EMBEDDING_CACHE: WindowsPath = str(self.PROJECT_ROOT / 'embedding-models/all-miniLM')
         self.EMBEDDING_CACHE: WindowsPath = str(self.PROJECT_ROOT / 'embedding-models/bge')
         self.DocumentSummariser = DocumentSummariser()
 
@@ -43,13 +40,8 @@ class DocumentVectorStorage(FileAddedObservable):
             model_name=model_name,
             model_kwargs=model_kwargs,
             encode_kwargs=encode_kwargs,
-            # query_instruction=query_instruction,
             cache_folder=str(self.EMBEDDING_CACHE)
         )
-
-        """embed_model: HuggingFaceEmbeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2",
-                                                                   cache_folder=str(self.EMBEDDING_CACHE),
-                                                                   model_kwargs={'device': 'cpu'})"""
 
         self.semantic_chunker: SemanticChunker = SemanticChunker(embed_model, breakpoint_threshold_type="percentile",
                                                                  breakpoint_threshold_amount=80.0)
