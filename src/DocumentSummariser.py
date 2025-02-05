@@ -6,7 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 from langchain_ollama import ChatOllama as LatestChatOllama
 
-from modelTypes import Modeltype
+from ModelTypes.modelTypes import Modeltype
 
 
 class DocumentSummariser:
