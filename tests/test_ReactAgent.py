@@ -10,7 +10,7 @@ from pydantic import BaseModel, Field
 from src.ModelTypes.modelTypes import Modeltype
 from src.ReasoningLanggraphLLM import ReasoningLanggraphLLM
 
-from util import logger
+from src.util import logger
 
 
 # Source:https://python.langchain.com/docs/integrations/tools/ddg
