@@ -9,7 +9,8 @@ from pydantic import BaseModel, Field
 
 from src.ModelTypes.modelTypes import Modeltype
 from src.ReasoningLanggraphLLM import ReasoningLanggraphLLM
-from tests import logger
+
+from util import logger
 
 
 # Source:https://python.langchain.com/docs/integrations/tools/ddg
@@ -180,9 +181,11 @@ class TestVectorDatabase(unittest.TestCase):
     def test_bad_question_answer_ability(self):
 
         test_cases = [
-            {"question": "What is the third root of 64?",
-             "fact": "The answer is 4",
-             "snippets": [""]}, ]
+            {"question": "What are the opening hours of the reception?",
+             "fact": "Opening hours: daily 8am to midday and 3pm to 5pm. Call any time between 8am and 9pm Reception",
+             "snippets": [
+                 "Reception Opening hours: daily 8am to midday and 3pm to 5pm Call any time between 8am and 9pm Reception, Ph. 0043 (0) 664 123 30 87"]},
+        ]
 
         for case in test_cases:
             with self.subTest(case=case):

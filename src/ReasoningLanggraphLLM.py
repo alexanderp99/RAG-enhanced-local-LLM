@@ -26,8 +26,6 @@ from src.util.SafetyCheck import SafetyCheck
 from src.util.SearchInDocumentTool import SearchInDocumentTool
 from src.util.WebsearchTool import WebsearchTool
 
-logger = logging.getLogger(__name__)
-
 
 class ReasoningLanggraphLLM:
 

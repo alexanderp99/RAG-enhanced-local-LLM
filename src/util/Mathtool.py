@@ -8,7 +8,7 @@ from numpy import ndarray
 from pydantic import BaseModel
 from pydantic import Field
 
-logger = logging.getLogger(__name__)
+from util import logger
 
 
 class MathtoolInput(BaseModel):

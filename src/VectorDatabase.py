@@ -19,16 +19,14 @@ from DocumentSummariser import DocumentSummariser
 from DocumentWrapper import DocumentWrapper
 from FileAddedObservable import FileAddedObservable
 
-logger = logging.getLogger(__name__)
-
 
 class DocumentVectorStorage(FileAddedObservable):
 
     def __init__(self):
         super().__init__()
-        nltk.download('punkt')
-        nltk.download('punkt_tab')
-        nltk.download('averaged_perceptron_tagger_eng')
+        nltk.download('punkt', quiet=True)
+        nltk.download('punkt_tab', quiet=True)
+        nltk.download('averaged_perceptron_tagger_eng', quiet=True)
 
         self.PROJECT_ROOT = Path(__file__).resolve().parent.parent
         self.INDEXED_FILES_PATH = self.PROJECT_ROOT / 'indexedFiles'

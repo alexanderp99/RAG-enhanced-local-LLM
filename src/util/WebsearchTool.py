@@ -8,7 +8,7 @@ from langchain_core.tools import BaseTool
 from pydantic import BaseModel
 from pydantic import Field
 
-logger = logging.getLogger(__name__)
+from util import logger
 
 
 class WebsearchInput(BaseModel):

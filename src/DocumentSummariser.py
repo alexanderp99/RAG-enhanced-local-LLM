@@ -11,8 +11,8 @@ from modelTypes import Modeltype
 
 class DocumentSummariser:
     def __init__(self):
-        nltk.download('punkt')
-        nltk.download('stopwords')
+        nltk.download('punkt', quiet=True)
+        nltk.download('stopwords', quiet=True)
         self.vectorizer = TfidfVectorizer()
 
     def _preprocess_text(self, text):
