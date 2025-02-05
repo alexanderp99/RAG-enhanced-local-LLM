@@ -77,6 +77,9 @@ The files which can be uploaded are located in the "files_to_upload" folder
 
 # Run Unit Tests
 
+Mount source folder for tests
+> export PYTHONPATH=$(pwd)/src
+
 Current directory: Project directory
 > python -m unittest discover -s tests -p '*.py'
 
