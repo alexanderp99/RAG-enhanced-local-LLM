@@ -28,7 +28,7 @@ class QuestionAnsweredCheck(BaseModel):
         default=False)
 
 
-class TestVectorDatabase(unittest.TestCase):
+class TestReactAgent(unittest.TestCase):
 
     def setUp(self):
         self.agent: ReasoningLanggraphLLM = ReasoningLanggraphLLM()
