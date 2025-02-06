@@ -67,7 +67,7 @@ class SearchInDocumentTool(BaseTool):
                     " ", "").replace(",", "")
                 for each_ranked_result in ranked_results
                 for each_snippet in self.snippets
-            )
+            ) if self.snippets is not None else False
 
             logger.info(f"Some_snippet_in_result: {some_snippet_in_result}")
 
