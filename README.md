@@ -81,7 +81,12 @@ Mount source folder for tests
 > export PYTHONPATH=$(pwd)/src
 
 Current directory: Project directory
-> python -m unittest discover -s tests -p '*.py'
+
+Run all relevant tests
+> python -m unittest tests.test_ReactAgent.TestReactAgent.test_multiple_question_answer_ability -v
+
+Run all tests
+> python -m unittest discover -s tests -p '*.py' -v
 
 # Lessons Learned
 
