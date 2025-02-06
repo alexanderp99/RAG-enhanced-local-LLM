@@ -132,7 +132,7 @@ elif selected_tab == "vectordb":
 elif selected_tab == "settings":
     option = st.selectbox(
         "Which LLM should be used for function calling/ profanity check",
-        options=get_function_calling_modelfiles(), index=1, on_change=on_model_change, key="model_selection",
+        options=get_function_calling_modelfiles(), index=0, on_change=on_model_change, key="model_selection",
     )
     st.session_state.allow_profanity_check = st.toggle(
         "Enable Profanity Check", value=st.session_state.allow_profanity_check, on_change=on_profanity_button_change,
