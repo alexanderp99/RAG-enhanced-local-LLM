@@ -30,7 +30,7 @@ class WebsearchTool(BaseTool):
     def _run(self, query: str, run_manager: Optional[CallbackManagerForToolRun] = None) -> str:
         logger.info(f"Searchquery: {query}")
 
-        """results = DDGS().text(query, max_results=5)
+        results = DDGS().text(query, max_results=5)
 
         rerank_request = RerankRequest(query=query, passages=[{"text": result["body"]} for result in results])
         ranked_results = self.ranker.rerank(rerank_request)
@@ -42,4 +42,4 @@ class WebsearchTool(BaseTool):
         """
         snippet_concat = " no  web result"
         logger.info(f"Searchquery response: {snippet_concat}")
-        return snippet_concat
+        return snippet_concat"""
