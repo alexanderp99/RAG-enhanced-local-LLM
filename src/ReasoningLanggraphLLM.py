@@ -9,6 +9,7 @@ from flashrank import Ranker
 from langchain_community.chat_models import ChatOllama
 from langchain_core.messages import BaseMessage, AIMessage
 from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.runnables.graph import MermaidDrawMethod
 from langchain_ollama import ChatOllama as LatestChatOllama
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import StateGraph, END
@@ -25,8 +26,6 @@ from src.util.SafetyCheck import SafetyCheck
 from src.util.SearchInDocumentTool import SearchInDocumentTool
 from src.util.WebsearchTool import WebsearchTool
 
-logger = logging.getLogger(__name__)
-
 
 class ReasoningLanggraphLLM:
 
@@ -38,6 +37,7 @@ class ReasoningLanggraphLLM:
                                           model="papluca/xlm-roberta-base-language-detection")  # no cache_dir param available
         self.workflow: StateGraph = StateGraph(AgentState)
         self.vectordb: DocumentVectorStorage = DocumentVectorStorage()
+        self.vectordb.register_observer(self)
         self.config = {"configurable": {"thread_id": "1"}}
         self.memory = MemorySaver()
         self.doctool: SearchInDocumentTool = None
@@ -47,6 +47,21 @@ class ReasoningLanggraphLLM:
         self.reasoning_sys_message = SystemMessage(
             """You are a helpful assistant with access to tools. You can search for relevant information using the provided tools and perform arithmetic calculations. 
         For each question, determine if you can answer the question directly based on your general knowledge, or If necessary Use the `Search_in_document` tool to find the necessary information within the available documents. If you do not get an answer from the 'Search_in_document' tool Message or get an error, use the websearch tool, but the websearch tool should have lower priority.""")
+
+        self.reasoning_sys_message = SystemMessage(
+            """You are a helpful assistant with access to tools. You can search for relevant information using the provided tools and perform arithmetic calculations. 
+        For each question, determine if you can answer the question directly based on your general knowledge, or If necessary Use the `Search_in_document` tool to find the necessary information within the available documents. 
+        The documents contain a comprehensive guest guide for visitors staying at Wood Rdige hotel in Werfenweng. It includes invo such as Emergency contacts, Activities, Transporation and much more.
+        If you do not get an answer from the 'Search_in_document' tool Message or get an error, use the websearch tool, but the websearch tool should have lower priority.""")
+
+        self.set_sys_message()
+        """self.reasoning_sys_message = SystemMessage(
+            You are a helpful assistant with access to tools. You can search for relevant information using the provided tools and perform arithmetic calculations. You are allowed to call only one tool at a time. If you need to perform arithmetic calculations (addition, multiplication and so on), you have to use the Mathtool.
+        For each question, determine if you can answer the question directly based on your general knowledge, or If necessary Use the `Search_in_document` tool to find the necessary information within the available b. If you do not get an answer from the 'Search_in_document' tool Message or get an error, use the websearch tool, but the websearch tool should have lower priority.)
+        """
+
+        # you HAVE to use the Mathtool, no exceptions. I REPEAT. You are not allowed to do math by yourself. You have to use the math tool. Not adhering will result in punishment.
+
         self.doctool = SearchInDocumentTool(self.vectordb, self.ranker)
         self.websearchtool = WebsearchTool(self.ranker)
         self.mathtool = MathTool()
@@ -54,6 +69,25 @@ class ReasoningLanggraphLLM:
         self.llm_with_tools = self.model.bind_tools(self.tools)
         self.setup_workflow()
         self.profanity_check_enabled = False
+
+    def on_file_added(self):
+        self.set_sys_message()
+
+    def set_sys_message(self):
+        summaries: List[str] = self.vectordb.get_document_summaries()
+
+        self.reasoning_sys_message = SystemMessage(
+            f"""You are a helpful assistant with access to tools. You can search for relevant information using the provided tools and perform arithmetic calculations. 
+        For each question, determine if you can answer the question directly based on your general knowledge, or If necessary Use the `Search_in_document` tool to find the necessary information within the available documents. 
+        
+        If you do not get an answer from the 'Search_in_document' tool Message or get an error, use the websearch tool, but the websearch tool should have lower priority.
+        """)
+
+        """The documents contains the following summaries:
+        {"".join(summaries)}"""
+
+    def set_debug_snippet(self, snippets: List[str]):
+        self.doctool.set_debug_snippets(snippets)
 
     def change_selected_model(self, selected_model: str):
         self.model: ChatOllama = LatestChatOllama(model=selected_model, temperature=0, seed=0)
@@ -71,7 +105,7 @@ class ReasoningLanggraphLLM:
         self.workflow.add_node("UserMessageTranslator", self.translate_user_message_into_english)
         self.workflow.add_node("SystemResponseTranslator", self.translate_output_into_user_language)
         self.workflow.add_node("EndNode", self.end_node)
-        self.workflow.add_node("IntermediateNode1", self.intermediate_node1)
+        # self.workflow.add_node("IntermediateNode1", self.intermediate_node1)
         self.workflow.add_node("reasoner", self.reasoning)
         self.workflow.add_node("tools", ToolNode(self.tools))
 
@@ -90,9 +124,9 @@ class ReasoningLanggraphLLM:
         self.workflow.add_conditional_edges(
             "ProfanityCheck",
             self.check_user_message_for_profoundness,
-            {"userMessageNotHarmful": "IntermediateNode1", "userMessageIsProfound": "EndNode"})
+            {"userMessageNotHarmful": "reasoner", "userMessageIsProfound": "EndNode"})
 
-        self.workflow.add_edge("IntermediateNode1", "reasoner")
+        # self.workflow.add_edge("IntermediateNode1", "reasoner")
         self.workflow.add_conditional_edges(
             "reasoner",
             tools_condition,
@@ -100,9 +134,9 @@ class ReasoningLanggraphLLM:
         self.workflow.add_edge("tools", "reasoner")
 
         self.graph: CompiledGraph = self.workflow.compile(checkpointer=self.memory)
-        # img_data: bytes = self.graph.get_graph().draw_mermaid_png(draw_method=MermaidDrawMethod.API)
-        # with open("graph.png", "wb") as f:
-        #   f.write(img_data)
+        img_data: bytes = self.graph.get_graph().draw_mermaid_png(draw_method=MermaidDrawMethod.API)
+        with open("graph_new.png", "wb") as f:
+            f.write(img_data)
 
     def reasoning(self, state: AgentState):
         return reasoner(state, self.llm_with_tools, self.reasoning_sys_message)

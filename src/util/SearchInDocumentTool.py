@@ -9,8 +9,10 @@ from langchain_core.tools import BaseTool
 from pydantic import BaseModel
 from pydantic import Field
 from transformers import T5Tokenizer, T5ForConditionalGeneration
+from nltk.tokenize import sent_tokenize
+from util.DocumentWrapper import DocumentWrapper
 
-logger = logging.getLogger(__name__)
+from util import logger
 
 
 class DocumentInput(BaseModel):
@@ -26,8 +28,8 @@ class SearchInDocumentTool(BaseTool):
     vectordb: Optional[Any] = None
     ranker: Optional[Any] = None
     user_question: str = " "
-    tokenizer: Optional[Any] = None
     model: Optional[Any] = None
+    snippets: Optional[Any] = None
 
     def set_user_question(self, question):
         self.user_question = question
@@ -36,58 +38,52 @@ class SearchInDocumentTool(BaseTool):
         super().__init__()
         self.vectordb = database
         self.ranker = ranker
-        model_name = "google/flan-t5-small"
-        PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 
-        self.tokenizer = T5Tokenizer.from_pretrained(model_name, cache_dir=f"{str(PROJECT_ROOT)}/encoderdecoder")
-        self.model = T5ForConditionalGeneration.from_pretrained(model_name)
+    def set_debug_snippets(self, snippets: List[str]):
+        self.snippets = snippets
 
     def _run(self, queries: List[str], run_manager: Optional[CallbackManagerForToolRun] = None) -> str:
 
         queries.append(self.user_question)
         logger.info(f"Document Queries: {queries}")
 
-        docs_t5 = 0
         try:
             unique_docs = set()
+            unique_docs.update(self.vectordb.query_vector_database_with_keywords(queries))
+
             for query in queries:
                 result = self.vectordb.query_vector_database(query)
                 for doc in result:
-                    unique_docs.add(doc.page_content)
+                    converted_doc = DocumentWrapper(doc)
+                    unique_docs.add(converted_doc)
 
-            rerank_request = RerankRequest(query=", ".join(queries), passages=[{"text": text} for text in unique_docs])
+            rerank_request = RerankRequest(query=self.user_question,
+                                           passages=[{"text": each_doc.page_content} for each_doc in unique_docs])
             ranked_results = self.ranker.rerank(rerank_request)
             ranked_results = sorted(ranked_results, key=lambda x: x["score"], reverse=True)
 
-            docs = [Document(page_content=res["text"]) for res in ranked_results][:1]
-            docs_t5 = [Document(page_content=res["text"]) for res in ranked_results][:4]
+            some_snippet_in_result = any(
+                each_snippet.replace(" ", "").replace(",", "") in each_ranked_result["text"].replace("\n", "").replace(
+                    " ", "").replace(",", "")
+                for each_ranked_result in ranked_results
+                for each_snippet in self.snippets
+            )
+
+            logger.info(f"Some_snippet_in_result: {some_snippet_in_result}")
+
+            docs = [Document(page_content=res["text"]) for res in ranked_results][:2]
 
         except Exception as e:
             docs = [Document(page_content="There was no content found")]
 
-        all_docs_string = ''.join(
+        all_docs_string = f''.join(
             [f"Context {idx}: " + item.page_content.replace("\n", "") + "\n\n" for idx, item in enumerate(docs)])
-        all_docs_string = 'Context: '.join(
-            [item.page_content.replace("\n", "\n") for idx, item in enumerate(docs)])
-        all_docs_t5 = 'Context: '.join(
-            [item.page_content.replace("\n", "\n") for idx, item in enumerate(docs_t5)])
 
-        summary = ""
-
-        try:
-            input_text = f"Please answer the question with the context. Question: {self.user_question} \n. Context: {all_docs_t5}"
-            inputs = self.tokenizer(input_text, return_tensors="pt", truncation=True)
-
-            summary_ids = self.model.generate(inputs["input_ids"], max_length=128, num_beams=4, length_penalty=1.8,
-                                              early_stopping=False, repetition_penalty=1.5, do_sample=False)
-            summary = self.tokenizer.decode(summary_ids[0], skip_special_tokens=True)
-        except Exception as e:
-            print(e)
-
-        answer = "Answer: " + summary
-        response = answer + " ." + all_docs_string
-
-        logger.info(f"T5 answer: {answer}")
         logger.info(f"Database Context: {all_docs_string}")
 
-        return response
+        summaries: List[str] = self.vectordb.get_document_summaries()
+        for i, each_summary in enumerate(summaries):
+            summaries[i] = each_summary.replace("The document", "The context")
+        all_docs_string = "Metainfo:" + "".join(summaries) + all_docs_string
+
+        return all_docs_string

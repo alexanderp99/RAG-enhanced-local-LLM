@@ -3,7 +3,7 @@ streamlit
 langchain-community
 numexpr
 pydantic
-transformers
+transformers[torch]
 pandas
 langchain_chroma
 langchain_experimental
