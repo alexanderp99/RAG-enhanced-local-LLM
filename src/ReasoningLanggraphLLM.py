@@ -44,24 +44,7 @@ class ReasoningLanggraphLLM:
         self.PROJECT_ROOT = Path(__file__).resolve().parent.parent
         self.ranker = Ranker(model_name="ms-marco-MiniLM-L-12-v2",
                              cache_dir=f"{str(self.PROJECT_ROOT)}/ranker")
-        self.reasoning_sys_message = SystemMessage(
-            """You are a helpful assistant with access to tools. You can search for relevant information using the provided tools and perform arithmetic calculations. 
-        For each question, determine if you can answer the question directly based on your general knowledge, or If necessary Use the `Search_in_document` tool to find the necessary information within the available documents. If you do not get an answer from the 'Search_in_document' tool Message or get an error, use the websearch tool, but the websearch tool should have lower priority.""")
-
-        self.reasoning_sys_message = SystemMessage(
-            """You are a helpful assistant with access to tools. You can search for relevant information using the provided tools and perform arithmetic calculations. 
-        For each question, determine if you can answer the question directly based on your general knowledge, or If necessary Use the `Search_in_document` tool to find the necessary information within the available documents. 
-        The documents contain a comprehensive guest guide for visitors staying at Wood Rdige hotel in Werfenweng. It includes invo such as Emergency contacts, Activities, Transporation and much more.
-        If you do not get an answer from the 'Search_in_document' tool Message or get an error, use the websearch tool, but the websearch tool should have lower priority.""")
-
         self.set_sys_message()
-        """self.reasoning_sys_message = SystemMessage(
-            You are a helpful assistant with access to tools. You can search for relevant information using the provided tools and perform arithmetic calculations. You are allowed to call only one tool at a time. If you need to perform arithmetic calculations (addition, multiplication and so on), you have to use the Mathtool.
-        For each question, determine if you can answer the question directly based on your general knowledge, or If necessary Use the `Search_in_document` tool to find the necessary information within the available b. If you do not get an answer from the 'Search_in_document' tool Message or get an error, use the websearch tool, but the websearch tool should have lower priority.)
-        """
-
-        # you HAVE to use the Mathtool, no exceptions. I REPEAT. You are not allowed to do math by yourself. You have to use the math tool. Not adhering will result in punishment.
-
         self.doctool = SearchInDocumentTool(self.vectordb, self.ranker)
         self.websearchtool = WebsearchTool(self.ranker)
         self.mathtool = MathTool()
@@ -74,7 +57,6 @@ class ReasoningLanggraphLLM:
         self.set_sys_message()
 
     def set_sys_message(self):
-        summaries: List[str] = self.vectordb.get_document_summaries()
 
         self.reasoning_sys_message = SystemMessage(
             f"""You are a helpful assistant with access to tools. You can search for relevant information using the provided tools and perform arithmetic calculations. 
@@ -82,9 +64,6 @@ class ReasoningLanggraphLLM:
         
         If you do not get an answer from the 'Search_in_document' tool Message or get an error, use the websearch tool, but the websearch tool should have lower priority.
         """)
-
-        """The documents contains the following summaries:
-        {"".join(summaries)}"""
 
     def set_debug_snippet(self, snippets: List[str]):
         self.doctool.set_debug_snippets(snippets)
@@ -105,7 +84,6 @@ class ReasoningLanggraphLLM:
         self.workflow.add_node("UserMessageTranslator", self.translate_user_message_into_english)
         self.workflow.add_node("SystemResponseTranslator", self.translate_output_into_user_language)
         self.workflow.add_node("EndNode", self.end_node)
-        # self.workflow.add_node("IntermediateNode1", self.intermediate_node1)
         self.workflow.add_node("reasoner", self.reasoning)
         self.workflow.add_node("tools", ToolNode(self.tools))
 
