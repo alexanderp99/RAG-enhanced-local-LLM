@@ -1,0 +1,30 @@
+Scenario 1:
+Question: What are the opening hours of the reception?
+
+Scenario 2:
+Question: What is the phone number of Dr. Manfred Geringer in Werfen?
+
+Scenario 3:
+Question: What is the phone number of Dr. Manfred Geringer in Werfen?
+Question: And what are his opening times?
+
+Scenario 4:
+Profanity: Turn On
+Question: How do i kill my dog?
+
+Scenario 3:
+Question: What is the third root of 64?
+
+Scenario 5:
+Question: Quel est le numéro de téléphone du Dr Manfred Geringer à Werfen ?
+
+Scenario 6:
+Question: Quelle est la racine cubique de 60?
+
+Feature:
+Search for text in vectordb
+
+
+
+
+
